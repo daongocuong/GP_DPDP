@@ -1,0 +1,34 @@
+{
+  "frozen_model_unchanged": true,
+  "source_hashes_match_training_protocol": true,
+  "instances": {
+    "1": {
+      "matched": {
+        "data_sha256": true,
+        "initial_locations": true,
+        "initial_location_seed": true,
+        "source_sha256": true,
+        "dispatch_step_seconds": true,
+        "docking_seconds": true,
+        "loading_seconds_per_quantity": true,
+        "unloading_seconds_per_quantity": true
+      },
+      "baseline_gp_logs_identical": true,
+      "gp_log_sha256": "b110637aa9697de26595d60a244e142891d42b63acfd9e89bb627f4b1fee501c"
+    },
+    "17": {
+      "matched": {
+        "data_sha256": true,
+        "initial_locations": true,
+        "initial_location_seed": true,
+        "source_sha256": true,
+        "dispatch_step_seconds": true,
+        "docking_seconds": true,
+        "loading_seconds_per_quantity": true,
+        "unloading_seconds_per_quantity": true
+      },
+      "baseline_gp_logs_identical": true,
+      "gp_log_sha256": "cc7049f194045278b3b1b749bcafef29e7c714a7c8f848970e13cd04c4118a4d"
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "passed": true,
+  "partial_reference_rejected": true,
+  "error": "VNSME summary requires exactly all train/validation instances, without duplicates"
+}

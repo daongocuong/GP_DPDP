@@ -1,0 +1,16 @@
+{
+  "insertion": {
+    "log_sha256": "b110637aa9697de26595d60a244e142891d42b63acfd9e89bb627f4b1fee501c",
+    "verifier_sha256": "3eec01e6bdb93c0be2a1a9c881b8bbd60896d66c35ddd8b1df46e0a36348cdc7",
+    "D": "852.7",
+    "T": "0",
+    "J": "170.54"
+  },
+  "demo": {
+    "log_sha256": "b36ba308594042f0ca0d43b61dc75c3b0b75b9b88a6bf18ad9f08cfc8a708c17",
+    "verifier_sha256": "3eec01e6bdb93c0be2a1a9c881b8bbd60896d66c35ddd8b1df46e0a36348cdc7",
+    "D": "1057.0",
+    "T": "57558.0",
+    "J": "160094.7333333333333333333333"
+  }
+}

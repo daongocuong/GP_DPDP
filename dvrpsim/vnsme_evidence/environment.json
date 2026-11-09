@@ -1,0 +1,16 @@
+{
+  "python": "3.14.4 (tags/v3.14.4:23116f9, Apr  7 2026, 14:10:54) [MSC v.1944 64 bit (AMD64)]",
+  "python_executable": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\.venv\\Scripts\\python.exe",
+  "java": "openjdk version \"26.0.1\" 2026-04-21\nOpenJDK Runtime Environment (build 26.0.1+8-34)\nOpenJDK 64-Bit Server VM (build 26.0.1+8-34, mixed mode, sharing)\n",
+  "javac": "javac 26.0.1\n",
+  "packages": {
+    "dvrpsim": "0.0.1",
+    "simpy": "4.1.2",
+    "pandas": "3.1.1",
+    "numpy": "2.5.4",
+    "python-dateutil": "4.0.0",
+    "tzdata": "2026.6"
+  },
+  "huawei_commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+  "huawei_source_diff": ""
+}

@@ -1,0 +1,14 @@
+{
+  "supervisor_pid": 36468,
+  "started_at": "2026-11-08T13:01:59.357089+00:00",
+  "api": "SetThreadExecutionState",
+  "flags": [
+    "ES_CONTINUOUS",
+    "ES_SYSTEM_REQUIRED"
+  ],
+  "documentation": "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setthreadexecutionstate",
+  "active": false,
+  "previous_execution_state": 2147483648,
+  "released_at": "2026-11-08T14:04:11.449385+00:00",
+  "release_return_value": 2147483649
+}

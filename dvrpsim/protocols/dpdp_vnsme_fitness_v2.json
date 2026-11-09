@@ -1,0 +1,18 @@
+{
+  "protocol": "dpdp-vnsme-fitness-v2",
+  "supersedes_for_new_runs": "protocols/dpdp_vnsme_integration_v1.json",
+  "primary_evaluation_baseline": "vnsme",
+  "gp_fitness_normalization_reference": "vnsme",
+  "fitness_version": "gp-fitness-vnsme-v2",
+  "fitness": "mean(J_GP(i) / J_VNSME(i)) over training instances 2,3,4,5",
+  "validation": "J_GP(6) / J_VNSME(6); existing tie-breaks retained",
+  "reference_summary": "migration_runs/vnsme_reference_ready/summary.json",
+  "split_protocol": "protocols/dpdp_gp_split_v1.json",
+  "train_instances": [2, 3, 4, 5],
+  "validation_instances": [6],
+  "final_tests_sealed": [7, 8, 15, 16],
+  "supported_runner_policies": ["gp", "vnsme", "demo"],
+  "retired_runner_policies": ["greedy", "baseline", "insertion"],
+  "historical_results": "Preserved unchanged; historical normalized fitness uses its original definition and must not be compared directly with v2 fitness. Raw J remains comparable under matching simulator settings.",
+  "legacy_single_instance_pilot": "train_dpdp_gp.py retains its historical raw-J pilot objective; the supported multi-instance workflow uses VNSME normalization."
+}

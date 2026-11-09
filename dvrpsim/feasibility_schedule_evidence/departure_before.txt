@@ -1,0 +1,48 @@
+exit_code=1
+test_departure_map_distinct_vehicles (test_dpdp_schedule.ScheduleAudit.test_departure_map_distinct_vehicles) ... FAIL
+test_multiple_ports (test_dpdp_schedule.ScheduleAudit.test_multiple_ports) ... ok
+test_same_arrival_with_sufficient_ports (test_dpdp_schedule.ScheduleAudit.test_same_arrival_with_sufficient_ports) ... ok
+test_single_vehicle_without_queue (test_dpdp_schedule.ScheduleAudit.test_single_vehicle_without_queue) ... ok
+test_snapshot_while_driving (test_dpdp_schedule.ScheduleAudit.test_snapshot_while_driving) ... ok
+test_snapshot_while_serving (test_dpdp_schedule.ScheduleAudit.test_snapshot_while_serving) ... ok
+test_state_next_arrival_for_each_vehicle (test_dpdp_schedule.ScheduleAudit.test_state_next_arrival_for_each_vehicle) ... FAIL
+test_three_vehicles_current_factory_different_departures (test_dpdp_schedule.ScheduleAudit.test_three_vehicles_current_factory_different_departures) ... ok
+test_two_vehicles_one_port (test_dpdp_schedule.ScheduleAudit.test_two_vehicles_one_port) ... ok
+
+======================================================================
+FAIL: test_departure_map_distinct_vehicles (test_dpdp_schedule.ScheduleAudit.test_departure_map_distinct_vehicles)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Cuongdz\Documents\LA\dvrpsim\test_dpdp_schedule.py", line 63, in test_departure_map_distinct_vehicles
+    self.assertEqual(calculate_earliest_departure_times(m),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     {'V_1': 2050, 'V_2': 4090, 'V_3': 6130})
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'V_1': 6130, 'V_2': 6130, 'V_3': 6130} != {'V_1': 2050, 'V_2': 4090, 'V_3': 6130}
+- {'V_1': 6130, 'V_2': 6130, 'V_3': 6130}
+?         ^^^          ^^^
+
++ {'V_1': 2050, 'V_2': 4090, 'V_3': 6130}
+?         ^^^          ^^^
+
+
+======================================================================
+FAIL: test_state_next_arrival_for_each_vehicle (test_dpdp_schedule.ScheduleAudit.test_state_next_arrival_for_each_vehicle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\Cuongdz\Documents\LA\dvrpsim\test_dpdp_schedule.py", line 70, in test_state_next_arrival_for_each_vehicle
+    self.assertEqual([v['leave_time_at_current_factory'] for v in state], [2050, 4090, 6130])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [6130, 6130, 6130] != [2050, 4090, 6130]
+
+First differing element 0:
+6130
+2050
+
+- [6130, 6130, 6130]
++ [2050, 4090, 6130]
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.004s
+
+FAILED (failures=2)

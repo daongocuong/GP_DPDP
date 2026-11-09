@@ -1,0 +1,11 @@
+{
+  "python": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\.venv\\Scripts\\python.exe",
+  "version": "3.14.4 (tags/v3.14.4:23116f9, Apr  7 2026, 14:10:54) [MSC v.1944 64 bit (AMD64)]",
+  "checked_preexisting_files": 95,
+  "changed_preexisting_files": [
+    "examples\\case_studies\\dpdp\\dpdp_routing.py"
+  ],
+  "all_other_preexisting_files_unchanged": true,
+  "timing_fixtures": 9,
+  "max_absolute_error_seconds": 0
+}

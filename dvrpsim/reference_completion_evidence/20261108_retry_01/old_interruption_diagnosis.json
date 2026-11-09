@@ -1,0 +1,85 @@
+{
+  "conclusion": "INTERRUPTED; insufficient evidence for root cause",
+  "runs": [
+    {
+      "instance": 5,
+      "status": "INTERRUPTED",
+      "cause": "unconfirmed",
+      "interrupted": {
+        "valid": false,
+        "score": null,
+        "status": "interrupted",
+        "reason": "No live simulator/Java process and no final result.json; process session no longer available",
+        "last_epoch": "00100",
+        "completed_invocations": 100
+      },
+      "missing_final_result": true,
+      "missing_failure_file": true,
+      "last_epoch": "00100",
+      "last_epoch_files": [
+        "ongoing_order_items.json",
+        "solution_before.json",
+        "unallocated_order_items.json",
+        "vehicle_info.json"
+      ],
+      "completed_invocations": 100,
+      "completed_invocation_wall_seconds": 1098.5146190975793,
+      "last_completed_invocation": {
+        "epoch": 99,
+        "command": [
+          "C:\\Users\\Cuongdz\\.jdks\\openjdk-26.0.1\\bin\\java.EXE",
+          "-cp",
+          "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\build;C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\lib",
+          "main_algorithm"
+        ],
+        "cwd": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\migration_runs\\vnsme_reference\\instance_5\\vnsme",
+        "valid": true,
+        "returncode": 0,
+        "effective_timeout_seconds": 600.0,
+        "solution_no": 98,
+        "wall_seconds": 0.19525919994339347
+      }
+    },
+    {
+      "instance": 6,
+      "status": "INTERRUPTED",
+      "cause": "unconfirmed",
+      "interrupted": {
+        "valid": false,
+        "score": null,
+        "status": "interrupted",
+        "reason": "No live simulator/Java process and no final result.json; process session no longer available",
+        "last_epoch": "00063",
+        "completed_invocations": 63
+      },
+      "missing_final_result": true,
+      "missing_failure_file": true,
+      "last_epoch": "00063",
+      "last_epoch_files": [
+        "ongoing_order_items.json",
+        "solution_before.json",
+        "unallocated_order_items.json",
+        "vehicle_info.json"
+      ],
+      "completed_invocations": 63,
+      "completed_invocation_wall_seconds": 551.713599300012,
+      "last_completed_invocation": {
+        "epoch": 62,
+        "command": [
+          "C:\\Users\\Cuongdz\\.jdks\\openjdk-26.0.1\\bin\\java.EXE",
+          "-cp",
+          "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\build;C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\lib",
+          "main_algorithm"
+        ],
+        "cwd": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\migration_runs\\vnsme_validation6\\vnsme",
+        "valid": true,
+        "returncode": 0,
+        "effective_timeout_seconds": 600.0,
+        "solution_no": 61,
+        "wall_seconds": 0.18070120038464665
+      }
+    }
+  ],
+  "known_nonfatal_internal_limit": "Completed 540-second epochs returned exit 0 and SUCCESS",
+  "logging_limitation": "Adapter persists Java stdout/stderr only after subprocess.run returns"
+}

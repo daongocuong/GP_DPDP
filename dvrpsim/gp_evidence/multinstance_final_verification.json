@@ -1,0 +1,71 @@
+{
+  "protocol_sha256": "21c7f62c06a4402214dd0051728bec4fb8051cb8ab420866cd565c669a49f859",
+  "source_manifest_sha256": "cf72390459bdb50facd666ae4dbbaa9b6712f2161d61ba6756309a0c100968bc",
+  "selected_tree_sha256": "283b97fb88376d2bdbb966d59c976038a619e497b700ed89b29a79db912d272f",
+  "gp_rollout_instances_seen": [
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "sealed_test_ids_absent": true,
+  "independent_rescore_pass": true,
+  "selected_tree_scores": [
+    {
+      "instance": 2,
+      "valid": true,
+      "orders": 50,
+      "items": 110,
+      "D": "744.5",
+      "T": "8529.0",
+      "J": "23840.56666666666666666666667",
+      "run": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\gp_runs\\multinstance_50_20261105\\main\\fitness\\rollouts\\82b28e05c80b5ba7b687701bde170a58db89447536fd1c74003217c5dafc7dbd_0064"
+    },
+    {
+      "instance": 3,
+      "valid": true,
+      "orders": 50,
+      "items": 78,
+      "D": "807.7",
+      "T": "5978.0",
+      "J": "16767.09555555555555555555556",
+      "run": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\gp_runs\\multinstance_50_20261105\\main\\fitness\\rollouts\\fdc7ba0a2ebd7ba08a28d7a4b5515bd21de780be20f4decda777163ae7b45eaf_0065"
+    },
+    {
+      "instance": 4,
+      "valid": true,
+      "orders": 50,
+      "items": 88,
+      "D": "822.6",
+      "T": "0",
+      "J": "164.52",
+      "run": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\gp_runs\\multinstance_50_20261105\\main\\fitness\\rollouts\\18bae4efd05a5c7bb6417e48752ef65cc6b890d7f94ffcf3b69b6fa4efbba735_0066"
+    },
+    {
+      "instance": 5,
+      "valid": true,
+      "orders": 50,
+      "items": 107,
+      "D": "725.4",
+      "T": "1898.0",
+      "J": "5417.302222222222222222222222",
+      "run": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\gp_runs\\multinstance_50_20261105\\main\\fitness\\rollouts\\37eaabeedb04deeda0ca8a5d396444e9c5f6d1e59eebb6ef1589d932bcdcbf36_0067"
+    },
+    {
+      "instance": 6,
+      "valid": true,
+      "orders": 50,
+      "items": 86,
+      "D": "920.4",
+      "T": "0",
+      "J": "184.08",
+      "run": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\gp_runs\\multinstance_50_20261105\\main\\fitness\\rollouts\\80faceca0e1d84a5804e36c30e7d627069889cfcde30edb25dd0e8e3bcd0ea24_0121"
+    }
+  ],
+  "training_wall_seconds": 366.2180652001407,
+  "gp_process_rollouts": 55,
+  "cache_hits": 72,
+  "timeouts": 0,
+  "regression_tests": "118/118 PASS"
+}

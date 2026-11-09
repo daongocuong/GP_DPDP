@@ -1,0 +1,49 @@
+{
+  "repository": "https://github.com/huawei-noah/xingtian",
+  "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+  "local_base_commit": "29f4cd8f481fa5ac8cbf97a1372ee5b845e20c4a",
+  "sources": [
+    {
+      "path": "src/utils/evaluator.py",
+      "git_blob_sha": "428d80cf71fe9ab4535c5e18b3ea30e0015a58b6",
+      "url": "https://github.com/huawei-noah/xingtian/blob/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/src/utils/evaluator.py",
+      "local_snapshot": "xingtian/src/utils/evaluator.py"
+    },
+    {
+      "path": "src/simulator/history.py",
+      "git_blob_sha": "baba6bd79df5c60a6dc6f791001f313a2c24a935",
+      "url": "https://github.com/huawei-noah/xingtian/blob/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/src/simulator/history.py",
+      "local_snapshot": "xingtian/src/simulator/history.py"
+    },
+    {
+      "path": "src/utils/input_utils.py",
+      "git_blob_sha": "7cc129ee8329efb34a9e52b59c0afdb5390be41d",
+      "url": "https://github.com/huawei-noah/xingtian/blob/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/src/utils/input_utils.py",
+      "local_snapshot": "xingtian/src/utils/input_utils.py"
+    },
+    {
+      "path": "src/conf/configs.py",
+      "git_blob_sha": "687fc00a54ae9746960bd7df70458efda83d1777",
+      "url": "https://github.com/huawei-noah/xingtian/blob/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/src/conf/configs.py",
+      "local_snapshot": "xingtian/src/conf/configs.py"
+    },
+    {
+      "path": "src/common/route.py",
+      "git_blob_sha": "90689e0c8c066500fa4afaebb974d00fd34c4e82",
+      "url": "https://github.com/huawei-noah/xingtian/blob/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/src/common/route.py",
+      "local_snapshot": "xingtian/src/common/route.py"
+    },
+    {
+      "path": "benchmark/readme.md",
+      "git_blob_sha": "be40275c119c9f5790dc675710d6005dc3a5311c",
+      "url": "https://github.com/huawei-noah/xingtian/blob/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/readme.md",
+      "local_snapshot": "xingtian/benchmark/readme.md"
+    }
+  ],
+  "csv_sha256_identical_to_upstream": {
+    "route_info.csv": "26e6cc70cf96c2a73e0ce3fdd9d002715a0719c92802544aa810b669772a3550",
+    "factory_info.csv": "ed0f987404c09c0bf562212478784f29e29ce41f52cebbb277e1e219dd9a81e4",
+    "instance_1/50_1.csv": "585c8060ddaaf6ae09ef473ea7524e17bcc2cf1393105f26e035a079026e3149",
+    "instance_1/vehicle_info_5.csv": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430"
+  }
+}

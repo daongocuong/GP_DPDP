@@ -1,0 +1,1361 @@
+[
+  {
+    "fixture": "single",
+    "snapshot_seconds": 0,
+    "hand": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ]
+    },
+    "prediction": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 0,
+          "loading": 240,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 0,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ]
+    },
+    "simulator": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ]
+    },
+    "max_absolute_error_seconds": 0,
+    "physical_delivery_seconds": {
+      "o1-1": 4110
+    }
+  },
+  {
+    "fixture": "two_one_port",
+    "snapshot_seconds": 0,
+    "hand": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ],
+      "V_2": [
+        {
+          "factory": "P",
+          "arrival": 20,
+          "start": 2050,
+          "waiting": 2030,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 4090,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 4110,
+          "start": 4110,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 6150,
+          "completion": {
+            "o2-1": 4110
+          }
+        }
+      ]
+    },
+    "prediction": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 0,
+          "loading": 240,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 0,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ],
+      "V_2": [
+        {
+          "factory": "P",
+          "arrival": 20,
+          "start": 2050,
+          "waiting": 2030,
+          "docking": 1800,
+          "unloading": 0,
+          "loading": 240,
+          "leave": 4090,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 4110,
+          "start": 4110,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 0,
+          "leave": 6150,
+          "completion": {
+            "o2-1": 4110
+          }
+        }
+      ]
+    },
+    "simulator": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ],
+      "V_2": [
+        {
+          "factory": "P",
+          "arrival": 20,
+          "start": 2050,
+          "waiting": 2030,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 4090,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 4110,
+          "start": 4110,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 6150,
+          "completion": {
+            "o2-1": 4110
+          }
+        }
+      ]
+    },
+    "max_absolute_error_seconds": 0,
+    "physical_delivery_seconds": {
+      "o1-1": 4110,
+      "o2-1": 6150
+    }
+  },
+  {
+    "fixture": "three_current",
+    "snapshot_seconds": 100,
+    "hand": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ],
+      "V_2": [
+        {
+          "factory": "P",
+          "arrival": 20,
+          "start": 2050,
+          "waiting": 2030,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 4090,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 4110,
+          "start": 4110,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 6150,
+          "completion": {
+            "o2-1": 4110
+          }
+        }
+      ],
+      "V_3": [
+        {
+          "factory": "P",
+          "arrival": 30,
+          "start": 4090,
+          "waiting": 4060,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 6130,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 6150,
+          "start": 6150,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 8190,
+          "completion": {
+            "o3-1": 6150
+          }
+        }
+      ]
+    },
+    "prediction": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 0,
+          "loading": 240,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 0,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ],
+      "V_2": [
+        {
+          "factory": "P",
+          "arrival": 20,
+          "start": 2050,
+          "waiting": 2030,
+          "docking": 1800,
+          "unloading": 0,
+          "loading": 240,
+          "leave": 4090,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 4110,
+          "start": 4110,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 0,
+          "leave": 6150,
+          "completion": {
+            "o2-1": 4110
+          }
+        }
+      ],
+      "V_3": [
+        {
+          "factory": "P",
+          "arrival": 30,
+          "start": 4090,
+          "waiting": 4060,
+          "docking": 1800,
+          "unloading": 0,
+          "loading": 240,
+          "leave": 6130,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 6150,
+          "start": 6150,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 0,
+          "leave": 8190,
+          "completion": {
+            "o3-1": 6150
+          }
+        }
+      ]
+    },
+    "simulator": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ],
+      "V_2": [
+        {
+          "factory": "P",
+          "arrival": 20,
+          "start": 2050,
+          "waiting": 2030,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 4090,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 4110,
+          "start": 4110,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 6150,
+          "completion": {
+            "o2-1": 4110
+          }
+        }
+      ],
+      "V_3": [
+        {
+          "factory": "P",
+          "arrival": 30,
+          "start": 4090,
+          "waiting": 4060,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 6130,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 6150,
+          "start": 6150,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 8190,
+          "completion": {
+            "o3-1": 6150
+          }
+        }
+      ]
+    },
+    "max_absolute_error_seconds": 0,
+    "physical_delivery_seconds": {
+      "o1-1": 4110,
+      "o2-1": 6150,
+      "o3-1": 8190
+    }
+  },
+  {
+    "fixture": "driving",
+    "snapshot_seconds": 5,
+    "hand": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ]
+    },
+    "prediction": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 0,
+          "loading": 240,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 0,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ]
+    },
+    "simulator": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ]
+    },
+    "max_absolute_error_seconds": 0,
+    "physical_delivery_seconds": {
+      "o1-1": 4110
+    }
+  },
+  {
+    "fixture": "serving",
+    "snapshot_seconds": 100,
+    "hand": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ]
+    },
+    "prediction": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 0,
+          "loading": 240,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 0,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ]
+    },
+    "simulator": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ]
+    },
+    "max_absolute_error_seconds": 0,
+    "physical_delivery_seconds": {
+      "o1-1": 4110
+    }
+  },
+  {
+    "fixture": "three_two_ports",
+    "snapshot_seconds": 100,
+    "hand": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ],
+      "V_2": [
+        {
+          "factory": "P",
+          "arrival": 20,
+          "start": 20,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2060,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2080,
+          "start": 2080,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4120,
+          "completion": {
+            "o2-1": 2080
+          }
+        }
+      ],
+      "V_3": [
+        {
+          "factory": "P",
+          "arrival": 30,
+          "start": 2050,
+          "waiting": 2020,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 4090,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 4110,
+          "start": 4110,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 6150,
+          "completion": {
+            "o3-1": 4110
+          }
+        }
+      ]
+    },
+    "prediction": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 0,
+          "loading": 240,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 0,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ],
+      "V_2": [
+        {
+          "factory": "P",
+          "arrival": 20,
+          "start": 20,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 0,
+          "loading": 240,
+          "leave": 2060,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2080,
+          "start": 2080,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 0,
+          "leave": 4120,
+          "completion": {
+            "o2-1": 2080
+          }
+        }
+      ],
+      "V_3": [
+        {
+          "factory": "P",
+          "arrival": 30,
+          "start": 2050,
+          "waiting": 2020,
+          "docking": 1800,
+          "unloading": 0,
+          "loading": 240,
+          "leave": 4090,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 4110,
+          "start": 4110,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 0,
+          "leave": 6150,
+          "completion": {
+            "o3-1": 4110
+          }
+        }
+      ]
+    },
+    "simulator": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ],
+      "V_2": [
+        {
+          "factory": "P",
+          "arrival": 20,
+          "start": 20,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2060,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2080,
+          "start": 2080,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4120,
+          "completion": {
+            "o2-1": 2080
+          }
+        }
+      ],
+      "V_3": [
+        {
+          "factory": "P",
+          "arrival": 30,
+          "start": 2050,
+          "waiting": 2020,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 4090,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 4110,
+          "start": 4110,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 6150,
+          "completion": {
+            "o3-1": 4110
+          }
+        }
+      ]
+    },
+    "max_absolute_error_seconds": 0,
+    "physical_delivery_seconds": {
+      "o1-1": 4110,
+      "o2-1": 4120,
+      "o3-1": 6150
+    }
+  },
+  {
+    "fixture": "simultaneous_one_port",
+    "snapshot_seconds": 0,
+    "hand": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ],
+      "V_2": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 2050,
+          "waiting": 2040,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 4090,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 4110,
+          "start": 4110,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 6150,
+          "completion": {
+            "o2-1": 4110
+          }
+        }
+      ]
+    },
+    "prediction": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 0,
+          "loading": 240,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 0,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ],
+      "V_2": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 2050,
+          "waiting": 2040,
+          "docking": 1800,
+          "unloading": 0,
+          "loading": 240,
+          "leave": 4090,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 4110,
+          "start": 4110,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 0,
+          "leave": 6150,
+          "completion": {
+            "o2-1": 4110
+          }
+        }
+      ]
+    },
+    "simulator": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ],
+      "V_2": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 2050,
+          "waiting": 2040,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 4090,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 4110,
+          "start": 4110,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 6150,
+          "completion": {
+            "o2-1": 4110
+          }
+        }
+      ]
+    },
+    "max_absolute_error_seconds": 0,
+    "physical_delivery_seconds": {
+      "o1-1": 4110,
+      "o2-1": 6150
+    }
+  },
+  {
+    "fixture": "simultaneous_two_ports",
+    "snapshot_seconds": 0,
+    "hand": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ],
+      "V_2": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o2-1": 2070
+          }
+        }
+      ]
+    },
+    "prediction": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 0,
+          "loading": 240,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 0,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ],
+      "V_2": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 0,
+          "loading": 240,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 0,
+          "leave": 4110,
+          "completion": {
+            "o2-1": 2070
+          }
+        }
+      ]
+    },
+    "simulator": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o1-1": 2070
+          }
+        }
+      ],
+      "V_2": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 0,
+          "leave": 2050,
+          "completion": {}
+        },
+        {
+          "factory": "Q",
+          "arrival": 2070,
+          "start": 2070,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4110,
+          "completion": {
+            "o2-1": 2070
+          }
+        }
+      ]
+    },
+    "max_absolute_error_seconds": 0,
+    "physical_delivery_seconds": {
+      "o1-1": 4110,
+      "o2-1": 4110
+    }
+  },
+  {
+    "fixture": "mixed_partial_service",
+    "snapshot_seconds": 2200,
+    "prediction": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 240,
+          "leave": 2290,
+          "completion": {
+            "carried": 10
+          }
+        },
+        {
+          "factory": "Q",
+          "arrival": 2310,
+          "start": 2310,
+          "waiting": 0,
+          "docking": 1800,
+          "unloading": 240,
+          "loading": 0,
+          "leave": 4350,
+          "completion": {
+            "o1-1": 2310
+          }
+        }
+      ]
+    },
+    "simulator": {
+      "V_1": [
+        {
+          "factory": "P",
+          "arrival": 10,
+          "start": 10,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 240,
+          "unloading": 240,
+          "leave": 2290,
+          "completion": {
+            "carried": 10
+          }
+        },
+        {
+          "factory": "Q",
+          "arrival": 2310,
+          "start": 2310,
+          "waiting": 0,
+          "docking": 1800,
+          "loading": 0,
+          "unloading": 240,
+          "leave": 4350,
+          "completion": {
+            "o1-1": 2310
+          }
+        }
+      ]
+    },
+    "max_absolute_error_seconds": 0,
+    "physical_delivery_seconds": {
+      "carried": 2050,
+      "o1-1": 4350
+    },
+    "hand_calculation": "P: arrival/start=10, unload ends=2050, leave=2290; Q: arrival/start=2310, leave=4350"
+  }
+]

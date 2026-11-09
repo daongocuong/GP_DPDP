@@ -1,0 +1,164 @@
+[
+    {
+        "time":  "2026-11-08T19:23:50.2544883+07:00",
+        "id":  1,
+        "provider":  "Microsoft-Windows-Power-Troubleshooter",
+        "message":  "The system has returned from a low power state.\r\n\r\nSleep Time: ‎2026‎-‎11‎-‎08T12:08:32.665088200Z\r\nWake Time: ‎2026‎-‎11‎-‎08T12:23:49.368758500Z\r\n\r\nWake Source: Unknown"
+    },
+    {
+        "time":  "2026-11-08T19:23:49.8085404+07:00",
+        "id":  566,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system session has transitioned from 545 to 547.\r\n\r\nReason PolicyChange \r\n\r\nBootId: 58"
+    },
+    {
+        "time":  "2026-11-08T19:23:49.8083142+07:00",
+        "id":  507,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system is exiting Modern Standby \r\n\r\nReason: Lid."
+    },
+    {
+        "time":  "2026-11-08T19:23:49.3353180+07:00",
+        "id":  506,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system is entering Modern Standby \r\n\r\nReason: Sleep, Hibernate, or Shutdown."
+    },
+    {
+        "time":  "2026-11-08T19:23:49.3344590+07:00",
+        "id":  566,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system session has transitioned from 544 to 545.\r\n\r\nReason SxTransition \r\n\r\nBootId: 58"
+    },
+    {
+        "time":  "2026-11-08T19:08:46.3486948+07:00",
+        "id":  107,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system has resumed from sleep."
+    },
+    {
+        "time":  "2026-11-08T19:08:45.3792047+07:00",
+        "id":  42,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system is entering sleep.\r\n\r\nSleep Reason: Hibernate from Sleep - Standby Battery Budget Exceeded"
+    },
+    {
+        "time":  "2026-11-08T19:08:32.6674287+07:00",
+        "id":  566,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system session has transitioned from 543 to 544.\r\n\r\nReason SxTransition \r\n\r\nBootId: 58"
+    },
+    {
+        "time":  "2026-11-08T19:08:32.6672752+07:00",
+        "id":  507,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system is exiting Modern Standby \r\n\r\nReason: Sleep, Hibernate, or Shutdown."
+    },
+    {
+        "time":  "2026-11-08T18:18:59.0440244+07:00",
+        "id":  566,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system session has transitioned from 542 to 543.\r\n\r\nReason 55 \r\n\r\nBootId: 58"
+    },
+    {
+        "time":  "2026-11-08T18:18:51.4629272+07:00",
+        "id":  506,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system is entering Modern Standby \r\n\r\nReason: Austerity Battery Drain Budget Exceeded."
+    },
+    {
+        "time":  "2026-11-08T18:18:51.4602328+07:00",
+        "id":  566,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system session has transitioned from 541 to 542.\r\n\r\nReason 55 \r\n\r\nBootId: 58"
+    },
+    {
+        "time":  "2026-11-08T18:18:51.4595371+07:00",
+        "id":  507,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system is exiting Modern Standby \r\n\r\nReason: Austerity Battery Drain Budget Exceeded."
+    },
+    {
+        "time":  "2026-11-08T18:16:25.9442929+07:00",
+        "id":  566,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system session has transitioned from 540 to 541.\r\n\r\nReason PolicyChange \r\n\r\nBootId: 58"
+    },
+    {
+        "time":  "2026-11-08T18:16:25.4346947+07:00",
+        "id":  506,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system is entering Modern Standby \r\n\r\nReason: Lid."
+    },
+    {
+        "time":  "2026-11-08T18:16:25.4337862+07:00",
+        "id":  566,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system session has transitioned from 539 to 540.\r\n\r\nReason PolicyChange \r\n\r\nBootId: 58"
+    },
+    {
+        "time":  "2026-11-08T18:13:18.1565383+07:00",
+        "id":  566,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system session has transitioned from 537 to 539.\r\n\r\nReason PolicyChange \r\n\r\nBootId: 58"
+    },
+    {
+        "time":  "2026-11-08T18:13:18.1563791+07:00",
+        "id":  507,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system is exiting Modern Standby \r\n\r\nReason: Lid."
+    },
+    {
+        "time":  "2026-11-08T18:13:11.1840706+07:00",
+        "id":  506,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system is entering Modern Standby \r\n\r\nReason: Austerity Battery Drain Budget Exceeded."
+    },
+    {
+        "time":  "2026-11-08T18:13:11.1818669+07:00",
+        "id":  566,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system session has transitioned from 536 to 537.\r\n\r\nReason 55 \r\n\r\nBootId: 58"
+    },
+    {
+        "time":  "2026-11-08T18:13:11.1816183+07:00",
+        "id":  507,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system is exiting Modern Standby \r\n\r\nReason: Austerity Battery Drain Budget Exceeded."
+    },
+    {
+        "time":  "2026-11-08T18:13:09.0864226+07:00",
+        "id":  566,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system session has transitioned from 535 to 536.\r\n\r\nReason InputMouse \r\n\r\nBootId: 58"
+    },
+    {
+        "time":  "2026-11-08T18:13:08.2084089+07:00",
+        "id":  506,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system is entering Modern Standby \r\n\r\nReason: AC/DC Display Burst Suppressed."
+    },
+    {
+        "time":  "2026-11-08T18:13:08.2050477+07:00",
+        "id":  566,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system session has transitioned from 533 to 535.\r\n\r\nReason InputMouse \r\n\r\nBootId: 58"
+    },
+    {
+        "time":  "2026-11-08T18:13:08.2032829+07:00",
+        "id":  507,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system is exiting Modern Standby \r\n\r\nReason: AC/DC Display Burst Suppressed."
+    },
+    {
+        "time":  "2026-11-08T18:13:05.3436577+07:00",
+        "id":  506,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system is entering Modern Standby \r\n\r\nReason: Lid."
+    },
+    {
+        "time":  "2026-11-08T18:13:05.3428905+07:00",
+        "id":  566,
+        "provider":  "Microsoft-Windows-Kernel-Power",
+        "message":  "The system session has transitioned from 532 to 533.\r\n\r\nReason PolicyChange \r\n\r\nBootId: 58"
+    }
+]

@@ -1,0 +1,22 @@
+{
+  "loader_pass": true,
+  "expected_instances": [
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "all_scores_positive": true,
+  "summary_valid": true,
+  "report_utf8_valid": true,
+  "report_nfc": true,
+  "report_question_marks": 0,
+  "report_replacement_characters": 0,
+  "summary_sha256": "cf44e4a41cc7e1f29dbf98cd968a555d6dcefe0aade6a49d4e1575fbbf47f02d",
+  "historical_files_unchanged": 17973,
+  "no_gp_training": true,
+  "final_test_rollouts": [],
+  "train_fitness": 106.09054959678747,
+  "validation_ratio": 1.7524752475247525
+}

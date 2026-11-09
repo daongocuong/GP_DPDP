@@ -1,0 +1,150 @@
+{
+  "baseline_calibration_instances": [
+    2,
+    6,
+    9,
+    13
+  ],
+  "calibration_hard_process_deadline_seconds": 180,
+  "client_date": "2026-11-05",
+  "constraints": [
+    "Only checksum/schema/loader inventory may inspect sealed test CSVs in this task; no rollout or score.",
+    "Instances 1 and 17 have already exposed GP results; never label them untouched final test.",
+    "The 100-order split is provisional before GP; 9 and 13 are timing calibration on proposed train/validation.",
+    "If an instance is used to choose methods, its results are development/validation, not untouched test.",
+    "Freeze candidate generation, features, methods, budgets and selection rules before a separately authorized final test.",
+    "Shared factory network and possible scenario relationships preclude assuming statistical independence merely from IDs.",
+    "No new GP training, validation-based tree choice or test opening in this preparation task."
+  ],
+  "dataset_manifest": "datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\source_manifest.json",
+  "dataset_manifest_sha256": "cf72390459bdb50facd666ae4dbbaa9b6712f2161d61ba6756309a0c100968bc",
+  "environment_seed": 0,
+  "gp_allowed_this_task": false,
+  "inventory": {
+    "10": {
+      "items_after_loader": 295,
+      "original_orders": 100,
+      "vehicles": 5
+    },
+    "11": {
+      "items_after_loader": 182,
+      "original_orders": 100,
+      "vehicles": 5
+    },
+    "12": {
+      "items_after_loader": 253,
+      "original_orders": 100,
+      "vehicles": 5
+    },
+    "13": {
+      "items_after_loader": 157,
+      "original_orders": 100,
+      "vehicles": 5
+    },
+    "14": {
+      "items_after_loader": 201,
+      "original_orders": 100,
+      "vehicles": 5
+    },
+    "15": {
+      "items_after_loader": 182,
+      "original_orders": 100,
+      "vehicles": 5
+    },
+    "16": {
+      "items_after_loader": 173,
+      "original_orders": 100,
+      "vehicles": 5
+    },
+    "2": {
+      "items_after_loader": 110,
+      "original_orders": 50,
+      "vehicles": 5
+    },
+    "3": {
+      "items_after_loader": 78,
+      "original_orders": 50,
+      "vehicles": 5
+    },
+    "4": {
+      "items_after_loader": 88,
+      "original_orders": 50,
+      "vehicles": 5
+    },
+    "5": {
+      "items_after_loader": 107,
+      "original_orders": 50,
+      "vehicles": 5
+    },
+    "6": {
+      "items_after_loader": 86,
+      "original_orders": 50,
+      "vehicles": 5
+    },
+    "7": {
+      "items_after_loader": 150,
+      "original_orders": 50,
+      "vehicles": 5
+    },
+    "8": {
+      "items_after_loader": 128,
+      "original_orders": 50,
+      "vehicles": 5
+    },
+    "9": {
+      "items_after_loader": 175,
+      "original_orders": 100,
+      "vehicles": 5
+    }
+  },
+  "legacy_regression_instances": [
+    1
+  ],
+  "prohibited_rollout_instances_this_task": [
+    7,
+    8,
+    15,
+    16
+  ],
+  "protocol": "dpdp-official-split-v1",
+  "roles": {
+    "100_orders_proposed": {
+      "final_test_sealed": [
+        15,
+        16
+      ],
+      "train": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "validation": [
+        13,
+        14
+      ]
+    },
+    "50_orders": {
+      "final_test_sealed": [
+        7,
+        8
+      ],
+      "train": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "validation": [
+        6
+      ]
+    },
+    "development_previously_exposed": [
+      1,
+      17
+    ]
+  },
+  "source_commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+  "source_repository": "huawei-noah/xingtian",
+  "timezone": "Asia/Bangkok"
+}

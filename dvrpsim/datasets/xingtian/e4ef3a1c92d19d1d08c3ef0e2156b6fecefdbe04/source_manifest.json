@@ -1,0 +1,928 @@
+{
+  "all_verified": true,
+  "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+  "common_csv_comparison": {
+    "factory_info.csv": {
+      "byte_identical": true,
+      "local_relative_path": "examples/case_studies/dpdp/data/factory_info.csv",
+      "sha256": "ed0f987404c09c0bf562212478784f29e29ce41f52cebbb277e1e219dd9a81e4"
+    },
+    "route_info.csv": {
+      "byte_identical": true,
+      "local_relative_path": "examples/case_studies/dpdp/data/route_info.csv",
+      "sha256": "26e6cc70cf96c2a73e0ce3fdd9d002715a0719c92802544aa810b669772a3550"
+    }
+  },
+  "files": [
+    {
+      "bytes": 8162,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "factory_info.csv",
+      "git_blob_sha1": "0f554a47db212458fa4506062992873bdae809b7",
+      "sha256": "ed0f987404c09c0bf562212478784f29e29ce41f52cebbb277e1e219dd9a81e4",
+      "source_path": "simulator/dpdp_competition/benchmark/factory_info.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/factory_info.csv"
+    },
+    {
+      "bytes": 11536,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_10/100_2.csv",
+      "git_blob_sha1": "e55a2314fb117b9a0679bbc313b87e883d42abdd",
+      "sha256": "afe4fb32865d95056a90ef8b9aad4c137cf7bc1aa76f701a78274091704e025c",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_10/100_2.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_10/100_2.csv"
+    },
+    {
+      "bytes": 115,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_10/vehicle_info_5.csv",
+      "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+      "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_10/vehicle_info_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_10/vehicle_info_5.csv"
+    },
+    {
+      "bytes": 11510,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_11/100_3.csv",
+      "git_blob_sha1": "78c11541a036efa2174abc8a90974ff4c7b4fc25",
+      "sha256": "f7d542341f13a89d80c02706d29c23b7485db5cb8df0ded7d6fdfdaf63042d78",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_11/100_3.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_11/100_3.csv"
+    },
+    {
+      "bytes": 115,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_11/vehicle_info_5.csv",
+      "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+      "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_11/vehicle_info_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_11/vehicle_info_5.csv"
+    },
+    {
+      "bytes": 11536,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_12/100_4.csv",
+      "git_blob_sha1": "0333ddc225e925a875625878438ebbd92610b05b",
+      "sha256": "6bd1b2c093e4adab410f4513dc33563c4aaebbc62f116e574c904c6e7067950b",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_12/100_4.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_12/100_4.csv"
+    },
+    {
+      "bytes": 115,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_12/vehicle_info_5.csv",
+      "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+      "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_12/vehicle_info_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_12/vehicle_info_5.csv"
+    },
+    {
+      "bytes": 11513,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_13/100_5.csv",
+      "git_blob_sha1": "83c87043f00eede6bae140dd4e7eac1de4bd6b65",
+      "sha256": "efe90a6c4b6079f9c2c633fd4c153d526abd16f3d2b06968b9ff5c10a02cd697",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_13/100_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_13/100_5.csv"
+    },
+    {
+      "bytes": 115,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_13/vehicle_info_5.csv",
+      "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+      "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_13/vehicle_info_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_13/vehicle_info_5.csv"
+    },
+    {
+      "bytes": 11509,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_14/100_6.csv",
+      "git_blob_sha1": "bef1c6436ddfc56b67f125c2a5bd3310ff78afdc",
+      "sha256": "37918adaa94d044fe25ad23246a4c15a9ce3e0a5332f60b6ec6d0e0af48636fd",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_14/100_6.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_14/100_6.csv"
+    },
+    {
+      "bytes": 115,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_14/vehicle_info_5.csv",
+      "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+      "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_14/vehicle_info_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_14/vehicle_info_5.csv"
+    },
+    {
+      "bytes": 11503,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_15/100_7.csv",
+      "git_blob_sha1": "ec404de5478966de5c97cbe67f107f24d97db797",
+      "sha256": "a064627de2e593597e8f1513591f65a4ad18477eb3e7d51c38ec334e03ec1d00",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_15/100_7.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_15/100_7.csv"
+    },
+    {
+      "bytes": 115,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_15/vehicle_info_5.csv",
+      "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+      "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_15/vehicle_info_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_15/vehicle_info_5.csv"
+    },
+    {
+      "bytes": 11498,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_16/100_8.csv",
+      "git_blob_sha1": "56e75c3fe520edfec41274548e96538dc0f8d887",
+      "sha256": "85ddb684ceb321c13c828927a42332931bb179ffb76d201f379ff42f0c5c2d30",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_16/100_8.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_16/100_8.csv"
+    },
+    {
+      "bytes": 115,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_16/vehicle_info_5.csv",
+      "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+      "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_16/vehicle_info_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_16/vehicle_info_5.csv"
+    },
+    {
+      "bytes": 5823,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_2/50_2.csv",
+      "git_blob_sha1": "1c8ba28cdc62a7f8fea820f767fcfdb5e0611223",
+      "sha256": "821e18a3388d0e93b79f6b2c8a6158a84a9ae443c289546cda58120a93b889e1",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_2/50_2.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_2/50_2.csv"
+    },
+    {
+      "bytes": 115,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_2/vehicle_info_5.csv",
+      "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+      "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_2/vehicle_info_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_2/vehicle_info_5.csv"
+    },
+    {
+      "bytes": 5814,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_3/50_3.csv",
+      "git_blob_sha1": "a2207c2948da7140327487220494c290377a658b",
+      "sha256": "4cf3b10bf5c198cbdfb1a4169948e56d51f4d502299a26584e26b4aee17ce03d",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_3/50_3.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_3/50_3.csv"
+    },
+    {
+      "bytes": 115,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_3/vehicle_info_5.csv",
+      "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+      "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_3/vehicle_info_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_3/vehicle_info_5.csv"
+    },
+    {
+      "bytes": 5815,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_4/50_4.csv",
+      "git_blob_sha1": "cb7197b25e4230141a7a6b7dab8b80be73629262",
+      "sha256": "7aa498dc8d9ccfc203fe4f15a07868efb7eaba9e402b88fa7ae5fea39fa7beda",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_4/50_4.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_4/50_4.csv"
+    },
+    {
+      "bytes": 115,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_4/vehicle_info_5.csv",
+      "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+      "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_4/vehicle_info_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_4/vehicle_info_5.csv"
+    },
+    {
+      "bytes": 5819,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_5/50_5.csv",
+      "git_blob_sha1": "2bf8a2b16cd86a676410ebfd9b77ea457ca315e5",
+      "sha256": "8dea81615c650af39ea9e0eb179448b3ede9e935c854847584c85844221eb172",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_5/50_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_5/50_5.csv"
+    },
+    {
+      "bytes": 115,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_5/vehicle_info_5.csv",
+      "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+      "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_5/vehicle_info_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_5/vehicle_info_5.csv"
+    },
+    {
+      "bytes": 5822,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_6/50_6.csv",
+      "git_blob_sha1": "598973aa452f183149c08379ef46c76640c4f20f",
+      "sha256": "d2460f831de4f10242d7e7c93ac89f8a307d1643ed3299633723172ef28192a3",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_6/50_6.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_6/50_6.csv"
+    },
+    {
+      "bytes": 115,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_6/vehicle_info_5.csv",
+      "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+      "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_6/vehicle_info_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_6/vehicle_info_5.csv"
+    },
+    {
+      "bytes": 5834,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_7/50_7.csv",
+      "git_blob_sha1": "c25c80118a5dba46c3d1d4b676d0d47008c31ef5",
+      "sha256": "f70c68ef4a95d393e469886820ae9db05e81329c7615788d7a730d88fefa94db",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_7/50_7.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_7/50_7.csv"
+    },
+    {
+      "bytes": 115,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_7/vehicle_info_5.csv",
+      "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+      "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_7/vehicle_info_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_7/vehicle_info_5.csv"
+    },
+    {
+      "bytes": 5827,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_8/50_8.csv",
+      "git_blob_sha1": "6e09620f5d1687e49f6eb98b44314d571bac8060",
+      "sha256": "23c41b4e71c5c819d8997e7cbaa256d0a48e6c40c33232c5e677f030a503f9b0",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_8/50_8.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_8/50_8.csv"
+    },
+    {
+      "bytes": 115,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_8/vehicle_info_5.csv",
+      "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+      "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_8/vehicle_info_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_8/vehicle_info_5.csv"
+    },
+    {
+      "bytes": 11506,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_9/100_1.csv",
+      "git_blob_sha1": "46aa2a0c3b76da7eb026689f4505e64bfdcbea3f",
+      "sha256": "6e7225d59b26f955166591beebf575a8fd97e10fd719a0762a851a393cda1962",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_9/100_1.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_9/100_1.csv"
+    },
+    {
+      "bytes": 115,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "instance_9/vehicle_info_5.csv",
+      "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+      "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+      "source_path": "simulator/dpdp_competition/benchmark/instance_9/vehicle_info_5.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_9/vehicle_info_5.csv"
+    },
+    {
+      "bytes": 2660760,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "file": "route_info.csv",
+      "git_blob_sha1": "21def650eb3434293194b2336f7482112934b16d",
+      "sha256": "26e6cc70cf96c2a73e0ce3fdd9d002715a0719c92802544aa810b669772a3550",
+      "source_path": "simulator/dpdp_competition/benchmark/route_info.csv",
+      "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/route_info.csv"
+    }
+  ],
+  "instances": {
+    "10": {
+      "capacity": 15,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "directory": "benchmark/instance_10",
+      "duration_columns_match_loader": true,
+      "factories": 154,
+      "files": [
+        {
+          "bytes": 11536,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_10/100_2.csv",
+          "git_blob_sha1": "e55a2314fb117b9a0679bbc313b87e883d42abdd",
+          "sha256": "afe4fb32865d95056a90ef8b9aad4c137cf7bc1aa76f701a78274091704e025c",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_10/100_2.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_10/100_2.csv"
+        },
+        {
+          "bytes": 115,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_10/vehicle_info_5.csv",
+          "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+          "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_10/vehicle_info_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_10/vehicle_info_5.csv"
+        }
+      ],
+      "ids_valid": true,
+      "item_quantities_valid": true,
+      "items_after_loader": 295,
+      "loader_verified": true,
+      "max_due_seconds": 100411,
+      "max_release_seconds": 86011,
+      "min_due_seconds": 15037,
+      "min_release_seconds": 637,
+      "original_orders": 100,
+      "oversized_original_orders": 3,
+      "route_pairs": 23562,
+      "schema_valid": true,
+      "time_fields_valid": true,
+      "vehicles": 5
+    },
+    "11": {
+      "capacity": 15,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "directory": "benchmark/instance_11",
+      "duration_columns_match_loader": true,
+      "factories": 154,
+      "files": [
+        {
+          "bytes": 11510,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_11/100_3.csv",
+          "git_blob_sha1": "78c11541a036efa2174abc8a90974ff4c7b4fc25",
+          "sha256": "f7d542341f13a89d80c02706d29c23b7485db5cb8df0ded7d6fdfdaf63042d78",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_11/100_3.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_11/100_3.csv"
+        },
+        {
+          "bytes": 115,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_11/vehicle_info_5.csv",
+          "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+          "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_11/vehicle_info_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_11/vehicle_info_5.csv"
+        }
+      ],
+      "ids_valid": true,
+      "item_quantities_valid": true,
+      "items_after_loader": 182,
+      "loader_verified": true,
+      "max_due_seconds": 100519,
+      "max_release_seconds": 86119,
+      "min_due_seconds": 14481,
+      "min_release_seconds": 81,
+      "original_orders": 100,
+      "oversized_original_orders": 0,
+      "route_pairs": 23562,
+      "schema_valid": true,
+      "time_fields_valid": true,
+      "vehicles": 5
+    },
+    "12": {
+      "capacity": 15,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "directory": "benchmark/instance_12",
+      "duration_columns_match_loader": true,
+      "factories": 154,
+      "files": [
+        {
+          "bytes": 11536,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_12/100_4.csv",
+          "git_blob_sha1": "0333ddc225e925a875625878438ebbd92610b05b",
+          "sha256": "6bd1b2c093e4adab410f4513dc33563c4aaebbc62f116e574c904c6e7067950b",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_12/100_4.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_12/100_4.csv"
+        },
+        {
+          "bytes": 115,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_12/vehicle_info_5.csv",
+          "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+          "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_12/vehicle_info_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_12/vehicle_info_5.csv"
+        }
+      ],
+      "ids_valid": true,
+      "item_quantities_valid": true,
+      "items_after_loader": 253,
+      "loader_verified": true,
+      "max_due_seconds": 100010,
+      "max_release_seconds": 85610,
+      "min_due_seconds": 15042,
+      "min_release_seconds": 642,
+      "original_orders": 100,
+      "oversized_original_orders": 1,
+      "route_pairs": 23562,
+      "schema_valid": true,
+      "time_fields_valid": true,
+      "vehicles": 5
+    },
+    "13": {
+      "capacity": 15,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "directory": "benchmark/instance_13",
+      "duration_columns_match_loader": true,
+      "factories": 154,
+      "files": [
+        {
+          "bytes": 11513,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_13/100_5.csv",
+          "git_blob_sha1": "83c87043f00eede6bae140dd4e7eac1de4bd6b65",
+          "sha256": "efe90a6c4b6079f9c2c633fd4c153d526abd16f3d2b06968b9ff5c10a02cd697",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_13/100_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_13/100_5.csv"
+        },
+        {
+          "bytes": 115,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_13/vehicle_info_5.csv",
+          "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+          "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_13/vehicle_info_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_13/vehicle_info_5.csv"
+        }
+      ],
+      "ids_valid": true,
+      "item_quantities_valid": true,
+      "items_after_loader": 157,
+      "loader_verified": true,
+      "max_due_seconds": 100453,
+      "max_release_seconds": 86053,
+      "min_due_seconds": 15819,
+      "min_release_seconds": 1419,
+      "original_orders": 100,
+      "oversized_original_orders": 0,
+      "route_pairs": 23562,
+      "schema_valid": true,
+      "time_fields_valid": true,
+      "vehicles": 5
+    },
+    "14": {
+      "capacity": 15,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "directory": "benchmark/instance_14",
+      "duration_columns_match_loader": true,
+      "factories": 154,
+      "files": [
+        {
+          "bytes": 11509,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_14/100_6.csv",
+          "git_blob_sha1": "bef1c6436ddfc56b67f125c2a5bd3310ff78afdc",
+          "sha256": "37918adaa94d044fe25ad23246a4c15a9ce3e0a5332f60b6ec6d0e0af48636fd",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_14/100_6.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_14/100_6.csv"
+        },
+        {
+          "bytes": 115,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_14/vehicle_info_5.csv",
+          "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+          "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_14/vehicle_info_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_14/vehicle_info_5.csv"
+        }
+      ],
+      "ids_valid": true,
+      "item_quantities_valid": true,
+      "items_after_loader": 201,
+      "loader_verified": true,
+      "max_due_seconds": 99690,
+      "max_release_seconds": 85290,
+      "min_due_seconds": 15042,
+      "min_release_seconds": 642,
+      "original_orders": 100,
+      "oversized_original_orders": 0,
+      "route_pairs": 23562,
+      "schema_valid": true,
+      "time_fields_valid": true,
+      "vehicles": 5
+    },
+    "15": {
+      "capacity": 15,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "directory": "benchmark/instance_15",
+      "duration_columns_match_loader": true,
+      "factories": 154,
+      "files": [
+        {
+          "bytes": 11503,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_15/100_7.csv",
+          "git_blob_sha1": "ec404de5478966de5c97cbe67f107f24d97db797",
+          "sha256": "a064627de2e593597e8f1513591f65a4ad18477eb3e7d51c38ec334e03ec1d00",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_15/100_7.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_15/100_7.csv"
+        },
+        {
+          "bytes": 115,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_15/vehicle_info_5.csv",
+          "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+          "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_15/vehicle_info_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_15/vehicle_info_5.csv"
+        }
+      ],
+      "ids_valid": true,
+      "item_quantities_valid": true,
+      "items_after_loader": 182,
+      "loader_verified": true,
+      "max_due_seconds": 100739,
+      "max_release_seconds": 86339,
+      "min_due_seconds": 15370,
+      "min_release_seconds": 970,
+      "original_orders": 100,
+      "oversized_original_orders": 2,
+      "route_pairs": 23562,
+      "schema_valid": true,
+      "time_fields_valid": true,
+      "vehicles": 5
+    },
+    "16": {
+      "capacity": 15,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "directory": "benchmark/instance_16",
+      "duration_columns_match_loader": true,
+      "factories": 154,
+      "files": [
+        {
+          "bytes": 11498,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_16/100_8.csv",
+          "git_blob_sha1": "56e75c3fe520edfec41274548e96538dc0f8d887",
+          "sha256": "85ddb684ceb321c13c828927a42332931bb179ffb76d201f379ff42f0c5c2d30",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_16/100_8.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_16/100_8.csv"
+        },
+        {
+          "bytes": 115,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_16/vehicle_info_5.csv",
+          "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+          "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_16/vehicle_info_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_16/vehicle_info_5.csv"
+        }
+      ],
+      "ids_valid": true,
+      "item_quantities_valid": true,
+      "items_after_loader": 173,
+      "loader_verified": true,
+      "max_due_seconds": 99054,
+      "max_release_seconds": 84654,
+      "min_due_seconds": 14434,
+      "min_release_seconds": 34,
+      "original_orders": 100,
+      "oversized_original_orders": 1,
+      "route_pairs": 23562,
+      "schema_valid": true,
+      "time_fields_valid": true,
+      "vehicles": 5
+    },
+    "2": {
+      "capacity": 15,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "directory": "benchmark/instance_2",
+      "duration_columns_match_loader": true,
+      "factories": 154,
+      "files": [
+        {
+          "bytes": 5823,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_2/50_2.csv",
+          "git_blob_sha1": "1c8ba28cdc62a7f8fea820f767fcfdb5e0611223",
+          "sha256": "821e18a3388d0e93b79f6b2c8a6158a84a9ae443c289546cda58120a93b889e1",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_2/50_2.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_2/50_2.csv"
+        },
+        {
+          "bytes": 115,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_2/vehicle_info_5.csv",
+          "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+          "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_2/vehicle_info_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_2/vehicle_info_5.csv"
+        }
+      ],
+      "ids_valid": true,
+      "item_quantities_valid": true,
+      "items_after_loader": 110,
+      "loader_verified": true,
+      "max_due_seconds": 99239,
+      "max_release_seconds": 84839,
+      "min_due_seconds": 15300,
+      "min_release_seconds": 900,
+      "original_orders": 50,
+      "oversized_original_orders": 2,
+      "route_pairs": 23562,
+      "schema_valid": true,
+      "time_fields_valid": true,
+      "vehicles": 5
+    },
+    "3": {
+      "capacity": 15,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "directory": "benchmark/instance_3",
+      "duration_columns_match_loader": true,
+      "factories": 154,
+      "files": [
+        {
+          "bytes": 5814,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_3/50_3.csv",
+          "git_blob_sha1": "a2207c2948da7140327487220494c290377a658b",
+          "sha256": "4cf3b10bf5c198cbdfb1a4169948e56d51f4d502299a26584e26b4aee17ce03d",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_3/50_3.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_3/50_3.csv"
+        },
+        {
+          "bytes": 115,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_3/vehicle_info_5.csv",
+          "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+          "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_3/vehicle_info_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_3/vehicle_info_5.csv"
+        }
+      ],
+      "ids_valid": true,
+      "item_quantities_valid": true,
+      "items_after_loader": 78,
+      "loader_verified": true,
+      "max_due_seconds": 98601,
+      "max_release_seconds": 84201,
+      "min_due_seconds": 15500,
+      "min_release_seconds": 1100,
+      "original_orders": 50,
+      "oversized_original_orders": 0,
+      "route_pairs": 23562,
+      "schema_valid": true,
+      "time_fields_valid": true,
+      "vehicles": 5
+    },
+    "4": {
+      "capacity": 15,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "directory": "benchmark/instance_4",
+      "duration_columns_match_loader": true,
+      "factories": 154,
+      "files": [
+        {
+          "bytes": 5815,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_4/50_4.csv",
+          "git_blob_sha1": "cb7197b25e4230141a7a6b7dab8b80be73629262",
+          "sha256": "7aa498dc8d9ccfc203fe4f15a07868efb7eaba9e402b88fa7ae5fea39fa7beda",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_4/50_4.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_4/50_4.csv"
+        },
+        {
+          "bytes": 115,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_4/vehicle_info_5.csv",
+          "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+          "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_4/vehicle_info_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_4/vehicle_info_5.csv"
+        }
+      ],
+      "ids_valid": true,
+      "item_quantities_valid": true,
+      "items_after_loader": 88,
+      "loader_verified": true,
+      "max_due_seconds": 100669,
+      "max_release_seconds": 86269,
+      "min_due_seconds": 23696,
+      "min_release_seconds": 9296,
+      "original_orders": 50,
+      "oversized_original_orders": 0,
+      "route_pairs": 23562,
+      "schema_valid": true,
+      "time_fields_valid": true,
+      "vehicles": 5
+    },
+    "5": {
+      "capacity": 15,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "directory": "benchmark/instance_5",
+      "duration_columns_match_loader": true,
+      "factories": 154,
+      "files": [
+        {
+          "bytes": 5819,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_5/50_5.csv",
+          "git_blob_sha1": "2bf8a2b16cd86a676410ebfd9b77ea457ca315e5",
+          "sha256": "8dea81615c650af39ea9e0eb179448b3ede9e935c854847584c85844221eb172",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_5/50_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_5/50_5.csv"
+        },
+        {
+          "bytes": 115,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_5/vehicle_info_5.csv",
+          "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+          "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_5/vehicle_info_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_5/vehicle_info_5.csv"
+        }
+      ],
+      "ids_valid": true,
+      "item_quantities_valid": true,
+      "items_after_loader": 107,
+      "loader_verified": true,
+      "max_due_seconds": 98075,
+      "max_release_seconds": 83675,
+      "min_due_seconds": 21554,
+      "min_release_seconds": 7154,
+      "original_orders": 50,
+      "oversized_original_orders": 0,
+      "route_pairs": 23562,
+      "schema_valid": true,
+      "time_fields_valid": true,
+      "vehicles": 5
+    },
+    "6": {
+      "capacity": 15,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "directory": "benchmark/instance_6",
+      "duration_columns_match_loader": true,
+      "factories": 154,
+      "files": [
+        {
+          "bytes": 5822,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_6/50_6.csv",
+          "git_blob_sha1": "598973aa452f183149c08379ef46c76640c4f20f",
+          "sha256": "d2460f831de4f10242d7e7c93ac89f8a307d1643ed3299633723172ef28192a3",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_6/50_6.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_6/50_6.csv"
+        },
+        {
+          "bytes": 115,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_6/vehicle_info_5.csv",
+          "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+          "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_6/vehicle_info_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_6/vehicle_info_5.csv"
+        }
+      ],
+      "ids_valid": true,
+      "item_quantities_valid": true,
+      "items_after_loader": 86,
+      "loader_verified": true,
+      "max_due_seconds": 100399,
+      "max_release_seconds": 85999,
+      "min_due_seconds": 15338,
+      "min_release_seconds": 938,
+      "original_orders": 50,
+      "oversized_original_orders": 0,
+      "route_pairs": 23562,
+      "schema_valid": true,
+      "time_fields_valid": true,
+      "vehicles": 5
+    },
+    "7": {
+      "capacity": 15,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "directory": "benchmark/instance_7",
+      "duration_columns_match_loader": true,
+      "factories": 154,
+      "files": [
+        {
+          "bytes": 5834,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_7/50_7.csv",
+          "git_blob_sha1": "c25c80118a5dba46c3d1d4b676d0d47008c31ef5",
+          "sha256": "f70c68ef4a95d393e469886820ae9db05e81329c7615788d7a730d88fefa94db",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_7/50_7.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_7/50_7.csv"
+        },
+        {
+          "bytes": 115,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_7/vehicle_info_5.csv",
+          "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+          "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_7/vehicle_info_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_7/vehicle_info_5.csv"
+        }
+      ],
+      "ids_valid": true,
+      "item_quantities_valid": true,
+      "items_after_loader": 150,
+      "loader_verified": true,
+      "max_due_seconds": 100085,
+      "max_release_seconds": 85685,
+      "min_due_seconds": 14567,
+      "min_release_seconds": 167,
+      "original_orders": 50,
+      "oversized_original_orders": 4,
+      "route_pairs": 23562,
+      "schema_valid": true,
+      "time_fields_valid": true,
+      "vehicles": 5
+    },
+    "8": {
+      "capacity": 15,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "directory": "benchmark/instance_8",
+      "duration_columns_match_loader": true,
+      "factories": 154,
+      "files": [
+        {
+          "bytes": 5827,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_8/50_8.csv",
+          "git_blob_sha1": "6e09620f5d1687e49f6eb98b44314d571bac8060",
+          "sha256": "23c41b4e71c5c819d8997e7cbaa256d0a48e6c40c33232c5e677f030a503f9b0",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_8/50_8.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_8/50_8.csv"
+        },
+        {
+          "bytes": 115,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_8/vehicle_info_5.csv",
+          "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+          "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_8/vehicle_info_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_8/vehicle_info_5.csv"
+        }
+      ],
+      "ids_valid": true,
+      "item_quantities_valid": true,
+      "items_after_loader": 128,
+      "loader_verified": true,
+      "max_due_seconds": 100010,
+      "max_release_seconds": 85610,
+      "min_due_seconds": 14544,
+      "min_release_seconds": 144,
+      "original_orders": 50,
+      "oversized_original_orders": 2,
+      "route_pairs": 23562,
+      "schema_valid": true,
+      "time_fields_valid": true,
+      "vehicles": 5
+    },
+    "9": {
+      "capacity": 15,
+      "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+      "directory": "benchmark/instance_9",
+      "duration_columns_match_loader": true,
+      "factories": 154,
+      "files": [
+        {
+          "bytes": 11506,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_9/100_1.csv",
+          "git_blob_sha1": "46aa2a0c3b76da7eb026689f4505e64bfdcbea3f",
+          "sha256": "6e7225d59b26f955166591beebf575a8fd97e10fd719a0762a851a393cda1962",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_9/100_1.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_9/100_1.csv"
+        },
+        {
+          "bytes": 115,
+          "commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+          "file": "instance_9/vehicle_info_5.csv",
+          "git_blob_sha1": "09aafd7a01518a16a55cb5aecd9cd2062d0b80a7",
+          "sha256": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+          "source_path": "simulator/dpdp_competition/benchmark/instance_9/vehicle_info_5.csv",
+          "url": "https://raw.githubusercontent.com/huawei-noah/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/simulator/dpdp_competition/benchmark/instance_9/vehicle_info_5.csv"
+        }
+      ],
+      "ids_valid": true,
+      "item_quantities_valid": true,
+      "items_after_loader": 175,
+      "loader_verified": true,
+      "max_due_seconds": 100690,
+      "max_release_seconds": 86290,
+      "min_due_seconds": 14978,
+      "min_release_seconds": 578,
+      "original_orders": 100,
+      "oversized_original_orders": 1,
+      "route_pairs": 23562,
+      "schema_valid": true,
+      "time_fields_valid": true,
+      "vehicles": 5
+    }
+  },
+  "loader_relative_path": "examples/case_studies/dpdp/dpdp_problemdata.py",
+  "loader_sha256": "5d14f4b5db99346aa76543c301546b546d3e3ba035944dcd0d63d4298c2efc3a",
+  "repository": "huawei-noah/xingtian",
+  "source_prefix": "simulator/dpdp_competition/benchmark/",
+  "source_tree_sha": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04"
+}

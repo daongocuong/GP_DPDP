@@ -1,0 +1,62 @@
+{
+  "compatible": true,
+  "java_internal_search_seconds": 540,
+  "java_limit_is_cooperative": true,
+  "epoch_hard_subprocess_timeout": 600,
+  "whole_run_limit_new": 3600,
+  "whole_run_limit_old": 1800,
+  "whole_run_limit_is_not_a_scoring_parameter": true,
+  "loader_preserves_per_run_wall_and_epoch_limits": true,
+  "seed": 0,
+  "java_build_sha256": "49f85c57affe25a86e32522d82e16bde833c9211b7e34b56e08f79fd1f751046",
+  "runtime_source_sha256": {
+    "dpdp_insertion.py": "ab765737694bb69d1a1605d5954e14f096b911c03b28797b2ea8e801c3a5e2cf",
+    "dpdp_feasibility.py": "6ce0497ebffb7276c12d8aaeb2155d0da09d21b762b4d0c13d5e6a19289ebce5",
+    "dpdp_schedule.py": "e4121c64ad289d1f4fc82a2a991beb401d80b54a961ce3d2331d88b9882e8785",
+    "verify_dpdp_score.py": "3eec01e6bdb93c0be2a1a9c881b8bbd60896d66c35ddd8b1df46e0a36348cdc7",
+    "src/baselines/vnsme.py": "5b4eb1219bd885bcf80d9e07665fd925d3eee106b387cd5b61b116b72b71843d",
+    "examples/case_studies/dpdp/dpdp_main.py": "c9cb3f0a753b6904381743543819bca246b28700af7d90c6d5fcba32de9bc6c8",
+    "examples/case_studies/dpdp/dpdp_problemdata.py": "5d14f4b5db99346aa76543c301546b546d3e3ba035944dcd0d63d4298c2efc3a",
+    "examples/case_studies/dpdp/dpdp_routing.py": "82e57b00a6eafc2735b25dba810508c024571736dde7e542ae343f5c7343accf",
+    "src/dvrpsim/environment.py": "2f9e2488ef9cd0546eb926d77939bda792f2e68c1c8a2fe0c674a1a926ee744d",
+    "src/dvrpsim/exceptions.py": "ac0892b2f208e552fd63d112075e9d5611e825453c09e8fcec9765512cf0412e",
+    "src/dvrpsim/model.py": "e374135f827401fab40292aa0ef5636a8441334f5f7e434e9b23e79eb1133682",
+    "src/dvrpsim/__init__.py": "6c8a49794a7ae448708bc427bc479f5cc121100ab45fb9558608e13e572c7b38",
+    "src/dvrpsim/elements/location.py": "d69705d52c8af58c7e11d4ed26eea6b68f9966c01278e004393e99572d179a91",
+    "src/dvrpsim/elements/order.py": "3ae0ec7045fd7e1c3a5922a72c8b7debf994641564e1372e3ddc640988edfd0e",
+    "src/dvrpsim/elements/vehicle.py": "6318461fdd76d3c88b3837dc2e8e3378b1881ac4a2fe636f9b9ca5c4850d8337",
+    "src/dvrpsim/elements/visit.py": "149886d822d742bda4861872b7833b7f511d4fda52568175dd57150a0d3b9129",
+    "src/dvrpsim/utils/checker.py": "89cc9ab3eda4e5e094ef3734c3fc2d437bd5b0ac8294236f225e6a280e59ac86",
+    "src/dvrpsim/utils/distances.py": "62773a1d0de311225f2f4a9e95e275daecc5dbb57ff4c56f432c28e2a2709458",
+    "src/dvrpsim/utils/logging.py": "c9e12303e8fe106ee976407913bacdd75b882177f50afe6aac71f58f3a2aef2e",
+    "src/dvrpsim/utils/order_providers.py": "f780b4066c4144615a4d6cfdee17fa99011840170ccf617d6eb188bdc81fc316",
+    "src/dvrpsim/utils/routing.py": "3cd4ba0317641457580f9e36940ef49ce8530827910a10a54b596ae313f292e1",
+    "src/dvrpsim/utils/statistics.py": "d1ca1b92c69b057dbc352dea01354c1a2ee0cbe61183c69145e759969b9de23e",
+    "src/dvrpsim/utils/updaters.py": "275fd7a6972a83d928f9d280b0a0047e44b5b0246af8843417c972035c57a163"
+  },
+  "runner_sha256": "789a7f9f105cdc4468190ae14ea95961fd26701b07628e1c4754af97ec8ba371",
+  "references": [
+    {
+      "instance": 2,
+      "invocations": 167,
+      "every_effective_epoch_timeout_600": true,
+      "runtime_dependencies_match": true,
+      "runner_only_added_unsupported_policy_guard": true
+    },
+    {
+      "instance": 3,
+      "invocations": 160,
+      "every_effective_epoch_timeout_600": true,
+      "runtime_dependencies_match": true,
+      "runner_only_added_unsupported_policy_guard": true
+    },
+    {
+      "instance": 4,
+      "invocations": 157,
+      "every_effective_epoch_timeout_600": true,
+      "runtime_dependencies_match": true,
+      "runner_only_added_unsupported_policy_guard": true
+    }
+  ],
+  "ready_summary_target_empty": true
+}

@@ -1,0 +1,15 @@
+{
+  "command": [
+    "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\.venv\\Scripts\\python.exe",
+    "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\dpdp_vnsme_reference.py",
+    "--adopt-runs",
+    "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\migration_runs\\vnsme_reference\\instance_2",
+    "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\migration_runs\\vnsme_reference\\instance_3",
+    "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\migration_runs\\vnsme_reference\\instance_4",
+    "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\migration_runs\\reference_retry_20261108_01\\instance_5",
+    "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\migration_runs\\reference_retry_20261108_01\\instance_6",
+    "--output",
+    "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\migration_runs\\vnsme_reference_ready"
+  ],
+  "returncode": 0
+}

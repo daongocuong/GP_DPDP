@@ -1,0 +1,31 @@
+{
+  "code_migration_verified": true,
+  "unit_tests": 145,
+  "unit_tests_passed": true,
+  "old_artifact_count": 5912,
+  "old_artifacts_unchanged": true,
+  "new_comparison_policies": [
+    "gp",
+    "vnsme"
+  ],
+  "comparison_valid": true,
+  "frozen_gp_scores_unchanged": true,
+  "gp_evolution_performed": false,
+  "final_test_rollouts": [],
+  "vnsme_reference_status": "incomplete_interrupted",
+  "removed_policy_rejected_in_python_api": true,
+  "vnsme_reference_ready": false,
+  "completed_vnsme_reference_instances": [
+    2,
+    3,
+    4
+  ],
+  "missing_vnsme_reference_instances": [
+    5,
+    6
+  ],
+  "no_background_solver_processes": true,
+  "ready_reference_missing_is_rejected": true,
+  "training_block_reason": "VNSME reference missing: C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\migration_runs\\vnsme_reference_ready\\summary.json; run dpdp_vnsme_reference.py first",
+  "completed_reference_scores_reverified": true
+}
