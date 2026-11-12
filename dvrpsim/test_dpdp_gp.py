@@ -137,8 +137,17 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(b, a)
         initial = json.loads((ROOT/'gp_evidence/initial_state.json').read_text(encoding='utf-8'))
         from dpdp_gp_fitness import digest
-        for p in ('dpdp_feasibility.py', 'dpdp_schedule.py', 'verify_dpdp_score.py'):
+        for p in ('dpdp_feasibility.py', 'dpdp_schedule.py'):
             self.assertEqual(digest(ROOT/p), initial['sha256'][p])
+        # The scorer has only the new sealed-input admission check; its scoring
+        # implementation must remain byte-identical after removing that check.
+        scorer=(ROOT/'verify_dpdp_score.py').read_bytes()
+        guard=(b'    from dpdp_sealed import require_development_path\n'
+               b'    require_development_path(path)\n')
+        self.assertEqual(scorer.count(guard),1)
+        import hashlib
+        self.assertEqual(hashlib.sha256(scorer.replace(guard,b'',1)).hexdigest(),
+                         initial['sha256']['verify_dpdp_score.py'])
 
     def test_saved_tree_runner_uses_independent_final_score(self):
         import run_dpdp_insertion

@@ -1,0 +1,47 @@
+{
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-c",
+    "print('hello')"
+  ],
+  "started_utc": "2026-11-09T12:42:58.432557+00:00",
+  "timeout_seconds": 5.0,
+  "deadline_utc": "2026-11-09T12:43:03.432571+00:00",
+  "state": "EXITED",
+  "valid_supervision": true,
+  "samples": [
+    {
+      "utc": "2026-11-09T12:42:58.440217+00:00",
+      "elapsed_seconds": 0.007661699783056974,
+      "gap_seconds": 0.00039299996569752693,
+      "processes": [
+        {
+          "pid": 22648,
+          "parent_pid": 4952,
+          "name": "python.exe",
+          "creation_filetime_100ns": 134387017784336757,
+          "cpu_seconds": 0.0
+        },
+        {
+          "pid": 14968,
+          "parent_pid": 22648,
+          "name": "conhost.exe",
+          "creation_filetime_100ns": 134387017784421829,
+          "cpu_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-11-09T12:42:59.450185+00:00",
+      "elapsed_seconds": 1.0176295000128448,
+      "gap_seconds": 1.0099678002297878,
+      "processes": []
+    }
+  ],
+  "gaps": [],
+  "root_pid": 22648,
+  "exit_code": 0,
+  "remaining_job_processes": [],
+  "ended_utc": "2026-11-09T12:42:59.468312+00:00",
+  "elapsed_seconds": 1.0357751999981701
+}

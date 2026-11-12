@@ -1,0 +1,20 @@
+{
+  "source": "immutable pre-change adapter copy",
+  "exception_type": "TypeError",
+  "error": "memoryview: a bytes-like object is required, not 'str'",
+  "original_timeout_record": {
+    "epoch": 0,
+    "command": [
+      "C:\\Users\\Cuongdz\\.jdks\\openjdk-26.0.1\\bin\\java.EXE",
+      "-cp",
+      "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\build;C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\lib",
+      "main_algorithm"
+    ],
+    "cwd": "C:\\Users\\Cuongdz\\AppData\\Local\\Temp\\tmpvs5hhbuy\\run",
+    "valid": false,
+    "error": "TimeoutExpired: Command '['C:\\\\Users\\\\Cuongdz\\\\.jdks\\\\openjdk-26.0.1\\\\bin\\\\java.EXE', '-cp', 'C:\\\\Users\\\\Cuongdz\\\\Documents\\\\LA\\\\dvrpsim\\\\third_party\\\\vnsme\\\\build;C:\\\\Users\\\\Cuongdz\\\\Documents\\\\LA\\\\dvrpsim\\\\third_party\\\\vnsme\\\\lib', 'main_algorithm']' timed out after 600 seconds",
+    "wall_seconds": 0.0024792999029159546
+  },
+  "full_simulation_run": false,
+  "Java_search_run": false
+}

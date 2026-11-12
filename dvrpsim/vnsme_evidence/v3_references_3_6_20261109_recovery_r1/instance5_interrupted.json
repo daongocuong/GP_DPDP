@@ -1,0 +1,46 @@
+{
+    "status":  "INTERRUPTED",
+    "instance":  5,
+    "cause":  "user interruption during monitored run; no Java timeout or algorithm failure observed",
+    "output":  "vnsme_runs\\v3_references_3_6_20261109_recovery_r1\\instance_5",
+    "wall_limit_seconds":  10800,
+    "epoch_hard_timeout_seconds":  600,
+    "cooperative_java_budget_seconds":  540,
+    "last_heartbeat_utc":  "2026-11-09T17:13:10.596304+00:00",
+    "rollout_elapsed_seconds":  5240.813943400048,
+    "heartbeat_samples":  5158,
+    "maximum_heartbeat_gap_seconds":  1.0443645003251731,
+    "epoch_directories_started":  112,
+    "epoch_directories_with_process_end":  111,
+    "active_epoch":  "00111",
+    "active_epoch_started_utc":  "2026-11-09T17:07:11.550787+00:00",
+    "active_epoch_elapsed_at_last_heartbeat_seconds":  359.04551699999996,
+    "java_cpu_seconds_at_last_heartbeat":  354.265625,
+    "active_epoch_timeout_seconds":  600.0,
+    "active_epoch_timed_out":  false,
+    "active_epoch_has_process_end_marker":  false,
+    "result_json_exists":  false,
+    "record_json_exists":  false,
+    "final_supervisor_json_exists":  false,
+    "java_processes_remaining":  0,
+    "matching_python_processes_remaining":  0,
+    "accepted":  false,
+    "artifact_sha256":  [
+                            {
+                                "path":  "supervisor\\heartbeats.jsonl",
+                                "sha256":  "9a6dbfaf0662fbea18fdfe4d12cd24dc5559375f26a40f9f9d8ffcc260c839fe"
+                            },
+                            {
+                                "path":  "supervisor\\process.log",
+                                "sha256":  "97eb4192e176de2270b2b2bdcd456acc475ef69247f5d614133b6bc476fb72e3"
+                            },
+                            {
+                                "path":  "run\\vnsme\\epochs\\00111\\invocation_start.json",
+                                "sha256":  "ac138aca53c040d1aeb459f5f887ff89ae9a5e66b4e4142aeb31f472d2995230"
+                            },
+                            {
+                                "path":  "run\\vnsme\\epochs\\00111\\java_stderr_live.txt",
+                                "sha256":  "d5685ba8dd19145039ea97724f2274eab89711c157e496b61115b50ffbeb705c"
+                            }
+                        ]
+}

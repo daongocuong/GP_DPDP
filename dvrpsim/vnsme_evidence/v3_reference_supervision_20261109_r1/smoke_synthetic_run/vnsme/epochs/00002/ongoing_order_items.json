@@ -1,0 +1,15 @@
+[
+  {
+    "id": "b-1",
+    "order_id": "b",
+    "demand": 1.0,
+    "pickup_factory_id": "R",
+    "delivery_factory_id": "S",
+    "creation_time": 1794157200,
+    "committed_completion_time": 1794171600,
+    "load_time": 240,
+    "unload_time": 240,
+    "type": "PALLET",
+    "delivery_state": 2
+  }
+]

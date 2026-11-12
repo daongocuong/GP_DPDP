@@ -1,0 +1,11 @@
+{
+  "changed_existing_files": [
+    "src/baselines/vnsme.py"
+  ],
+  "unchanged_existing_files": 25020,
+  "accepted_publication_guard_AST_unchanged": true,
+  "observation_projection_AST_unchanged": true,
+  "GP_fitness_and_protocols_and_datasets_unchanged": true,
+  "Java_build_manifest_sha256": "49f85c57affe25a86e32522d82e16bde833c9211b7e34b56e08f79fd1f751046",
+  "preserved_reference_2_6_sha256": "cf44e4a41cc7e1f29dbf98cd968a555d6dcefe0aade6a49d4e1575fbbf47f02d"
+}

@@ -1,0 +1,16 @@
+{
+  "pickup_before_delivery": "PASS",
+  "capacity_per_event": "PASS",
+  "LIFO": "PASS",
+  "duplicate_pickup_delivery": "PASS",
+  "item_ownership": "PASS",
+  "current_visit_lock": "PASS",
+  "destination_factory_eta_lock": "PASS",
+  "request_loss_future_items": "PASS",
+  "pending_reoffered": "PASS",
+  "physical_event_reversal": "PASS",
+  "order_split": "PASS",
+  "complete_delivery": "PASS",
+  "at_location_eta_forecast_accuracy": "UNVERIFIABLE",
+  "at_location_eta_lock_preservation": "PASS"
+}

@@ -1,0 +1,15 @@
+{
+  "saved_session_manifest_matches_current": true,
+  "source_sha256": {
+    "file_count": 10,
+    "matches_saved_build_manifest": true
+  },
+  "library_sha256": {
+    "file_count": 3748,
+    "matches_saved_build_manifest": true
+  },
+  "class_sha256": {
+    "file_count": 18,
+    "matches_saved_build_manifest": true
+  }
+}

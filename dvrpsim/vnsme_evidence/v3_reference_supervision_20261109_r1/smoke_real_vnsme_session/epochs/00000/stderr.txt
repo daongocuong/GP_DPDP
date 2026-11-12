@@ -1,0 +1,1 @@
+PDPairExchange:0; BlockExchange:0;BlockRelocate:0; mPDG:0; usedTime:0.09 seconds; cost:0.00

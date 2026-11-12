@@ -1,0 +1,64 @@
+{
+  "status": "TIMEOUT_FIX_VERIFIED_SCALE100_STILL_BLOCKED",
+  "head": "0bd773291d5d9034f1e7b81688bc2dfaf87308c7",
+  "timeout_exception_handling_fixed": true,
+  "original_timeout_preserved": true,
+  "accepted_guard_unchanged": true,
+  "publication_contract_resolved": false,
+  "failure_classification": {
+    "9": "accepted/published-prefix design mismatch",
+    "13": "accepted/published-prefix design mismatch",
+    "10": "fixed diagnostic type defect; original timeout and monitoring cause not fully established"
+  },
+  "tests": {
+    "tests": 161,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": true,
+    "wall_seconds": 25.474780700169504,
+    "failure_details": []
+  },
+  "added_test_methods": {
+    "timeout": 6,
+    "saved_epoch_and_reference": 7
+  },
+  "historical_reference_2_6_loader_pass": true,
+  "historical_reference_scores": {
+    "2": "95.74",
+    "3": "97.44",
+    "4": "100.76",
+    "5": "3303.926666666666666666666667",
+    "6": "105.04"
+  },
+  "Java_source_and_build_unchanged": true,
+  "GP_fitness_semantics_unchanged": true,
+  "existing_files_unchanged": 25020,
+  "changed_existing_files": [
+    "src/baselines/vnsme.py"
+  ],
+  "new_code_files": [
+    "test_dpdp_vnsme_timeout.py",
+    "test_dpdp_vnsme_scale100.py"
+  ],
+  "new_full_VNSME_reference_rollouts": 0,
+  "new_VNSME_searches": 0,
+  "GP_training_runs": 0,
+  "final_test_rollouts": 0,
+  "full_suite_legacy_regressions": "Existing fixed-tree GP instance1 checks and synthetic simulator tests in temporary directories; not GP training",
+  "expensive_reruns_launched": false,
+  "rerun_gate": "Blocked by unresolved accepted/published contract; no long experiment is justified by passing rejection tests",
+  "preserved_budgets": {
+    "Java_cooperative_seconds": 540,
+    "Java_epoch_seconds": 600,
+    "reference_wall_seconds": 10800
+  },
+  "ready_for_scale100_GP": false,
+  "report_utf8": true,
+  "changed_files_sha256": {
+    "src/baselines/vnsme.py": "f0fec74ce5fa5916101a061a090b1286bb67e2f1bbe045b1ec207dacba188f71",
+    "test_dpdp_vnsme_timeout.py": "cc40585c90857b3eee540a7ee9a4360972f224de9ea15d7135f4316116594ce5",
+    "test_dpdp_vnsme_scale100.py": "c2ce97b2f332db1940b9be468d7408588941e9b7493750a26e832f28b5ef35fa"
+  },
+  "report_sha256": "4e40f275b8790e79942f815edf8f05a40104345972f4572da977fabc9d9c2eaf"
+}

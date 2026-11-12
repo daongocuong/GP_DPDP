@@ -1,0 +1,10 @@
+{
+  "state": "EXITED",
+  "valid_supervision": true,
+  "exit_code": 0,
+  "gaps": [],
+  "remaining_job_processes": [],
+  "elapsed_seconds": 18.309209499973804,
+  "max_processes_seen": 5,
+  "max_heartbeat_gap_seconds": 1.0211140997707844
+}

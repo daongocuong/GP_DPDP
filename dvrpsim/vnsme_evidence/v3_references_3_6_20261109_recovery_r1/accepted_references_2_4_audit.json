@@ -1,0 +1,132 @@
+{
+    "status":  "PARTIAL: instances 2-4 independently loader-accepted",
+    "accepted_records":  [
+                             {
+                                 "instance":  2,
+                                 "role":  "train",
+                                 "status":  "PASS",
+                                 "loader_score":  95.74,
+                                 "independent_replay":  "PASS",
+                                 "D_km":  478.7,
+                                 "T_seconds":  0,
+                                 "J":  95.74,
+                                 "late_orders":  0,
+                                 "orders":  50,
+                                 "items_delivered":  110,
+                                 "decision_count":  167,
+                                 "runtime_seconds":  32.1265718000941,
+                                 "supervisor_elapsed_seconds":  33.74612720031291,
+                                 "supervisor_exit_code":  0,
+                                 "max_heartbeat_gap_seconds":  1.0283746002241969,
+                                 "epochs_started":  167,
+                                 "epochs_ended":  167,
+                                 "expensive_epochs":  [
+
+                                                      ],
+                                 "git_revision":  "0bd773291d5d9034f1e7b81688bc2dfaf87308c7",
+                                 "contract_protocol_sha256":  "c751559337adbe2138a455819465764d726cf4bba26e5544715df4b90e44b6ed",
+                                 "java_build_sha256":  "49f85c57affe25a86e32522d82e16bde833c9211b7e34b56e08f79fd1f751046",
+                                 "split_protocol_sha256":  "21c7f62c06a4402214dd0051728bec4fb8051cb8ab420866cd565c669a49f859",
+                                 "source_manifest_sha256":  "cf72390459bdb50facd666ae4dbbaa9b6712f2161d61ba6756309a0c100968bc",
+                                 "data_sha256":  {
+                                                     "orders":  "821e18a3388d0e93b79f6b2c8a6158a84a9ae443c289546cda58120a93b889e1",
+                                                     "vehicles":  "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+                                                     "factories":  "ed0f987404c09c0bf562212478784f29e29ce41f52cebbb277e1e219dd9a81e4",
+                                                     "routes":  "26e6cc70cf96c2a73e0ce3fdd9d002715a0719c92802544aa810b669772a3550"
+                                                 }
+                             },
+                             {
+                                 "instance":  3,
+                                 "role":  "train",
+                                 "status":  "PASS",
+                                 "loader_score":  97.44,
+                                 "independent_replay":  "PASS",
+                                 "D_km":  487.2,
+                                 "T_seconds":  0,
+                                 "J":  97.44,
+                                 "late_orders":  0,
+                                 "orders":  50,
+                                 "items_delivered":  78,
+                                 "decision_count":  160,
+                                 "runtime_seconds":  26.72087620012462,
+                                 "supervisor_elapsed_seconds":  29.390826600138098,
+                                 "supervisor_exit_code":  0,
+                                 "max_heartbeat_gap_seconds":  1.0254966001957655,
+                                 "epochs_started":  160,
+                                 "epochs_ended":  160,
+                                 "expensive_epochs":  [
+
+                                                      ],
+                                 "git_revision":  "0bd773291d5d9034f1e7b81688bc2dfaf87308c7",
+                                 "contract_protocol_sha256":  "c751559337adbe2138a455819465764d726cf4bba26e5544715df4b90e44b6ed",
+                                 "java_build_sha256":  "49f85c57affe25a86e32522d82e16bde833c9211b7e34b56e08f79fd1f751046",
+                                 "split_protocol_sha256":  "21c7f62c06a4402214dd0051728bec4fb8051cb8ab420866cd565c669a49f859",
+                                 "source_manifest_sha256":  "cf72390459bdb50facd666ae4dbbaa9b6712f2161d61ba6756309a0c100968bc",
+                                 "data_sha256":  {
+                                                     "orders":  "4cf3b10bf5c198cbdfb1a4169948e56d51f4d502299a26584e26b4aee17ce03d",
+                                                     "vehicles":  "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+                                                     "factories":  "ed0f987404c09c0bf562212478784f29e29ce41f52cebbb277e1e219dd9a81e4",
+                                                     "routes":  "26e6cc70cf96c2a73e0ce3fdd9d002715a0719c92802544aa810b669772a3550"
+                                                 }
+                             },
+                             {
+                                 "instance":  4,
+                                 "role":  "train",
+                                 "status":  "PASS",
+                                 "loader_score":  100.92,
+                                 "independent_replay":  "PASS",
+                                 "D_km":  504.6,
+                                 "T_seconds":  0,
+                                 "J":  100.92,
+                                 "late_orders":  0,
+                                 "orders":  50,
+                                 "items_delivered":  88,
+                                 "decision_count":  155,
+                                 "runtime_seconds":  1649.2622376000509,
+                                 "supervisor_elapsed_seconds":  1650.870410699863,
+                                 "supervisor_exit_code":  0,
+                                 "max_heartbeat_gap_seconds":  1.0343337999656796,
+                                 "epochs_started":  155,
+                                 "epochs_ended":  155,
+                                 "expensive_epochs":  [
+                                                          {
+                                                              "epoch":  "00104",
+                                                              "elapsed_seconds":  540.074579899665,
+                                                              "java_cpu_seconds":  530.125,
+                                                              "timed_out":  false,
+                                                              "returncode":  0
+                                                          },
+                                                          {
+                                                              "epoch":  "00105",
+                                                              "elapsed_seconds":  540.0885340999812,
+                                                              "java_cpu_seconds":  531.265625,
+                                                              "timed_out":  false,
+                                                              "returncode":  0
+                                                          },
+                                                          {
+                                                              "epoch":  "00106",
+                                                              "elapsed_seconds":  540.0758271003142,
+                                                              "java_cpu_seconds":  529.375,
+                                                              "timed_out":  false,
+                                                              "returncode":  0
+                                                          }
+                                                      ],
+                                 "git_revision":  "0bd773291d5d9034f1e7b81688bc2dfaf87308c7",
+                                 "contract_protocol_sha256":  "c751559337adbe2138a455819465764d726cf4bba26e5544715df4b90e44b6ed",
+                                 "java_build_sha256":  "49f85c57affe25a86e32522d82e16bde833c9211b7e34b56e08f79fd1f751046",
+                                 "split_protocol_sha256":  "21c7f62c06a4402214dd0051728bec4fb8051cb8ab420866cd565c669a49f859",
+                                 "source_manifest_sha256":  "cf72390459bdb50facd666ae4dbbaa9b6712f2161d61ba6756309a0c100968bc",
+                                 "data_sha256":  {
+                                                     "orders":  "7aa498dc8d9ccfc203fe4f15a07868efb7eaba9e402b88fa7ae5fea39fa7beda",
+                                                     "vehicles":  "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+                                                     "factories":  "ed0f987404c09c0bf562212478784f29e29ce41f52cebbb277e1e219dd9a81e4",
+                                                     "routes":  "26e6cc70cf96c2a73e0ce3fdd9d002715a0719c92802544aa810b669772a3550"
+                                                 }
+                             }
+                         ],
+    "instance5":  "INTERRUPTED; NOT ACCEPTED",
+    "instance6":  "NOT_STARTED",
+    "combined_reference_2_6":  "NOT_CREATED",
+    "gp_v3_training_ready":  false,
+    "sealed_final_test_csv_opened":  false
+}

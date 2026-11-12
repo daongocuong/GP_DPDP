@@ -5,7 +5,7 @@ to its completed state, with its actual departure availability. Java owns its
 private solution.json across dispatches; only its published prefix is executed.
 """
 import csv
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 import math
 import os
@@ -18,8 +18,19 @@ ROOT = Path(__file__).resolve().parents[2]
 VENDOR = ROOT/'third_party/vnsme'
 
 
+# Ghi chú: Ghi dữ liệu trao đổi Python–Java thành JSON tại đường dẫn được chỉ định.
 def write_json(path, value):
     path.write_text(json.dumps(value, indent=2, allow_nan=False), encoding='utf-8')
+
+
+# Ghi chú: Chuẩn hóa stdout/stderr sang bytes để lưu chẩn đoán cả khi subprocess trả về chuỗi hoặc bytes.
+def capture_bytes(value):
+    """TimeoutExpired output can be bytes or str, including in text mode."""
+    if value is None:
+        return b''
+    if isinstance(value, str):
+        return value.encode('utf-8', errors='replace')
+    return bytes(value)
 
 
 class VNSMEError(RuntimeError):
@@ -28,7 +39,8 @@ class VNSMEError(RuntimeError):
 
 class JavaSession:
     """One private CWD per rollout, immutable exchange archive per dispatch."""
-    def __init__(self, directory, factories, routes, timeout=600, java='java'):
+    # Ghi chú: Chuẩn bị phiên Java, dữ liệu tĩnh và thông tin build để gọi VNSME qua nhiều kỳ định tuyến.
+    def __init__(self, directory, factories, routes, timeout=600, java='java', trace_process=False):
         self.directory = Path(directory).resolve()
         self.directory.mkdir(parents=True, exist_ok=False)
         self.exchange = self.directory/'algorithm/data_interaction'
@@ -39,6 +51,7 @@ class JavaSession:
         for name, source in [('factory_info.csv', factories), ('route_info.csv', routes)]:
             shutil.copyfile(source, self.directory/'benchmark'/name)
         self.timeout = timeout
+        self.trace_process = trace_process
         if not math.isfinite(timeout) or timeout <= 0:
             raise ValueError('VNSME timeout must be positive and finite')
         executable = shutil.which(java)
@@ -58,13 +71,26 @@ class JavaSession:
             java=subprocess.check_output([executable, '-version'], text=True, stderr=subprocess.STDOUT),
             timeout_seconds=timeout, build_manifest=build_manifest))
 
+    # Ghi chú: Xuất state của một kỳ, gọi Java trong thời hạn rồi kiểm/đọc destination và route; lưu bằng chứng của invocation.
     def invoke(self, state, remaining=None):
         index = len(self.records)
         epoch = self.directory/'epochs'/f'{index:05d}'
         epoch.mkdir()
-        record = dict(epoch=index, command=self.command, cwd=str(self.directory), valid=False)
+        record = dict(epoch=index, command=self.command, cwd=str(self.directory), valid=False,
+                      configured_timeout_seconds=self.timeout)
         self.records.append(record)
         start = perf_counter()
+        primary_error = None
+
+        # Ghi chú: Lưu lỗi ghi chẩn đoán và bổ sung vào lỗi chính nếu có, để không che mất nguyên nhân invocation thất bại.
+        def logging_failure(stage, error):
+            message = f'{stage}: {type(error).__name__}: {error}'
+            record.setdefault('diagnostic_errors', []).append(message)
+            # Also keep the failed diagnostic in the original traceback when
+            # invocation.json itself cannot be written (Python 3.11+).
+            if primary_error is not None and hasattr(primary_error, 'add_note'):
+                primary_error.add_note(f'VNSME diagnostic write failed: {message}')
+
         try:
             for key, name in [('vehicle_info', 'vehicle_info.json'), ('ongoing_orders', 'ongoing_order_items.json'),
                               ('unallocated_orders', 'unallocated_order_items.json')]:
@@ -80,10 +106,14 @@ class JavaSession:
             previous = (json.loads((self.exchange/'solution.json').read_text())
                         if (self.exchange/'solution.json').exists() else None)
             timeout = self.timeout if remaining is None else min(self.timeout, remaining)
+            record['effective_timeout_seconds'] = timeout
             if timeout <= 0:
                 raise TimeoutError('rollout wall-time exhausted before VNSME dispatch')
-            result = subprocess.run(self.command, cwd=self.directory, capture_output=True,
-                                    timeout=timeout, text=True, encoding='utf-8', errors='replace')
+            if self.trace_process:
+                result = self._invoke_traced(epoch, timeout)
+            else:
+                result = subprocess.run(self.command, cwd=self.directory, capture_output=True,
+                                        timeout=timeout, text=True, encoding='utf-8', errors='replace')
             (epoch/'stdout.txt').write_text(result.stdout, encoding='utf-8')
             (epoch/'stderr.txt').write_text(result.stderr, encoding='utf-8')
             record.update(returncode=result.returncode, effective_timeout_seconds=timeout)
@@ -120,22 +150,93 @@ class JavaSession:
             record['valid'] = True
             return dict(destinations=destinations, routes=routes)
         except Exception as exc:
+            primary_error = exc
             record['error'] = f'{type(exc).__name__}: {exc}'
             if isinstance(exc, subprocess.TimeoutExpired):
+                record['timeout_seconds'] = exc.timeout
+                record['timeout_command'] = exc.cmd
                 for label, data in [('stdout', exc.stdout), ('stderr', exc.stderr)]:
-                    (epoch/f'{label}.txt').write_bytes(data or b'')
+                    try:
+                        (epoch/f'{label}.txt').write_bytes(capture_bytes(data))
+                    except Exception as diagnostic_error:
+                        logging_failure(f'{label}.txt', diagnostic_error)
             raise VNSMEError(f'VNSME epoch {index}: {record["error"]}; artifacts: {epoch}') from exc
         finally:
             record['wall_seconds'] = perf_counter()-start
-            write_json(epoch/'invocation.json', record)
+            try:
+                write_json(epoch/'invocation.json', record)
+            except Exception as diagnostic_error:
+                logging_failure('invocation.json', diagnostic_error)
+                if primary_error is None:
+                    # A successful subprocess without its invocation record
+                    # must not become a valid, untraceable decision.
+                    record['valid'] = False
+                    record['error'] = f'{type(diagnostic_error).__name__}: {diagnostic_error}'
+                    raise VNSMEError(f'Cannot record VNSME epoch {index}: {diagnostic_error}') from diagnostic_error
+
+    # Ghi chú: Gọi Java qua cơ chế có theo dõi tiến trình và lưu mốc bắt đầu/kết thúc để audit timeout.
+    def _invoke_traced(self, epoch, timeout):
+        """Record exact Java identity and times; the external job owns cleanup."""
+        from dpdp_v3_supervisor import process_identity
+        from time import time
+        stdout_path, stderr_path = epoch/'java_stdout_live.txt', epoch/'java_stderr_live.txt'
+        with stdout_path.open('xb') as stdout_file, stderr_path.open('xb') as stderr_file:
+            proc = subprocess.Popen(self.command, cwd=self.directory, stdout=stdout_file, stderr=stderr_file)
+            start = perf_counter()
+            timed_out = False
+            try:
+                wall_deadline = time()+timeout
+                info = dict(pid=proc.pid, identity=process_identity(proc.pid), started_utc=datetime.now(timezone.utc).isoformat(),
+                            started_monotonic=start, deadline_monotonic=start+timeout,
+                            deadline_wall_epoch=wall_deadline,
+                            deadline_utc=datetime.fromtimestamp(wall_deadline, timezone.utc).isoformat(),
+                            timeout_seconds=timeout, command=self.command)
+                write_json(epoch/'invocation_start.json', info)
+                try:
+                    proc.wait(timeout=max(0, start+timeout-perf_counter()))
+                except subprocess.TimeoutExpired:
+                    timed_out = True
+                    proc.kill(); proc.wait()
+                    captured = []
+                    errors = []
+                    for path in (stdout_path, stderr_path):
+                        try:
+                            captured.append(path.read_bytes())
+                        except OSError as error:
+                            captured.append(None); errors.append(str(error))
+                    failure = subprocess.TimeoutExpired(self.command, timeout, output=captured[0], stderr=captured[1])
+                    for error in errors:
+                        if hasattr(failure, 'add_note'): failure.add_note(f'cannot read Java diagnostic: {error}')
+                    raise failure
+            finally:
+                if proc.poll() is None:
+                    proc.kill()
+                    proc.wait()
+                ended = perf_counter()
+                import sys
+                primary_error = sys.exc_info()[1]
+                try:
+                    write_json(epoch/'invocation_process_end.json', dict(pid=proc.pid, ended_utc=datetime.now(timezone.utc).isoformat(),
+                        ended_monotonic=ended, elapsed_seconds=ended-start, returncode=proc.returncode,
+                        timed_out=timed_out, timeout_detection_lag_seconds=max(0, ended-start-timeout) if timed_out else None))
+                except Exception as error:
+                    if primary_error is None:
+                        raise
+                    if hasattr(primary_error, 'add_note'):
+                        primary_error.add_note(f'cannot record Java process end: {error}')
+            stdout = stdout_path.read_text(encoding='utf-8', errors='replace')
+            stderr = stderr_path.read_text(encoding='utf-8', errors='replace')
+            return subprocess.CompletedProcess(self.command, proc.returncode, stdout, stderr)
 
 
+# Ghi chú: Yêu cầu một giá trị biểu diễn số nguyên trước khi đưa vào schema Huawei.
 def integer(value, label):
     if not math.isfinite(value) or value != int(value) or not -(2**31) <= value < 2**31:
         raise VNSMEError(f'Java requires integer seconds/capacity: {label}={value}')
     return int(value)
 
 
+# Ghi chú: Chuyển state local sang định dạng Huawei; unallocated gồm cả item đã có kế hoạch nhưng chưa pickup.
 def huawei_state(model, epoch_origin, vehicle_metadata):
     from dpdp_routing import get_dpdp_state
     state = get_dpdp_state(model)
@@ -161,14 +262,20 @@ def huawei_state(model, epoch_origin, vehicle_metadata):
 
 
 class VNSMEPolicy:
-    def __init__(self, directory, factories, routes, vehicles, timeout=600, java='java'):
-        self.session = JavaSession(directory, factories, routes, timeout, java)
+    # Ghi chú: Chuẩn bị metadata xe, phiên Java và contract dùng kiểm decision của baseline.
+    def __init__(self, directory, factories, routes, vehicles, timeout=600, java='java', contract=None):
+        if contract is None:
+            self.session = JavaSession(directory, factories, routes, timeout, java)
+        else:
+            self.session = JavaSession(directory, factories, routes, timeout, java, trace_process=True)
         with Path(vehicles).open(newline='', encoding='utf-8-sig') as handle:
             self.vehicle_metadata = {r['car_num']: r for r in csv.DictReader(handle)}
         # Original Java compares GPS timestamps with the host's current midnight.
         self.epoch_origin = int(datetime.now().replace(hour=0, minute=0, second=0, microsecond=0).timestamp())
         self.decisions = []
+        self.commitment_contract = contract
 
+    # Ghi chú: Gửi trạng thái cho VNSME, đổi publication về decision local và kiểm các ràng buộc contract trước khi trả tuyến.
     def decide(self, model, remaining=None):
         from dpdp_routing import transform_dpdp_decision
         from dpdp_insertion import Snapshot
@@ -200,11 +307,18 @@ class VNSMEPolicy:
         planned = {i for p in raw['vehicles'].values() for n in p['next_visits']
                    for i in n['pickup_list'] + n['delivery_list']}
         raw['orders'] = {o.id: {'status': 'accepted'} for o in model.open_orders if o.id in planned}
-        # No accepted/ongoing commitment may disappear from the published plan.
-        for i, o in snapshot.objects.items():
-            if o.is_accepted and not o.is_delivered and i not in planned:
-                if not any(p.current and i in p.current.pickups+p.current.deliveries for p in snapshot.plans.values()):
-                    raise VNSMEError(f'Java dropped previously accepted item {i}')
+        contract = getattr(self, 'commitment_contract', None)
+        if contract is None:
+            # Legacy accepted-route-v2 stays unchanged for historical runs.
+            for i, o in snapshot.objects.items():
+                if o.is_accepted and not o.is_delivered and i not in planned:
+                    if not any(p.current and i in p.current.pickups+p.current.deliveries for p in snapshot.plans.values()):
+                        raise VNSMEError(f'Java dropped previously accepted item {i}')
+        else:
+            # Acceptance remains a service promise; do not repeat acceptance
+            # events or reverse it when Java temporarily withholds a suffix.
+            raw['orders'] = {i: d for i, d in raw['orders'].items() if not snapshot.objects[i].is_accepted}
+            contract.check(snapshot, raw)
         self.decisions.append(dict(simulation_seconds=model.env.now, examined=0, rejected=0,
                                    deferred=[o.id for o in model.open_orders if o.id not in planned]))
         return raw

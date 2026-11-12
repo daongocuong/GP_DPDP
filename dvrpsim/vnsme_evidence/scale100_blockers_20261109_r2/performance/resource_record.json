@@ -1,0 +1,13 @@
+{
+  "execution": "offline Python artifact analysis only",
+  "java_invocations": 0,
+  "simulator_runs": 0,
+  "GP_training_runs": 0,
+  "observed_wall_seconds": 0.9310872997157276,
+  "observed_process_cpu_seconds": 0.90625,
+  "declared_python_wall_budget_seconds": 30,
+  "declared_Java_budget_seconds": 0,
+  "input_files_checked_unchanged": 4676,
+  "all_input_hashes_unchanged": true,
+  "process_cleanup": "Synchronous Python process exited. No Java or background child processes were launched."
+}

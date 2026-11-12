@@ -1,0 +1,27 @@
+{
+    "instance":  6,
+    "launcher_pid":  13560,
+    "launcher_started_utc":  "2026-11-10T06:51:38.4171818Z",
+    "executable":  "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\.venv\\Scripts\\python.exe",
+    "arguments":  [
+                      "-B",
+                      "dpdp_vnsme_reference_v3.py",
+                      "run",
+                      "--contract-version",
+                      "dpdp-execution-commitment-v3",
+                      "--instance",
+                      "6",
+                      "--output",
+                      "vnsme_runs\\v3_instance6_validation_20261110_r1"
+                  ],
+    "working_directory":  "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim",
+    "output":  "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\vnsme_runs\\v3_instance6_validation_20261110_r1",
+    "stdout":  "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\vnsme_evidence\\v3_instance5_recovery_20261110_r1\\instance6_stdout.log",
+    "stderr":  "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\vnsme_evidence\\v3_instance5_recovery_20261110_r1\\instance6_stderr.log",
+    "supervisor_mode":  "verified Windows Job Object code",
+    "budgets":  {
+                    "rollout_wall_seconds":  10800,
+                    "epoch_hard_timeout_seconds":  600,
+                    "cooperative_java_seconds":  540
+                }
+}

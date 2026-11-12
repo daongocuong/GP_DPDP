@@ -1,0 +1,121 @@
+[
+  {
+    "policy": "vnsme",
+    "synthetic_orders": 2,
+    "result": {
+      "valid": true,
+      "error": null,
+      "total_wall_seconds": 0.010314200073480606,
+      "simulation_wall_seconds": 0.008709299843758345,
+      "simulation_finish_seconds": 8400,
+      "vehicles": 1,
+      "original_orders": 2,
+      "observed_items": 2,
+      "completed_items": 2,
+      "completed_original_orders": 2,
+      "decision_count": 14,
+      "candidates_examined": 0,
+      "candidates_rejected": 0,
+      "deferred_groups": 7,
+      "decision_wall_seconds_total": 0.003649001009762287,
+      "decision_wall_seconds_max": 0.0005143000744283199,
+      "gp_evaluation": null,
+      "score": {
+        "vehicle_num": 1,
+        "original_orders": 2,
+        "items": 2,
+        "total_distance_km": "4",
+        "average_distance_km": "4",
+        "total_tardiness_seconds": "0",
+        "late_original_orders": 0,
+        "tardiness_penalty": "0",
+        "total_score": "4",
+        "distance_by_vehicle_km": {
+          "V_1": "4"
+        },
+        "tardiness_by_original_order_seconds": {
+          "a": "0",
+          "b": "0"
+        },
+        "valid": true,
+        "finish_seconds": "8400.0",
+        "verified_legs": 4,
+        "completion_definition": "arrival at delivery factory, before queue/docking/unloading",
+        "assumptions_and_limits": [
+          "Scores the recorded local trajectory; does not prove identical dynamics to Xingtian.",
+          "Initial vehicle positions are inferred from first departures, not a run manifest.",
+          "No full capacity, LIFO, conditional splitting or locked-route feasibility audit.",
+          "Historical source/configuration identity is not cryptographically bound to this log.",
+          "Only the numeric elapsed-seconds column is used; wall-clock run date is unknown."
+        ]
+      },
+      "contract_version": "dpdp-execution-commitment-v3",
+      "contract_complete": true
+    },
+    "ledger_complete": true,
+    "independent_scorer_pass": true,
+    "simulation_log_sha256": "71c4a832d7e955f50b3490765001c0673c9599497f37fe11a5a24035381df2c1"
+  },
+  {
+    "policy": "gp",
+    "synthetic_orders": 2,
+    "result": {
+      "valid": true,
+      "error": null,
+      "total_wall_seconds": 0.0074268002063035965,
+      "simulation_wall_seconds": 0.006568700075149536,
+      "simulation_finish_seconds": 8400,
+      "vehicles": 1,
+      "original_orders": 2,
+      "observed_items": 2,
+      "completed_items": 2,
+      "completed_original_orders": 2,
+      "decision_count": 14,
+      "candidates_examined": 7,
+      "candidates_rejected": 2,
+      "deferred_groups": 0,
+      "decision_wall_seconds_total": 0.003508899826556444,
+      "decision_wall_seconds_max": 0.0008421000093221664,
+      "gp_evaluation": {
+        "evaluations": 5,
+        "protected_divisions": 0,
+        "saturations": 0,
+        "numeric_errors": 0
+      },
+      "score": {
+        "vehicle_num": 1,
+        "original_orders": 2,
+        "items": 2,
+        "total_distance_km": "3",
+        "average_distance_km": "3",
+        "total_tardiness_seconds": "0",
+        "late_original_orders": 0,
+        "tardiness_penalty": "0",
+        "total_score": "3",
+        "distance_by_vehicle_km": {
+          "V_1": "3"
+        },
+        "tardiness_by_original_order_seconds": {
+          "a": "0",
+          "b": "0"
+        },
+        "valid": true,
+        "finish_seconds": "8400.0",
+        "verified_legs": 4,
+        "completion_definition": "arrival at delivery factory, before queue/docking/unloading",
+        "assumptions_and_limits": [
+          "Scores the recorded local trajectory; does not prove identical dynamics to Xingtian.",
+          "Initial vehicle positions are inferred from first departures, not a run manifest.",
+          "No full capacity, LIFO, conditional splitting or locked-route feasibility audit.",
+          "Historical source/configuration identity is not cryptographically bound to this log.",
+          "Only the numeric elapsed-seconds column is used; wall-clock run date is unknown."
+        ]
+      },
+      "contract_version": "dpdp-execution-commitment-v3",
+      "contract_complete": true
+    },
+    "ledger_complete": true,
+    "independent_scorer_pass": true,
+    "simulation_log_sha256": "12de050b5523572b660c1192902785e5e2a6cd45904d157eebc7ea87220d2701"
+  }
+]

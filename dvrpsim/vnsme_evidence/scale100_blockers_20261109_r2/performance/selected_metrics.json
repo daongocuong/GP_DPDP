@@ -1,0 +1,310 @@
+{
+  "source_run": "vnsme_runs\\scale100_reference_20261109_r1",
+  "selected_epochs": [
+    {
+      "epoch": 87,
+      "invocation": {
+        "epoch": 87,
+        "command": [
+          "C:\\Users\\Cuongdz\\.jdks\\openjdk-26.0.1\\bin\\java.EXE",
+          "-cp",
+          "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\build;C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\lib",
+          "main_algorithm"
+        ],
+        "cwd": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\vnsme_runs\\scale100_reference_20261109_r1\\instance_10\\vnsme",
+        "valid": true,
+        "returncode": 0,
+        "effective_timeout_seconds": 600.0,
+        "solution_no": 86,
+        "wall_seconds": 540.074034600053
+      },
+      "pending_items": 10,
+      "carrying_items": 26,
+      "pending_orders": 7,
+      "stdout_artifact_present": true,
+      "stderr_artifact_present": true,
+      "stderr_bytes": 4193917,
+      "stderr_lines": 182341,
+      "stderr_common_lines": [
+        [
+          "tried case 4 improved",
+          182339
+        ],
+        [
+          "TimeOut!!",
+          1
+        ],
+        [
+          "PDPairExchange:0; BlockExchange:729356;BlockRelocate:364678; mPDG:0; usedTime:540.00 seconds; cost:43106.44",
+          1
+        ]
+      ],
+      "has_success": true,
+      "cooperative_timeout": true,
+      "previous_private": {
+        "nodes": 21,
+        "pickups": 6,
+        "nodes_by_vehicle": {
+          "V_1": 5,
+          "V_2": 7,
+          "V_3": 2,
+          "V_4": 5,
+          "V_5": 2
+        },
+        "block_count_upper_bound": 6,
+        "exchange_pair_upper_bound": 15
+      },
+      "resulting_private": {
+        "nodes": 23,
+        "pickups": 7,
+        "nodes_by_vehicle": {
+          "V_1": 5,
+          "V_2": 9,
+          "V_3": 2,
+          "V_4": 5,
+          "V_5": 2
+        },
+        "block_count_upper_bound": 7,
+        "exchange_pair_upper_bound": 21
+      },
+      "search_summary": {
+        "PDPairExchange": 0,
+        "BlockExchange": 729356,
+        "BlockRelocate": 364678,
+        "mPDG": 0,
+        "used_seconds": 540.0,
+        "cost": 43106.44
+      }
+    },
+    {
+      "epoch": 103,
+      "invocation": {
+        "epoch": 103,
+        "command": [
+          "C:\\Users\\Cuongdz\\.jdks\\openjdk-26.0.1\\bin\\java.EXE",
+          "-cp",
+          "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\build;C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\lib",
+          "main_algorithm"
+        ],
+        "cwd": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\vnsme_runs\\scale100_reference_20261109_r1\\instance_10\\vnsme",
+        "valid": true,
+        "returncode": 0,
+        "effective_timeout_seconds": 600.0,
+        "solution_no": 102,
+        "wall_seconds": 540.0674769999459
+      },
+      "pending_items": 25,
+      "carrying_items": 31,
+      "pending_orders": 9,
+      "stdout_artifact_present": true,
+      "stderr_artifact_present": true,
+      "stderr_bytes": 1773903,
+      "stderr_lines": 77123,
+      "stderr_common_lines": [
+        [
+          "tried case 4 improved",
+          77120
+        ],
+        [
+          "tried case 2 improved",
+          1
+        ],
+        [
+          "TimeOut!!",
+          1
+        ],
+        [
+          "PDPairExchange:4; BlockExchange:154238;BlockRelocate:154239; mPDG:0; usedTime:540.00 seconds; cost:80027.87",
+          1
+        ]
+      ],
+      "has_success": true,
+      "cooperative_timeout": true,
+      "previous_private": {
+        "nodes": 25,
+        "pickups": 7,
+        "nodes_by_vehicle": {
+          "V_1": 3,
+          "V_2": 7,
+          "V_3": 1,
+          "V_4": 7,
+          "V_5": 7
+        },
+        "block_count_upper_bound": 7,
+        "exchange_pair_upper_bound": 21
+      },
+      "resulting_private": {
+        "nodes": 29,
+        "pickups": 9,
+        "nodes_by_vehicle": {
+          "V_1": 3,
+          "V_2": 11,
+          "V_3": 1,
+          "V_4": 7,
+          "V_5": 7
+        },
+        "block_count_upper_bound": 9,
+        "exchange_pair_upper_bound": 36
+      },
+      "search_summary": {
+        "PDPairExchange": 4,
+        "BlockExchange": 154238,
+        "BlockRelocate": 154239,
+        "mPDG": 0,
+        "used_seconds": 540.0,
+        "cost": 80027.87
+      }
+    },
+    {
+      "epoch": 104,
+      "invocation": {
+        "epoch": 104,
+        "command": [
+          "C:\\Users\\Cuongdz\\.jdks\\openjdk-26.0.1\\bin\\java.EXE",
+          "-cp",
+          "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\build;C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\lib",
+          "main_algorithm"
+        ],
+        "cwd": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\vnsme_runs\\scale100_reference_20261109_r1\\instance_10\\vnsme",
+        "valid": true,
+        "returncode": 0,
+        "effective_timeout_seconds": 600.0,
+        "solution_no": 103,
+        "wall_seconds": 540.0713827
+      },
+      "pending_items": 25,
+      "carrying_items": 31,
+      "pending_orders": 9,
+      "stdout_artifact_present": true,
+      "stderr_artifact_present": true,
+      "stderr_bytes": 1843824,
+      "stderr_lines": 80163,
+      "stderr_common_lines": [
+        [
+          "tried case 4 improved",
+          80161
+        ],
+        [
+          "TimeOut!!",
+          1
+        ],
+        [
+          "PDPairExchange:0; BlockExchange:160321;BlockRelocate:160320; mPDG:0; usedTime:540.00 seconds; cost:143176.71",
+          1
+        ]
+      ],
+      "has_success": true,
+      "cooperative_timeout": true,
+      "previous_private": {
+        "nodes": 29,
+        "pickups": 9,
+        "nodes_by_vehicle": {
+          "V_1": 3,
+          "V_2": 11,
+          "V_3": 1,
+          "V_4": 7,
+          "V_5": 7
+        },
+        "block_count_upper_bound": 9,
+        "exchange_pair_upper_bound": 36
+      },
+      "resulting_private": {
+        "nodes": 29,
+        "pickups": 9,
+        "nodes_by_vehicle": {
+          "V_1": 3,
+          "V_2": 11,
+          "V_3": 1,
+          "V_4": 7,
+          "V_5": 7
+        },
+        "block_count_upper_bound": 9,
+        "exchange_pair_upper_bound": 36
+      },
+      "search_summary": {
+        "PDPairExchange": 0,
+        "BlockExchange": 160321,
+        "BlockRelocate": 160320,
+        "mPDG": 0,
+        "used_seconds": 540.0,
+        "cost": 143176.71
+      }
+    },
+    {
+      "epoch": 127,
+      "invocation": {
+        "epoch": 127,
+        "command": [
+          "C:\\Users\\Cuongdz\\.jdks\\openjdk-26.0.1\\bin\\java.EXE",
+          "-cp",
+          "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\build;C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\lib",
+          "main_algorithm"
+        ],
+        "cwd": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\vnsme_runs\\scale100_reference_20261109_r1\\instance_10\\vnsme",
+        "valid": false,
+        "error": "TimeoutExpired: Command '['C:\\\\Users\\\\Cuongdz\\\\.jdks\\\\openjdk-26.0.1\\\\bin\\\\java.EXE', '-cp', 'C:\\\\Users\\\\Cuongdz\\\\Documents\\\\LA\\\\dvrpsim\\\\third_party\\\\vnsme\\\\build;C:\\\\Users\\\\Cuongdz\\\\Documents\\\\LA\\\\dvrpsim\\\\third_party\\\\vnsme\\\\lib', 'main_algorithm']' timed out after 600.0 seconds",
+        "wall_seconds": 3985.593807899859
+      },
+      "pending_items": 30,
+      "carrying_items": 6,
+      "pending_orders": 16,
+      "stdout_artifact_present": false,
+      "stderr_artifact_present": false,
+      "stderr_bytes": null,
+      "stderr_lines": null,
+      "stderr_common_lines": [],
+      "has_success": null,
+      "cooperative_timeout": null,
+      "previous_private": {
+        "nodes": 34,
+        "pickups": 15,
+        "nodes_by_vehicle": {
+          "V_1": 3,
+          "V_2": 9,
+          "V_3": 8,
+          "V_4": 6,
+          "V_5": 8
+        },
+        "block_count_upper_bound": 15,
+        "exchange_pair_upper_bound": 105
+      },
+      "resulting_private": null
+    }
+  ],
+  "epoch_count": 128,
+  "valid_invocation_count": 127,
+  "slow_epochs": [
+    87,
+    103,
+    104,
+    105,
+    120,
+    122,
+    127
+  ],
+  "successful_Java_wall_seconds": 3262.702144401148,
+  "all_invocation_wall_seconds": 7248.295952301007,
+  "successful_cooperative_timeouts": [
+    87,
+    103,
+    104,
+    105,
+    120,
+    122
+  ],
+  "successful_long_epoch_wall_seconds": 3240.4063618998043,
+  "failed_epoch_wall_seconds": 3985.593807899859,
+  "epoch87_thread_dump": {
+    "cpu_seconds": 199.46875,
+    "elapsed_seconds": 208.07,
+    "cpu_fraction": 0.9586617484500409,
+    "state": "RUNNABLE",
+    "stack": [
+      "main_algorithm.cost:3856",
+      "main_algorithm.blockExchange:918",
+      "main_algorithm.variableNeighbourhoodSearch:242",
+      "main_algorithm.main:119"
+    ]
+  },
+  "topology_limit": "Counts are saved private snapshots. They are upper bounds on block pairs in those snapshots, not measured candidate/cost calls during search. Current-scene restoration, dispatch, and search can change topology."
+}

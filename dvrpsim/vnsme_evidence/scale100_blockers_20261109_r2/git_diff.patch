@@ -1,0 +1,82 @@
+diff --git a/dvrpsim/src/baselines/vnsme.py b/dvrpsim/src/baselines/vnsme.py
+index b8c0e21..a4a2989 100644
+--- a/dvrpsim/src/baselines/vnsme.py
++++ b/dvrpsim/src/baselines/vnsme.py
+@@ -22,6 +22,15 @@ def write_json(path, value):
+     path.write_text(json.dumps(value, indent=2, allow_nan=False), encoding='utf-8')
+ 
+ 
++def capture_bytes(value):
++    """TimeoutExpired output can be bytes or str, including in text mode."""
++    if value is None:
++        return b''
++    if isinstance(value, str):
++        return value.encode('utf-8', errors='replace')
++    return bytes(value)
++
++
+ class VNSMEError(RuntimeError):
+     pass
+ 
+@@ -62,9 +71,20 @@ class JavaSession:
+         index = len(self.records)
+         epoch = self.directory/'epochs'/f'{index:05d}'
+         epoch.mkdir()
+-        record = dict(epoch=index, command=self.command, cwd=str(self.directory), valid=False)
++        record = dict(epoch=index, command=self.command, cwd=str(self.directory), valid=False,
++                      configured_timeout_seconds=self.timeout)
+         self.records.append(record)
+         start = perf_counter()
++        primary_error = None
++
++        def logging_failure(stage, error):
++            message = f'{stage}: {type(error).__name__}: {error}'
++            record.setdefault('diagnostic_errors', []).append(message)
++            # Also keep the failed diagnostic in the original traceback when
++            # invocation.json itself cannot be written (Python 3.11+).
++            if primary_error is not None and hasattr(primary_error, 'add_note'):
++                primary_error.add_note(f'VNSME diagnostic write failed: {message}')
++
+         try:
+             for key, name in [('vehicle_info', 'vehicle_info.json'), ('ongoing_orders', 'ongoing_order_items.json'),
+                               ('unallocated_orders', 'unallocated_order_items.json')]:
+@@ -80,6 +100,7 @@ class JavaSession:
+             previous = (json.loads((self.exchange/'solution.json').read_text())
+                         if (self.exchange/'solution.json').exists() else None)
+             timeout = self.timeout if remaining is None else min(self.timeout, remaining)
++            record['effective_timeout_seconds'] = timeout
+             if timeout <= 0:
+                 raise TimeoutError('rollout wall-time exhausted before VNSME dispatch')
+             result = subprocess.run(self.command, cwd=self.directory, capture_output=True,
+@@ -120,14 +141,29 @@ class JavaSession:
+             record['valid'] = True
+             return dict(destinations=destinations, routes=routes)
+         except Exception as exc:
++            primary_error = exc
+             record['error'] = f'{type(exc).__name__}: {exc}'
+             if isinstance(exc, subprocess.TimeoutExpired):
++                record['timeout_seconds'] = exc.timeout
++                record['timeout_command'] = exc.cmd
+                 for label, data in [('stdout', exc.stdout), ('stderr', exc.stderr)]:
+-                    (epoch/f'{label}.txt').write_bytes(data or b'')
++                    try:
++                        (epoch/f'{label}.txt').write_bytes(capture_bytes(data))
++                    except Exception as diagnostic_error:
++                        logging_failure(f'{label}.txt', diagnostic_error)
+             raise VNSMEError(f'VNSME epoch {index}: {record["error"]}; artifacts: {epoch}') from exc
+         finally:
+             record['wall_seconds'] = perf_counter()-start
+-            write_json(epoch/'invocation.json', record)
++            try:
++                write_json(epoch/'invocation.json', record)
++            except Exception as diagnostic_error:
++                logging_failure('invocation.json', diagnostic_error)
++                if primary_error is None:
++                    # A successful subprocess without its invocation record
++                    # must not become a valid, untraceable decision.
++                    record['valid'] = False
++                    record['error'] = f'{type(diagnostic_error).__name__}: {diagnostic_error}'
++                    raise VNSMEError(f'Cannot record VNSME epoch {index}: {diagnostic_error}') from diagnostic_error
+ 
+ 
+ def integer(value, label):

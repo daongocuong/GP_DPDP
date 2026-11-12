@@ -1,0 +1,184 @@
+{
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-B",
+    "vnsme_evidence\\v3_reference_supervision_20261109_r1\\smoke_real_vnsme.py"
+  ],
+  "started_utc": "2026-11-09T12:51:36.032776+00:00",
+  "timeout_seconds": 30.0,
+  "deadline_utc": "2026-11-09T12:52:06.032788+00:00",
+  "state": "EXITED",
+  "valid_supervision": true,
+  "samples": [
+    {
+      "utc": "2026-11-09T12:51:36.043404+00:00",
+      "elapsed_seconds": 0.010627500247210264,
+      "wall_elapsed_seconds": 0.010625600814819336,
+      "gap_seconds": 0.0005065002478659153,
+      "wall_gap_seconds": 0.0005059242248535156,
+      "processes": [
+        {
+          "pid": 20132,
+          "parent_pid": 12084,
+          "name": "python.exe",
+          "creation_filetime_100ns": 134387022960351455,
+          "started_utc": "2026-11-09T12:51:36.035145+00:00",
+          "cpu_user_seconds": 0.0,
+          "cpu_kernel_seconds": 0.0,
+          "cpu_seconds": 0.0
+        },
+        {
+          "pid": 34004,
+          "parent_pid": 20132,
+          "name": "conhost.exe",
+          "creation_filetime_100ns": 134387022960450289,
+          "started_utc": "2026-11-09T12:51:36.045029+00:00",
+          "cpu_user_seconds": 0.0,
+          "cpu_kernel_seconds": 0.0,
+          "cpu_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-11-09T12:51:36.252493+00:00",
+      "elapsed_seconds": 0.21971680037677288,
+      "wall_elapsed_seconds": 0.21971559524536133,
+      "gap_seconds": 0.20908930012956262,
+      "wall_gap_seconds": 0.209089994430542,
+      "processes": [
+        {
+          "pid": 20132,
+          "parent_pid": 12084,
+          "name": "python.exe",
+          "creation_filetime_100ns": 134387022960351455,
+          "started_utc": "2026-11-09T12:51:36.035145+00:00",
+          "cpu_user_seconds": 0.0,
+          "cpu_kernel_seconds": 0.0,
+          "cpu_seconds": 0.0
+        },
+        {
+          "pid": 34004,
+          "parent_pid": 20132,
+          "name": "conhost.exe",
+          "creation_filetime_100ns": 134387022960450289,
+          "started_utc": "2026-11-09T12:51:36.045029+00:00",
+          "cpu_user_seconds": 0.0,
+          "cpu_kernel_seconds": 0.0,
+          "cpu_seconds": 0.0
+        },
+        {
+          "pid": 30316,
+          "parent_pid": 20132,
+          "name": "python.exe",
+          "creation_filetime_100ns": 134387022960586803,
+          "started_utc": "2026-11-09T12:51:36.058680+00:00",
+          "cpu_user_seconds": 0.140625,
+          "cpu_kernel_seconds": 0.015625,
+          "cpu_seconds": 0.15625
+        }
+      ]
+    },
+    {
+      "utc": "2026-11-09T12:51:36.462379+00:00",
+      "elapsed_seconds": 0.42960420018061996,
+      "wall_elapsed_seconds": 0.42960262298583984,
+      "gap_seconds": 0.20988739980384707,
+      "wall_gap_seconds": 0.20988702774047852,
+      "processes": [
+        {
+          "pid": 20132,
+          "parent_pid": 12084,
+          "name": "python.exe",
+          "creation_filetime_100ns": 134387022960351455,
+          "started_utc": "2026-11-09T12:51:36.035145+00:00",
+          "cpu_user_seconds": 0.0,
+          "cpu_kernel_seconds": 0.0,
+          "cpu_seconds": 0.0
+        },
+        {
+          "pid": 34004,
+          "parent_pid": 20132,
+          "name": "conhost.exe",
+          "creation_filetime_100ns": 134387022960450289,
+          "started_utc": "2026-11-09T12:51:36.045029+00:00",
+          "cpu_user_seconds": 0.0,
+          "cpu_kernel_seconds": 0.0,
+          "cpu_seconds": 0.0
+        },
+        {
+          "pid": 30316,
+          "parent_pid": 20132,
+          "name": "python.exe",
+          "creation_filetime_100ns": 134387022960586803,
+          "started_utc": "2026-11-09T12:51:36.058680+00:00",
+          "cpu_user_seconds": 0.234375,
+          "cpu_kernel_seconds": 0.125,
+          "cpu_seconds": 0.359375
+        }
+      ]
+    },
+    {
+      "utc": "2026-11-09T12:51:36.672524+00:00",
+      "elapsed_seconds": 0.6397436000406742,
+      "wall_elapsed_seconds": 0.6397428512573242,
+      "gap_seconds": 0.21013939986005425,
+      "wall_gap_seconds": 0.21014022827148438,
+      "processes": [
+        {
+          "pid": 20132,
+          "parent_pid": 12084,
+          "name": "python.exe",
+          "creation_filetime_100ns": 134387022960351455,
+          "started_utc": "2026-11-09T12:51:36.035145+00:00",
+          "cpu_user_seconds": 0.0,
+          "cpu_kernel_seconds": 0.0,
+          "cpu_seconds": 0.0
+        },
+        {
+          "pid": 34004,
+          "parent_pid": 20132,
+          "name": "conhost.exe",
+          "creation_filetime_100ns": 134387022960450289,
+          "started_utc": "2026-11-09T12:51:36.045029+00:00",
+          "cpu_user_seconds": 0.0,
+          "cpu_kernel_seconds": 0.0,
+          "cpu_seconds": 0.0
+        },
+        {
+          "pid": 30316,
+          "parent_pid": 20132,
+          "name": "python.exe",
+          "creation_filetime_100ns": 134387022960586803,
+          "started_utc": "2026-11-09T12:51:36.058680+00:00",
+          "cpu_user_seconds": 0.28125,
+          "cpu_kernel_seconds": 0.1875,
+          "cpu_seconds": 0.46875
+        },
+        {
+          "pid": 14768,
+          "parent_pid": 30316,
+          "name": "java.exe",
+          "creation_filetime_100ns": 134387022966262082,
+          "started_utc": "2026-11-09T12:51:36.626207+00:00",
+          "cpu_user_seconds": 0.0625,
+          "cpu_kernel_seconds": 0.03125,
+          "cpu_seconds": 0.09375
+        }
+      ]
+    },
+    {
+      "utc": "2026-11-09T12:51:36.885365+00:00",
+      "elapsed_seconds": 0.852588000241667,
+      "wall_elapsed_seconds": 0.8525865077972412,
+      "gap_seconds": 0.21284440020099282,
+      "wall_gap_seconds": 0.212843656539917,
+      "processes": []
+    }
+  ],
+  "gaps": [],
+  "root_pid": 20132,
+  "exit_code": 0,
+  "remaining_job_processes": [],
+  "ended_utc": "2026-11-09T12:51:36.903212+00:00",
+  "elapsed_seconds": 0.8704750002361834
+}

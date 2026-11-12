@@ -11,6 +11,7 @@ import sys
 from dpdp_dataset import resolve_inputs
 from dpdp_gp_fitness import digest
 from verify_dpdp_score import verify
+from dpdp_contract import LEGACY_CONTRACT
 
 ROOT = Path(__file__).resolve().parent
 DEFAULT_SUMMARY = ROOT/'migration_runs/vnsme_reference_ready/summary.json'
@@ -28,6 +29,9 @@ def independent_score(run, dataset, instance):
     result = json.loads((run/'result.json').read_text(encoding='utf-8'))
     if manifest['policy'] != 'vnsme' or manifest['instance'] != instance:
         raise ValueError('reference rollout must be VNSME for the requested instance')
+    if (manifest.get('contract_version', LEGACY_CONTRACT) != LEGACY_CONTRACT or
+            result.get('contract_version', LEGACY_CONTRACT) != LEGACY_CONTRACT):
+        raise ValueError('legacy VNSME v2 reference loader cannot certify a different commitment contract; fresh versioned references are required')
     if not result['valid'] or not result.get('score'):
         raise ValueError('reference rollout invalid or incomplete')
     if any(manifest[k] != value for k, value in SIMULATION.items()):

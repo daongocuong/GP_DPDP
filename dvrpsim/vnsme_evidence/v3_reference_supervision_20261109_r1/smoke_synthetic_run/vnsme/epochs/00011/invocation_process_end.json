@@ -1,0 +1,9 @@
+{
+  "pid": 9684,
+  "ended_utc": "2026-11-09T12:57:44.367203+00:00",
+  "ended_monotonic": 2206010.3864864,
+  "elapsed_seconds": 0.1073404997587204,
+  "returncode": 0,
+  "timed_out": false,
+  "timeout_detection_lag_seconds": null
+}

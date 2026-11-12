@@ -1,0 +1,50 @@
+{
+  "valid": true,
+  "error": null,
+  "total_wall_seconds": 0.010314200073480606,
+  "simulation_wall_seconds": 0.008709299843758345,
+  "simulation_finish_seconds": 8400,
+  "vehicles": 1,
+  "original_orders": 2,
+  "observed_items": 2,
+  "completed_items": 2,
+  "completed_original_orders": 2,
+  "decision_count": 14,
+  "candidates_examined": 0,
+  "candidates_rejected": 0,
+  "deferred_groups": 7,
+  "decision_wall_seconds_total": 0.003649001009762287,
+  "decision_wall_seconds_max": 0.0005143000744283199,
+  "gp_evaluation": null,
+  "score": {
+    "vehicle_num": 1,
+    "original_orders": 2,
+    "items": 2,
+    "total_distance_km": "4",
+    "average_distance_km": "4",
+    "total_tardiness_seconds": "0",
+    "late_original_orders": 0,
+    "tardiness_penalty": "0",
+    "total_score": "4",
+    "distance_by_vehicle_km": {
+      "V_1": "4"
+    },
+    "tardiness_by_original_order_seconds": {
+      "a": "0",
+      "b": "0"
+    },
+    "valid": true,
+    "finish_seconds": "8400.0",
+    "verified_legs": 4,
+    "completion_definition": "arrival at delivery factory, before queue/docking/unloading",
+    "assumptions_and_limits": [
+      "Scores the recorded local trajectory; does not prove identical dynamics to Xingtian.",
+      "Initial vehicle positions are inferred from first departures, not a run manifest.",
+      "No full capacity, LIFO, conditional splitting or locked-route feasibility audit.",
+      "Historical source/configuration identity is not cryptographically bound to this log.",
+      "Only the numeric elapsed-seconds column is used; wall-clock run date is unknown."
+    ]
+  },
+  "contract_version": "dpdp-execution-commitment-v3",
+  "contract_complete": true
+}

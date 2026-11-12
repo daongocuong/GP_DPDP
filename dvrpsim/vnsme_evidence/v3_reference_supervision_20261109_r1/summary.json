@@ -1,0 +1,78 @@
+{
+  "status": "NO_GO_FULL_REFERENCE",
+  "head": "0bd773291d5d9034f1e7b81688bc2dfaf87308c7",
+  "contract_version": "dpdp-execution-commitment-v3",
+  "fitness_version": "gp-fitness-vnsme-v3",
+  "regression": {
+    "tests": 192,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "wall_seconds": 50.344335900153965,
+    "passed": true
+  },
+  "synthetic_real_java": {
+    "valid": true,
+    "independent_rescore_matches": true,
+    "synthetic_orders": 2,
+    "synthetic_items": 2,
+    "java_invocations": 14,
+    "score": {
+      "vehicle_num": 1,
+      "original_orders": 2,
+      "items": 2,
+      "total_distance_km": "3",
+      "average_distance_km": "3",
+      "total_tardiness_seconds": "0",
+      "late_original_orders": 0,
+      "tardiness_penalty": "0",
+      "total_score": "3",
+      "distance_by_vehicle_km": {
+        "V_1": "3"
+      },
+      "tardiness_by_original_order_seconds": {
+        "a": "0",
+        "b": "0"
+      },
+      "valid": true,
+      "finish_seconds": "8400.0",
+      "verified_legs": 4,
+      "completion_definition": "arrival at delivery factory, before queue/docking/unloading",
+      "assumptions_and_limits": [
+        "Scores the recorded local trajectory; does not prove identical dynamics to Xingtian.",
+        "Initial vehicle positions are inferred from first departures, not a run manifest.",
+        "No full capacity, LIFO, conditional splitting or locked-route feasibility audit.",
+        "Historical source/configuration identity is not cryptographically bound to this log.",
+        "Only the numeric elapsed-seconds column is used; wall-clock run date is unknown."
+      ]
+    },
+    "reference": false,
+    "full_benchmark": false
+  },
+  "supervisor_smoke": {
+    "java_observed": true,
+    "cleanup": true,
+    "timeout_state": "TIMEOUT",
+    "gap_state": "MONITORING_GAP"
+  },
+  "historical_reference_v2_loader_scores": {
+    "2": "95.74",
+    "3": "97.44",
+    "4": "100.76",
+    "5": "3303.926666666666666666666667",
+    "6": "105.04"
+  },
+  "full_reference_rollouts": 0,
+  "gp_training_runs": 0,
+  "sealed_instance_rollouts": 0,
+  "sealed_instance_scoring": 0,
+  "sealed_csvs_read_for_checksum_schema_by_full_suite": true,
+  "sealed_csv_read_incident": "verify_existing invoked by existing full-suite tests; no scoring or rollout",
+  "blockers": [
+    "no completed real v3 reference end-to-end loader test",
+    "no independent complete replay of feasibility; recorded online guard is used",
+    "existing GP trainer is v2; v3 training protocol is disabled"
+  ],
+  "report_utf8": true,
+  "report_sha256": "3764d5e71bffedabf27d920b372a34e65f933d5401b63a5ad1181abdfb4acf59"
+}

@@ -1,0 +1,16 @@
+{
+  "epoch": 0,
+  "command": [
+    "C:\\Users\\Cuongdz\\.jdks\\openjdk-26.0.1\\bin\\java.EXE",
+    "-cp",
+    "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\build;C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\lib",
+    "main_algorithm"
+  ],
+  "cwd": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\vnsme_evidence\\v3_independent_audit_20261109_r1\\synthetic_run\\vnsme",
+  "valid": true,
+  "configured_timeout_seconds": 5.0,
+  "effective_timeout_seconds": 5.0,
+  "returncode": 0,
+  "solution_no": 0,
+  "wall_seconds": 0.1300093000754714
+}

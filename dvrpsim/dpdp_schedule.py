@@ -8,6 +8,7 @@ Equal-arrival future events use model vehicle order; see audit for limits.
 import heapq
 
 
+# Ghi chú: Dự báo lịch của các tuyến cố định bằng hàng đợi sự kiện và dock FCFS; không phát sinh đơn hoặc quyết định mới.
 def predict_fixed_routes(model):
     now = model.env.now
     vehicles = list(model.vehicles)
@@ -16,11 +17,13 @@ def predict_fixed_routes(model):
     queue = []
     serial = 0
 
+    # Ghi chú: Tổng thời gian chiếm dock của một visit = docking + dỡ hàng + nạp hàng.
     def duration(visit):
         return (model.private_data['docking_time'] +
                 sum(o.quantity * model.private_data['unloading_time'] for o in visit.delivery_list) +
                 sum(o.quantity * model.private_data['loading_time'] for o in visit.pickup_list))
 
+    # Ghi chú: Lưu giờ đến, bắt đầu phục vụ và rời đi; completion của item giao lấy giờ đến nhà máy.
     def record(vehicle, visit, arrival, start):
         leave = start + duration(visit)
         rows[vehicle.id].append(dict(factory=visit.location.id, arrival=arrival, start=start,
@@ -30,11 +33,13 @@ def predict_fixed_routes(model):
                                     leave=leave, completion={o.id: arrival for o in visit.delivery_list}))
         return leave
 
+    # Ghi chú: Đưa lần đến tiếp theo vào heap; serial giúp phá hòa sự kiện cùng thời điểm.
     def enqueue(vehicle, index, arrival):
         nonlocal serial
         serial += 1
         heapq.heappush(queue, (max(now, arrival), arrival, serial, vehicle, index))
 
+    # Ghi chú: Cộng thời gian di chuyển từ điểm vừa phục vụ và lên lịch visit kế tiếp.
     def next_visit(vehicle, index, factory, departure):
         route = vehicle.next_visits
         if index < len(route):
@@ -75,6 +80,7 @@ def predict_fixed_routes(model):
             origin = previous.location.id
             travel = 0 if origin == dest else model.private_data['travel_times'][(origin, dest)]
             enqueue(v, 0, previous.departure_time + travel)
+    # Ghi chú: Xử lý lần đến sớm nhất và chọn dock rảnh sớm nhất; xe có thể phải chờ dock trước khi phục vụ.
     while queue:
         _, arrival, _, v, index = heapq.heappop(queue)
         visit = v.current_visit if index == -1 else v.next_visits[index]

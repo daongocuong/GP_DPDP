@@ -1,0 +1,77 @@
+{
+  "all_pass": true,
+  "checks": {
+    "instance4_role_train": true,
+    "instance2_3_same_contract": true,
+    "same_source_revision": true,
+    "same_split_protocol": true,
+    "same_source_manifest": true,
+    "same_contract_descriptor": true,
+    "same_java_build": true,
+    "same_seed_and_simulation": true,
+    "same_runtime_and_budgets": true,
+    "java_preflight_matches": true,
+    "interrupted_java_gone": true,
+    "fresh_output_path": true,
+    "old_instance4_record_absent": true,
+    "instance3_record_accepted": true
+  },
+  "java_process_query": "INFO: No tasks are running which match the specified criteria.",
+  "instance4": {
+    "instance": 4,
+    "role": "train",
+    "orders": 50,
+    "items": 88,
+    "seed": 0,
+    "simulation": {
+      "dispatch_step_seconds": 600,
+      "docking_seconds": 1800,
+      "loading_seconds_per_quantity": 240,
+      "unloading_seconds_per_quantity": 240,
+      "lambda_": 10000,
+      "initial_location_seed": 0,
+      "safety_horizon_simulation_seconds": 604800,
+      "visit_merging": false,
+      "execution_time_in_simulation": "instantaneous, local simulator default"
+    },
+    "data_sha256": {
+      "orders": "7aa498dc8d9ccfc203fe4f15a07868efb7eaba9e402b88fa7ae5fea39fa7beda",
+      "vehicles": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+      "factories": "ed0f987404c09c0bf562212478784f29e29ce41f52cebbb277e1e219dd9a81e4",
+      "routes": "26e6cc70cf96c2a73e0ce3fdd9d002715a0719c92802544aa810b669772a3550"
+    },
+    "split_protocol_sha256": "21c7f62c06a4402214dd0051728bec4fb8051cb8ab420866cd565c669a49f859",
+    "source_manifest_sha256": "cf72390459bdb50facd666ae4dbbaa9b6712f2161d61ba6756309a0c100968bc",
+    "java_build_sha256": "49f85c57affe25a86e32522d82e16bde833c9211b7e34b56e08f79fd1f751046",
+    "contract_version": "dpdp-execution-commitment-v3",
+    "contract_protocol_sha256": "c751559337adbe2138a455819465764d726cf4bba26e5544715df4b90e44b6ed"
+  },
+  "java": {
+    "java_executable": "C:\\Users\\Cuongdz\\.jdks\\openjdk-26.0.1\\bin\\java.EXE",
+    "java_version": "openjdk version \"26.0.1\" 2026-04-21\nOpenJDK Runtime Environment (build 26.0.1+8-34)\nOpenJDK 64-Bit Server VM (build 26.0.1+8-34, mixed mode, sharing)\n"
+  },
+  "budgets": {
+    "java_cooperative_seconds": 540,
+    "epoch_seconds": 600,
+    "rollout_seconds": 10800
+  },
+  "restart_strategy": "fresh full rollout; no verified end-to-end checkpoint/resume exists",
+  "historical_instance4_epoch_correction": {
+    "started": 106,
+    "process_end_markers": 105,
+    "active_epoch": "00105"
+  },
+  "output": "vnsme_runs/v3_references_3_6_20261109_recovery_r1/instance_4",
+  "command": [
+    "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\.venv\\Scripts\\python.exe",
+    "-B",
+    "dpdp_vnsme_reference_v3.py",
+    "run",
+    "--contract-version",
+    "dpdp-execution-commitment-v3",
+    "--instance",
+    "4",
+    "--output",
+    "vnsme_runs\\v3_references_3_6_20261109_recovery_r1\\instance_4"
+  ]
+}

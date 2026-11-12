@@ -1,0 +1,246 @@
+"""Huawei JSON bridge for the unchanged Gold VNSME Java submission.
+
+Only released model.orders enter the bridge. The current visit is projected
+to its completed state, with its actual departure availability. Java owns its
+private solution.json across dispatches; only its published prefix is executed.
+"""
+import csv
+from datetime import datetime
+import json
+import math
+import os
+from pathlib import Path
+import shutil
+import subprocess
+from time import perf_counter
+
+ROOT = Path(__file__).resolve().parents[2]
+VENDOR = ROOT/'third_party/vnsme'
+
+
+def write_json(path, value):
+    path.write_text(json.dumps(value, indent=2, allow_nan=False), encoding='utf-8')
+
+
+def capture_bytes(value):
+    """TimeoutExpired output can be bytes or str, including in text mode."""
+    if value is None:
+        return b''
+    if isinstance(value, str):
+        return value.encode('utf-8', errors='replace')
+    return bytes(value)
+
+
+class VNSMEError(RuntimeError):
+    pass
+
+
+class JavaSession:
+    """One private CWD per rollout, immutable exchange archive per dispatch."""
+    def __init__(self, directory, factories, routes, timeout=600, java='java'):
+        self.directory = Path(directory).resolve()
+        self.directory.mkdir(parents=True, exist_ok=False)
+        self.exchange = self.directory/'algorithm/data_interaction'
+        self.exchange.mkdir(parents=True)
+        (self.directory/'algorithm/memory').mkdir()
+        (self.directory/'benchmark').mkdir()
+        (self.directory/'epochs').mkdir()
+        for name, source in [('factory_info.csv', factories), ('route_info.csv', routes)]:
+            shutil.copyfile(source, self.directory/'benchmark'/name)
+        self.timeout = timeout
+        if not math.isfinite(timeout) or timeout <= 0:
+            raise ValueError('VNSME timeout must be positive and finite')
+        executable = shutil.which(java)
+        if not executable:
+            raise VNSMEError(f'Missing Java executable: {java}')
+        if not (VENDOR/'build/main_algorithm.class').is_file():
+            raise VNSMEError('Missing VNSME build; run .venv/Scripts/python.exe build_vnsme.py')
+        from build_vnsme import hashes
+        build_manifest = json.loads((VENDOR/'build_manifest.json').read_text())
+        for folder, key in [('original', 'source_sha256'), ('lib', 'library_sha256'), ('build', 'class_sha256')]:
+            if hashes(VENDOR/folder) != build_manifest[key]:
+                raise VNSMEError(f'VNSME {folder} differs from build manifest; rebuild with build_vnsme.py')
+        self.command = [executable, '-cp', os.pathsep.join(map(str, [VENDOR/'build', VENDOR/'lib'])),
+                        'main_algorithm']
+        self.records = []
+        write_json(self.directory/'session.json', dict(command=self.command, cwd=str(self.directory),
+            java=subprocess.check_output([executable, '-version'], text=True, stderr=subprocess.STDOUT),
+            timeout_seconds=timeout, build_manifest=build_manifest))
+
+    def invoke(self, state, remaining=None):
+        index = len(self.records)
+        epoch = self.directory/'epochs'/f'{index:05d}'
+        epoch.mkdir()
+        record = dict(epoch=index, command=self.command, cwd=str(self.directory), valid=False,
+                      configured_timeout_seconds=self.timeout)
+        self.records.append(record)
+        start = perf_counter()
+        primary_error = None
+
+        def logging_failure(stage, error):
+            message = f'{stage}: {type(error).__name__}: {error}'
+            record.setdefault('diagnostic_errors', []).append(message)
+            # Also keep the failed diagnostic in the original traceback when
+            # invocation.json itself cannot be written (Python 3.11+).
+            if primary_error is not None and hasattr(primary_error, 'add_note'):
+                primary_error.add_note(f'VNSME diagnostic write failed: {message}')
+
+        try:
+            for key, name in [('vehicle_info', 'vehicle_info.json'), ('ongoing_orders', 'ongoing_order_items.json'),
+                              ('unallocated_orders', 'unallocated_order_items.json')]:
+                write_json(self.exchange/name, state[key])
+                shutil.copyfile(self.exchange/name, epoch/name)
+            # Absence before launch is the freshness test: equal consecutive
+            # decisions are legitimate, old output files are never accepted.
+            outputs = ['output_destination.json', 'output_route.json']
+            for name in outputs:
+                (self.exchange/name).unlink(missing_ok=True)
+            if (self.exchange/'solution.json').exists():
+                shutil.copyfile(self.exchange/'solution.json', epoch/'solution_before.json')
+            previous = (json.loads((self.exchange/'solution.json').read_text())
+                        if (self.exchange/'solution.json').exists() else None)
+            timeout = self.timeout if remaining is None else min(self.timeout, remaining)
+            record['effective_timeout_seconds'] = timeout
+            if timeout <= 0:
+                raise TimeoutError('rollout wall-time exhausted before VNSME dispatch')
+            result = subprocess.run(self.command, cwd=self.directory, capture_output=True,
+                                    timeout=timeout, text=True, encoding='utf-8', errors='replace')
+            (epoch/'stdout.txt').write_text(result.stdout, encoding='utf-8')
+            (epoch/'stderr.txt').write_text(result.stderr, encoding='utf-8')
+            record.update(returncode=result.returncode, effective_timeout_seconds=timeout)
+            if result.returncode or 'SUCCESS' not in result.stdout.split():
+                raise VNSMEError(f'Java failed: exit={result.returncode}; see {epoch}/stderr.txt')
+            for name in outputs + ['solution.json']:
+                path = self.exchange/name
+                if not path.is_file():
+                    raise VNSMEError(f'Java output missing: {path}')
+                shutil.copyfile(path, epoch/name)
+            solution = json.loads((self.exchange/'solution.json').read_text())
+            midnight = int(datetime.now().replace(hour=0, minute=0, second=0, microsecond=0).timestamp())
+            resets = (state['vehicle_info'][0]['update_time']-600 == midnight
+                      and all(v['destination'] is None for v in state['vehicle_info']))
+            expected_no = 0 if previous is None or resets else int(previous['no.'])+1
+            if not isinstance(solution, dict) or int(solution.get('no.', -1)) != expected_no:
+                raise VNSMEError(f'Java solution.json stale or invalid; expected no.={expected_no}')
+            if not isinstance(solution.get('route_after'), str):
+                raise VNSMEError('Java solution.json missing route_after')
+            record['solution_no'] = expected_no
+            destinations, routes = [json.loads((self.exchange/name).read_text()) for name in outputs]
+            fleet = {v['id'] for v in state['vehicle_info']}
+            if not isinstance(destinations, dict) or not isinstance(routes, dict) or set(destinations) != fleet or set(routes) != fleet:
+                raise VNSMEError('Java output must contain exactly every known vehicle in both JSON objects')
+            for v in fleet:
+                if not isinstance(routes[v], list) or (destinations[v] is None and routes[v]):
+                    raise VNSMEError(f'invalid destination/route schema for {v}')
+                for node in ([destinations[v]] if destinations[v] is not None else []) + routes[v]:
+                    if not isinstance(node, dict) or not isinstance(node.get('factory_id'), str):
+                        raise VNSMEError(f'invalid node for {v}')
+                    for key in ('pickup_item_list', 'delivery_item_list'):
+                        if not isinstance(node.get(key), list) or not all(isinstance(i, str) for i in node[key]):
+                            raise VNSMEError(f'invalid {key} for {v}')
+            record['valid'] = True
+            return dict(destinations=destinations, routes=routes)
+        except Exception as exc:
+            primary_error = exc
+            record['error'] = f'{type(exc).__name__}: {exc}'
+            if isinstance(exc, subprocess.TimeoutExpired):
+                record['timeout_seconds'] = exc.timeout
+                record['timeout_command'] = exc.cmd
+                for label, data in [('stdout', exc.stdout), ('stderr', exc.stderr)]:
+                    try:
+                        (epoch/f'{label}.txt').write_bytes(capture_bytes(data))
+                    except Exception as diagnostic_error:
+                        logging_failure(f'{label}.txt', diagnostic_error)
+            raise VNSMEError(f'VNSME epoch {index}: {record["error"]}; artifacts: {epoch}') from exc
+        finally:
+            record['wall_seconds'] = perf_counter()-start
+            try:
+                write_json(epoch/'invocation.json', record)
+            except Exception as diagnostic_error:
+                logging_failure('invocation.json', diagnostic_error)
+                if primary_error is None:
+                    # A successful subprocess without its invocation record
+                    # must not become a valid, untraceable decision.
+                    record['valid'] = False
+                    record['error'] = f'{type(diagnostic_error).__name__}: {diagnostic_error}'
+                    raise VNSMEError(f'Cannot record VNSME epoch {index}: {diagnostic_error}') from diagnostic_error
+
+
+def integer(value, label):
+    if not math.isfinite(value) or value != int(value) or not -(2**31) <= value < 2**31:
+        raise VNSMEError(f'Java requires integer seconds/capacity: {label}={value}')
+    return int(value)
+
+
+def huawei_state(model, epoch_origin, vehicle_metadata):
+    from dpdp_routing import get_dpdp_state
+    state = get_dpdp_state(model)
+    for v in state['vehicle_info']:
+        meta = vehicle_metadata[v['id']]
+        v.update(gps_id=meta['gps_id'], operation_time=int(meta['operation_time']))
+        v['capacity'] = integer(v['capacity'], 'capacity')
+        for key in ('update_time', 'arrive_time_at_current_factory', 'leave_time_at_current_factory'):
+            # A traveling vehicle's absent current times remain zero.
+            v[key] = integer(v[key] + (epoch_origin if key == 'update_time' or v['cur_factory_id'] else 0), key)
+        if v['destination']:
+            v['destination']['arrive_time'] = integer(v['destination']['arrive_time']+epoch_origin, 'destination arrival')
+            v['destination']['leave_time'] = 0
+    for key, status in [('unallocated_orders', 1), ('ongoing_orders', 2)]:
+        for item in state[key]:
+            pallet_type = {1: 'PALLET', .5: 'HALF_PALLET', .25: 'BOX'}.get(item['demand'])
+            if pallet_type is None:
+                raise VNSMEError(f'Unsupported Huawei item quantity: {item["id"]}={item["demand"]}')
+            item.update(type=pallet_type, delivery_state=status)
+            for field in ('creation_time', 'committed_completion_time', 'load_time', 'unload_time'):
+                item[field] = integer(item[field] + (epoch_origin if field in ('creation_time', 'committed_completion_time') else 0), field)
+    return state
+
+
+class VNSMEPolicy:
+    def __init__(self, directory, factories, routes, vehicles, timeout=600, java='java'):
+        self.session = JavaSession(directory, factories, routes, timeout, java)
+        with Path(vehicles).open(newline='', encoding='utf-8-sig') as handle:
+            self.vehicle_metadata = {r['car_num']: r for r in csv.DictReader(handle)}
+        # Original Java compares GPS timestamps with the host's current midnight.
+        self.epoch_origin = int(datetime.now().replace(hour=0, minute=0, second=0, microsecond=0).timestamp())
+        self.decisions = []
+
+    def decide(self, model, remaining=None):
+        from dpdp_routing import transform_dpdp_decision
+        from dpdp_insertion import Snapshot
+        snapshot = Snapshot.observe(model)
+        state = huawei_state(model, self.epoch_origin, self.vehicle_metadata)
+        if [v['id'] for v in state['vehicle_info']] != [f'V_{i+1}' for i in range(len(state['vehicle_info']))]:
+            raise VNSMEError('Original Java requires vehicle order V_1 through V_n')
+        output = self.session.invoke(state, remaining)
+        locations = {loc.id for loc in model.locations}
+        for vehicle in output['destinations']:
+            nodes = ([output['destinations'][vehicle]] if output['destinations'][vehicle] else []) + output['routes'][vehicle]
+            for node in nodes:
+                if node['factory_id'] not in locations:
+                    raise VNSMEError(f'Java returned unknown factory {node["factory_id"]}')
+                for i in node['pickup_item_list'] + node['delivery_item_list']:
+                    if i not in snapshot.objects:
+                        raise VNSMEError(f'Java returned unknown or unreleased item {i}')
+        for vehicle, locked in snapshot.fleet.items():
+            node = output['destinations'][vehicle]
+            if locked.destination:
+                if node is None or node['factory_id'] != locked.destination.factory:
+                    raise VNSMEError(f'Java changed locked destination for {vehicle}')
+                expected = integer(locked.destination.arrival+self.epoch_origin, 'locked arrival')
+                if node.get('arrive_time') != expected:
+                    raise VNSMEError(f'Java changed locked arrival for {vehicle}: {node.get("arrive_time")} != {expected}')
+        raw = transform_dpdp_decision(model, output)
+        # Huawei unallocated means not loaded, including already planned items.
+        # Accept only actually published items; delayed items remain open.
+        planned = {i for p in raw['vehicles'].values() for n in p['next_visits']
+                   for i in n['pickup_list'] + n['delivery_list']}
+        raw['orders'] = {o.id: {'status': 'accepted'} for o in model.open_orders if o.id in planned}
+        # No accepted/ongoing commitment may disappear from the published plan.
+        for i, o in snapshot.objects.items():
+            if o.is_accepted and not o.is_delivered and i not in planned:
+                if not any(p.current and i in p.current.pickups+p.current.deliveries for p in snapshot.plans.values()):
+                    raise VNSMEError(f'Java dropped previously accepted item {i}')
+        self.decisions.append(dict(simulation_seconds=model.env.now, examined=0, rejected=0,
+                                   deferred=[o.id for o in model.open_orders if o.id not in planned]))
+        return raw

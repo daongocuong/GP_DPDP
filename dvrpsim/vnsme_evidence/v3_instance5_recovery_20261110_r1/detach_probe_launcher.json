@@ -1,0 +1,12 @@
+{
+    "pid":  35212,
+    "started_utc":  "2026-11-10T06:01:04.3733137Z",
+    "executable":  "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\.venv\\Scripts\\python.exe",
+    "arguments":  [
+                      "-B",
+                      "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\vnsme_evidence\\v3_instance5_recovery_20261110_r1\\supervisor_detach_probe.py"
+                  ],
+    "working_directory":  "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim",
+    "stdout":  "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\vnsme_evidence\\v3_instance5_recovery_20261110_r1\\detach_probe_stdout.log",
+    "stderr":  "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\vnsme_evidence\\v3_instance5_recovery_20261110_r1\\detach_probe_stderr.log"
+}

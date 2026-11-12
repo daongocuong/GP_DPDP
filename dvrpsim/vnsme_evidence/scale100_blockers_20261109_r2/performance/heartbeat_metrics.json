@@ -1,0 +1,751 @@
+{
+  "count": 360,
+  "child_sample_count": 61,
+  "child_names": {
+    "conhost.exe": 60,
+    "python.exe": 60
+  },
+  "java_child_samples": 0,
+  "child_cpu_observations": {
+    "24608": [
+      {
+        "at": "2026-11-09T12:33:25.251708+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.015625
+      },
+      {
+        "at": "2026-11-09T12:34:25.669428+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.140625
+      },
+      {
+        "at": "2026-11-09T12:35:26.103490+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.140625
+      },
+      {
+        "at": "2026-11-09T12:36:26.555104+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.140625
+      },
+      {
+        "at": "2026-11-09T12:37:26.955581+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.140625
+      },
+      {
+        "at": "2026-11-09T12:38:27.391200+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.140625
+      },
+      {
+        "at": "2026-11-09T12:39:27.793997+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.140625
+      },
+      {
+        "at": "2026-11-09T12:40:28.187731+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.140625
+      },
+      {
+        "at": "2026-11-09T12:41:28.629527+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.140625
+      },
+      {
+        "at": "2026-11-09T12:42:29.030307+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.140625
+      },
+      {
+        "at": "2026-11-09T12:43:29.478591+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T12:44:29.933752+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T12:45:30.328890+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T12:46:30.707402+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T12:47:31.108444+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T12:48:31.508880+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T12:49:31.962591+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T12:50:32.388896+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T12:51:32.784850+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T12:52:33.190822+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T12:53:33.585338+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T12:54:33.962258+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T12:55:34.402851+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T12:56:34.846119+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T12:57:35.274815+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T12:58:35.660459+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T12:59:36.040091+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:00:36.486235+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:01:36.882888+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:02:37.297052+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:03:37.727726+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:04:38.139947+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:05:38.617280+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:06:39.008680+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:07:39.433407+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:08:39.889265+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:09:40.345998+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:10:40.783144+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:11:41.169302+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:12:41.568311+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:13:42.029259+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:14:42.515927+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:15:42.964979+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:16:43.448286+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:17:43.900678+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:18:44.301903+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:19:44.693607+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:20:45.120941+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:21:45.539223+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:22:45.959243+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:23:46.420472+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:24:46.863406+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:25:47.246560+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:26:47.631675+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:27:48.039550+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.15625
+      },
+      {
+        "at": "2026-11-09T13:28:48.414249+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.171875
+      },
+      {
+        "at": "2026-11-09T13:29:48.836884+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.171875
+      },
+      {
+        "at": "2026-11-09T13:30:49.248372+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.171875
+      },
+      {
+        "at": "2026-11-09T13:31:49.622614+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.171875
+      },
+      {
+        "at": "2026-11-09T13:32:50.012646+07:00",
+        "name": "conhost.exe",
+        "cpu_seconds": 0.171875
+      }
+    ],
+    "15852": [
+      {
+        "at": "2026-11-09T12:33:25.251708+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 0.28125
+      },
+      {
+        "at": "2026-11-09T12:34:25.669428+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 2.640625
+      },
+      {
+        "at": "2026-11-09T12:35:26.103490+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 2.75
+      },
+      {
+        "at": "2026-11-09T12:36:26.555104+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 3.078125
+      },
+      {
+        "at": "2026-11-09T12:37:26.955581+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 3.421875
+      },
+      {
+        "at": "2026-11-09T12:38:27.391200+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 3.671875
+      },
+      {
+        "at": "2026-11-09T12:39:27.793997+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 3.84375
+      },
+      {
+        "at": "2026-11-09T12:40:28.187731+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 4.03125
+      },
+      {
+        "at": "2026-11-09T12:41:28.629527+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 4.28125
+      },
+      {
+        "at": "2026-11-09T12:42:29.030307+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 4.6875
+      },
+      {
+        "at": "2026-11-09T12:43:29.478591+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 5.125
+      },
+      {
+        "at": "2026-11-09T12:44:29.933752+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 5.25
+      },
+      {
+        "at": "2026-11-09T12:45:30.328890+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 5.421875
+      },
+      {
+        "at": "2026-11-09T12:46:30.707402+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 5.515625
+      },
+      {
+        "at": "2026-11-09T12:47:31.108444+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 5.609375
+      },
+      {
+        "at": "2026-11-09T12:48:31.508880+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 5.78125
+      },
+      {
+        "at": "2026-11-09T12:49:31.962591+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 5.859375
+      },
+      {
+        "at": "2026-11-09T12:50:32.388896+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 5.921875
+      },
+      {
+        "at": "2026-11-09T12:51:32.784850+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 6.03125
+      },
+      {
+        "at": "2026-11-09T12:52:33.190822+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 6.171875
+      },
+      {
+        "at": "2026-11-09T12:53:33.585338+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 6.296875
+      },
+      {
+        "at": "2026-11-09T12:54:33.962258+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 6.5
+      },
+      {
+        "at": "2026-11-09T12:55:34.402851+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 6.625
+      },
+      {
+        "at": "2026-11-09T12:56:34.846119+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 6.734375
+      },
+      {
+        "at": "2026-11-09T12:57:35.274815+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 6.875
+      },
+      {
+        "at": "2026-11-09T12:58:35.660459+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 7.0
+      },
+      {
+        "at": "2026-11-09T12:59:36.040091+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 7.171875
+      },
+      {
+        "at": "2026-11-09T13:00:36.486235+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 7.25
+      },
+      {
+        "at": "2026-11-09T13:01:36.882888+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 7.34375
+      },
+      {
+        "at": "2026-11-09T13:02:37.297052+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 7.5
+      },
+      {
+        "at": "2026-11-09T13:03:37.727726+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 7.625
+      },
+      {
+        "at": "2026-11-09T13:04:38.139947+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 7.71875
+      },
+      {
+        "at": "2026-11-09T13:05:38.617280+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 7.796875
+      },
+      {
+        "at": "2026-11-09T13:06:39.008680+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 7.921875
+      },
+      {
+        "at": "2026-11-09T13:07:39.433407+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 8.09375
+      },
+      {
+        "at": "2026-11-09T13:08:39.889265+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 8.1875
+      },
+      {
+        "at": "2026-11-09T13:09:40.345998+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 8.328125
+      },
+      {
+        "at": "2026-11-09T13:10:40.783144+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 8.59375
+      },
+      {
+        "at": "2026-11-09T13:11:41.169302+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 8.765625
+      },
+      {
+        "at": "2026-11-09T13:12:41.568311+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 8.984375
+      },
+      {
+        "at": "2026-11-09T13:13:42.029259+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 9.25
+      },
+      {
+        "at": "2026-11-09T13:14:42.515927+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 9.46875
+      },
+      {
+        "at": "2026-11-09T13:15:42.964979+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 9.84375
+      },
+      {
+        "at": "2026-11-09T13:16:43.448286+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 9.96875
+      },
+      {
+        "at": "2026-11-09T13:17:43.900678+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 10.09375
+      },
+      {
+        "at": "2026-11-09T13:18:44.301903+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 10.265625
+      },
+      {
+        "at": "2026-11-09T13:19:44.693607+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 10.421875
+      },
+      {
+        "at": "2026-11-09T13:20:45.120941+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 10.515625
+      },
+      {
+        "at": "2026-11-09T13:21:45.539223+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 10.625
+      },
+      {
+        "at": "2026-11-09T13:22:45.959243+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 10.8125
+      },
+      {
+        "at": "2026-11-09T13:23:46.420472+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 10.9375
+      },
+      {
+        "at": "2026-11-09T13:24:46.863406+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 10.953125
+      },
+      {
+        "at": "2026-11-09T13:25:47.246560+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 11.15625
+      },
+      {
+        "at": "2026-11-09T13:26:47.631675+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 11.375
+      },
+      {
+        "at": "2026-11-09T13:27:48.039550+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 11.484375
+      },
+      {
+        "at": "2026-11-09T13:28:48.414249+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 11.59375
+      },
+      {
+        "at": "2026-11-09T13:29:48.836884+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 11.703125
+      },
+      {
+        "at": "2026-11-09T13:30:49.248372+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 11.796875
+      },
+      {
+        "at": "2026-11-09T13:31:49.622614+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 11.953125
+      },
+      {
+        "at": "2026-11-09T13:32:50.012646+07:00",
+        "name": "python.exe",
+        "cpu_seconds": 12.125
+      }
+    ]
+  },
+  "largest_gaps": [
+    {
+      "from_at": "2026-11-09T13:33:30.424291+07:00",
+      "to_at": "2026-11-09T14:34:15.143679+07:00",
+      "wall_seconds": 3644.719388,
+      "monotonic_seconds": 3644.7193767996505,
+      "clock_difference_seconds": 1.120034949053661e-05,
+      "from_epoch": "00127",
+      "to_epoch": "00127"
+    },
+    {
+      "from_at": "2026-11-09T13:04:38.139947+07:00",
+      "to_at": "2026-11-09T13:04:48.600032+07:00",
+      "wall_seconds": 10.460085,
+      "monotonic_seconds": 10.460083900019526,
+      "clock_difference_seconds": 1.0999804729294738e-06,
+      "from_epoch": "00105",
+      "to_epoch": "00105"
+    },
+    {
+      "from_at": "2026-11-09T13:13:42.029259+07:00",
+      "to_at": "2026-11-09T13:13:52.488277+07:00",
+      "wall_seconds": 10.459018,
+      "monotonic_seconds": 10.459018700290471,
+      "clock_difference_seconds": -7.002904709452196e-07,
+      "from_epoch": "00120",
+      "to_epoch": "00120"
+    },
+    {
+      "from_at": "2026-11-09T13:15:42.964979+07:00",
+      "to_at": "2026-11-09T13:15:53.415661+07:00",
+      "wall_seconds": 10.450682,
+      "monotonic_seconds": 10.450672300066799,
+      "clock_difference_seconds": 9.699933201545718e-06,
+      "from_epoch": "00120",
+      "to_epoch": "00120"
+    },
+    {
+      "from_at": "2026-11-09T13:22:45.959243+07:00",
+      "to_at": "2026-11-09T13:22:56.402133+07:00",
+      "wall_seconds": 10.44289,
+      "monotonic_seconds": 10.442890599835664,
+      "clock_difference_seconds": -5.998356638059477e-07,
+      "from_epoch": "00122",
+      "to_epoch": "00122"
+    },
+    {
+      "from_at": "2026-11-09T13:07:39.433407+07:00",
+      "to_at": "2026-11-09T13:07:49.871108+07:00",
+      "wall_seconds": 10.437701,
+      "monotonic_seconds": 10.437702700030059,
+      "clock_difference_seconds": -1.7000300580605199e-06,
+      "from_epoch": "00105",
+      "to_epoch": "00105"
+    },
+    {
+      "from_at": "2026-11-09T12:43:29.478591+07:00",
+      "to_at": "2026-11-09T12:43:39.915926+07:00",
+      "wall_seconds": 10.437335,
+      "monotonic_seconds": 10.437334700021893,
+      "clock_difference_seconds": 2.9997810635506994e-07,
+      "from_epoch": "00103",
+      "to_epoch": "00103"
+    },
+    {
+      "from_at": "2026-11-09T13:08:39.889265+07:00",
+      "to_at": "2026-11-09T13:08:50.326024+07:00",
+      "wall_seconds": 10.436759,
+      "monotonic_seconds": 10.436774199828506,
+      "clock_difference_seconds": -1.519982850517465e-05,
+      "from_epoch": "00105",
+      "to_epoch": "00105"
+    },
+    {
+      "from_at": "2026-11-09T12:48:31.508880+07:00",
+      "to_at": "2026-11-09T12:48:41.945477+07:00",
+      "wall_seconds": 10.436597,
+      "monotonic_seconds": 10.436597099993378,
+      "clock_difference_seconds": -9.999337713395562e-08,
+      "from_epoch": "00103",
+      "to_epoch": "00103"
+    },
+    {
+      "from_at": "2026-11-09T12:35:26.103490+07:00",
+      "to_at": "2026-11-09T12:35:36.539248+07:00",
+      "wall_seconds": 10.435758,
+      "monotonic_seconds": 10.435760600026697,
+      "clock_difference_seconds": -2.6000266970527264e-06,
+      "from_epoch": "00087",
+      "to_epoch": "00087"
+    }
+  ],
+  "gaps_over_15_seconds": [
+    {
+      "from_at": "2026-11-09T13:33:30.424291+07:00",
+      "to_at": "2026-11-09T14:34:15.143679+07:00",
+      "wall_seconds": 3644.719388,
+      "monotonic_seconds": 3644.7193767996505,
+      "clock_difference_seconds": 1.120034949053661e-05,
+      "from_epoch": "00127",
+      "to_epoch": "00127"
+    }
+  ],
+  "final_beat": {
+    "observed_at": "2026-11-09T14:34:15.143679+07:00",
+    "instance": 10,
+    "runner_pid": 30776,
+    "elapsed_seconds": 7249.901504599955,
+    "last_epoch": "00127",
+    "completed_epochs": 127,
+    "last_epoch_age_seconds": 3985.552523612976,
+    "last_epoch_files": [
+      "ongoing_order_items.json",
+      "solution_before.json",
+      "unallocated_order_items.json",
+      "vehicle_info.json"
+    ],
+    "last_completed_invocation": {
+      "epoch": 126,
+      "command": [
+        "C:\\Users\\Cuongdz\\.jdks\\openjdk-26.0.1\\bin\\java.EXE",
+        "-cp",
+        "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\build;C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\lib",
+        "main_algorithm"
+      ],
+      "cwd": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\vnsme_runs\\scale100_reference_20261109_r1\\instance_10\\vnsme",
+      "valid": true,
+      "returncode": 0,
+      "effective_timeout_seconds": 600.0,
+      "solution_no": 125,
+      "wall_seconds": 0.1920791999436915
+    },
+    "child_processes": []
+  },
+  "execution_ended_at": "2026-11-09T15:43:13.637137+07:00",
+  "final_beat_to_recorded_end_seconds": 4138.493458
+}

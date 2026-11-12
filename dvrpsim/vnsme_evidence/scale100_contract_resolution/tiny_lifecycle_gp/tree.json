@@ -1,0 +1,49 @@
+{
+  "format": "dpdp-gp-tree-v1",
+  "tree": {
+    "feature": "delta_distance_km"
+  },
+  "expression": "delta_distance_km",
+  "tree_sha256": "ea55b04af35cdf2d292fe1a686897e7e080eefef100dad0ab63f1adf0e2796a6",
+  "primitives": [
+    "+",
+    "-",
+    "*",
+    "/"
+  ],
+  "features": [
+    {
+      "name": "delta_distance_km",
+      "unit": "km, all vehicles"
+    },
+    {
+      "name": "delta_tardiness_seconds",
+      "unit": "seconds, original orders, all vehicles"
+    },
+    {
+      "name": "delta_waiting_seconds",
+      "unit": "vehicle-seconds, all vehicles"
+    },
+    {
+      "name": "new_order_slack_seconds",
+      "unit": "seconds, due minus latest admitted original-order arrival"
+    },
+    {
+      "name": "min_residual_capacity",
+      "unit": "standard-pallet quantity, selected vehicle remaining route"
+    }
+  ],
+  "numeric_policy": {
+    "epsilon": 1e-09,
+    "protected_division": "return numerator if abs(denominator)<=epsilon",
+    "saturation": 1000000000000.0,
+    "nonfinite": "raise NumericTreeError; invalidate entire rollout"
+  },
+  "limits": {
+    "max_depth": 4,
+    "max_nodes": 31
+  },
+  "nodes": 1,
+  "depth": 0,
+  "training": {}
+}

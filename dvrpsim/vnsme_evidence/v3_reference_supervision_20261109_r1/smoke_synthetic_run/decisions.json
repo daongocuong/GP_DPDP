@@ -1,0 +1,172 @@
+{
+  "timings": [
+    {
+      "simulation_seconds": 0,
+      "wall_seconds": 0.11453380016610026,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 600,
+      "wall_seconds": 0.10032919980585575,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 1200,
+      "wall_seconds": 0.11150550004094839,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 1800,
+      "wall_seconds": 0.11105090007185936,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 2400,
+      "wall_seconds": 0.10965519957244396,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 3000,
+      "wall_seconds": 0.10344639979302883,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 3600,
+      "wall_seconds": 0.10089590027928352,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 4200,
+      "wall_seconds": 0.10212920000776649,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 4800,
+      "wall_seconds": 0.09993290016427636,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 5400,
+      "wall_seconds": 0.10274879960343242,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 6000,
+      "wall_seconds": 0.09783290000632405,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 6600,
+      "wall_seconds": 0.12080409983173013,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 7200,
+      "wall_seconds": 0.10089419968426228,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 7800,
+      "wall_seconds": 0.09615259990096092,
+      "guard_passed": true
+    }
+  ],
+  "insertion": [
+    {
+      "simulation_seconds": 0,
+      "examined": 0,
+      "rejected": 0,
+      "deferred": []
+    },
+    {
+      "simulation_seconds": 600,
+      "examined": 0,
+      "rejected": 0,
+      "deferred": []
+    },
+    {
+      "simulation_seconds": 1200,
+      "examined": 0,
+      "rejected": 0,
+      "deferred": []
+    },
+    {
+      "simulation_seconds": 1800,
+      "examined": 0,
+      "rejected": 0,
+      "deferred": []
+    },
+    {
+      "simulation_seconds": 2400,
+      "examined": 0,
+      "rejected": 0,
+      "deferred": [
+        "b-1"
+      ]
+    },
+    {
+      "simulation_seconds": 3000,
+      "examined": 0,
+      "rejected": 0,
+      "deferred": [
+        "b-1"
+      ]
+    },
+    {
+      "simulation_seconds": 3600,
+      "examined": 0,
+      "rejected": 0,
+      "deferred": [
+        "b-1"
+      ]
+    },
+    {
+      "simulation_seconds": 4200,
+      "examined": 0,
+      "rejected": 0,
+      "deferred": []
+    },
+    {
+      "simulation_seconds": 4800,
+      "examined": 0,
+      "rejected": 0,
+      "deferred": []
+    },
+    {
+      "simulation_seconds": 5400,
+      "examined": 0,
+      "rejected": 0,
+      "deferred": []
+    },
+    {
+      "simulation_seconds": 6000,
+      "examined": 0,
+      "rejected": 0,
+      "deferred": []
+    },
+    {
+      "simulation_seconds": 6600,
+      "examined": 0,
+      "rejected": 0,
+      "deferred": [
+        "a-1"
+      ]
+    },
+    {
+      "simulation_seconds": 7200,
+      "examined": 0,
+      "rejected": 0,
+      "deferred": [
+        "a-1"
+      ]
+    },
+    {
+      "simulation_seconds": 7800,
+      "examined": 0,
+      "rejected": 0,
+      "deferred": [
+        "a-1"
+      ]
+    }
+  ]
+}

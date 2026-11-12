@@ -1,0 +1,3 @@
+# Preserve the byte-level checksum of the new versioned contract on checkout.
+protocols/dpdp_execution_commitment_v3.json text eol=lf
+protocols/dpdp_execution_commitment_v3.json.sha256 text eol=lf

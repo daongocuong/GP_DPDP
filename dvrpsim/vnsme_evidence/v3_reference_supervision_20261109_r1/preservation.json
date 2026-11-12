@@ -1,0 +1,11 @@
+{
+  "start_snapshots_unchanged": {
+    "run_dpdp_insertion.py": true,
+    "dpdp_contract.py": true,
+    "dpdp_vnsme_reference.py": true
+  },
+  "prior_evidence_pins_pass": true,
+  "prior_evidence_checked": 43,
+  "held_out_benchmark_csvs_read_by_this_script": false,
+  "adapter_changed_for_v3_only": true
+}

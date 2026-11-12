@@ -1,0 +1,315 @@
+{
+  "timings": [
+    {
+      "simulation_seconds": 0,
+      "wall_seconds": 0.0008728001266717911,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 600,
+      "wall_seconds": 0.00029869982972741127,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 1200,
+      "wall_seconds": 0.0002500000409781933,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 1800,
+      "wall_seconds": 0.00039350008592009544,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 2400,
+      "wall_seconds": 0.0003599999472498894,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 3000,
+      "wall_seconds": 0.00024319998919963837,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 3600,
+      "wall_seconds": 0.00023409957066178322,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 4200,
+      "wall_seconds": 0.00022540008649230003,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 4800,
+      "wall_seconds": 0.00019880011677742004,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 5400,
+      "wall_seconds": 0.00020120013505220413,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 6000,
+      "wall_seconds": 0.00019829999655485153,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 6600,
+      "wall_seconds": 0.00016850000247359276,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 7200,
+      "wall_seconds": 0.00015170034021139145,
+      "guard_passed": true
+    },
+    {
+      "simulation_seconds": 7800,
+      "wall_seconds": 0.0002608001232147217,
+      "guard_passed": true
+    }
+  ],
+  "insertion": [
+    {
+      "simulation_seconds": 0,
+      "examined": 7,
+      "rejected": 2,
+      "forecasted": 5,
+      "reasons": {
+        "LIFO": 2
+      },
+      "examples": {
+        "LIFO": "LIFO: vehicle=V_1, item=b-1, step=future[2]/delivery[0]: top=a-1"
+      },
+      "chosen": [
+        {
+          "order": "a",
+          "group": 0,
+          "items": [
+            "a-1"
+          ],
+          "vehicle": "V_1",
+          "pickup_index": 0,
+          "delivery_index": 1,
+          "ranking_score": 2.0,
+          "features": {
+            "delta_distance_km": 2.0,
+            "delta_tardiness_seconds": 0,
+            "delta_waiting_seconds": 0.0,
+            "new_order_slack_seconds": 12320.0,
+            "min_residual_capacity": 14.0
+          }
+        },
+        {
+          "order": "b",
+          "group": 0,
+          "items": [
+            "b-1"
+          ],
+          "vehicle": "V_1",
+          "pickup_index": 0,
+          "delivery_index": 1,
+          "ranking_score": 1.0,
+          "features": {
+            "delta_distance_km": 1.0,
+            "delta_tardiness_seconds": 0,
+            "delta_waiting_seconds": 0.0,
+            "new_order_slack_seconds": 12340.0,
+            "min_residual_capacity": 14.0
+          }
+        }
+      ],
+      "deferred": [],
+      "feasibility_wall_seconds": 0.00019149994477629662,
+      "forecast_wall_seconds": 0.00017890054732561111,
+      "wall_seconds": 0.0007569999434053898,
+      "admitted_items": 2,
+      "observed_items": 2,
+      "pending_items": []
+    },
+    {
+      "simulation_seconds": 600,
+      "examined": 0,
+      "rejected": 0,
+      "forecasted": 0,
+      "reasons": {},
+      "examples": {},
+      "chosen": [],
+      "deferred": [],
+      "wall_seconds": 0.00017690006643533707,
+      "admitted_items": 2,
+      "observed_items": 2,
+      "pending_items": []
+    },
+    {
+      "simulation_seconds": 1200,
+      "examined": 0,
+      "rejected": 0,
+      "forecasted": 0,
+      "reasons": {},
+      "examples": {},
+      "chosen": [],
+      "deferred": [],
+      "wall_seconds": 0.00013749999925494194,
+      "admitted_items": 2,
+      "observed_items": 2,
+      "pending_items": []
+    },
+    {
+      "simulation_seconds": 1800,
+      "examined": 0,
+      "rejected": 0,
+      "forecasted": 0,
+      "reasons": {},
+      "examples": {},
+      "chosen": [],
+      "deferred": [],
+      "wall_seconds": 0.0002685999497771263,
+      "admitted_items": 2,
+      "observed_items": 2,
+      "pending_items": []
+    },
+    {
+      "simulation_seconds": 2400,
+      "examined": 0,
+      "rejected": 0,
+      "forecasted": 0,
+      "reasons": {},
+      "examples": {},
+      "chosen": [],
+      "deferred": [],
+      "wall_seconds": 0.00023030024021863937,
+      "admitted_items": 2,
+      "observed_items": 2,
+      "pending_items": []
+    },
+    {
+      "simulation_seconds": 3000,
+      "examined": 0,
+      "rejected": 0,
+      "forecasted": 0,
+      "reasons": {},
+      "examples": {},
+      "chosen": [],
+      "deferred": [],
+      "wall_seconds": 0.00013560010120272636,
+      "admitted_items": 2,
+      "observed_items": 2,
+      "pending_items": []
+    },
+    {
+      "simulation_seconds": 3600,
+      "examined": 0,
+      "rejected": 0,
+      "forecasted": 0,
+      "reasons": {},
+      "examples": {},
+      "chosen": [],
+      "deferred": [],
+      "wall_seconds": 0.00013269996270537376,
+      "admitted_items": 2,
+      "observed_items": 2,
+      "pending_items": []
+    },
+    {
+      "simulation_seconds": 4200,
+      "examined": 0,
+      "rejected": 0,
+      "forecasted": 0,
+      "reasons": {},
+      "examples": {},
+      "chosen": [],
+      "deferred": [],
+      "wall_seconds": 0.00013399962335824966,
+      "admitted_items": 2,
+      "observed_items": 2,
+      "pending_items": []
+    },
+    {
+      "simulation_seconds": 4800,
+      "examined": 0,
+      "rejected": 0,
+      "forecasted": 0,
+      "reasons": {},
+      "examples": {},
+      "chosen": [],
+      "deferred": [],
+      "wall_seconds": 0.00010460009798407555,
+      "admitted_items": 2,
+      "observed_items": 2,
+      "pending_items": []
+    },
+    {
+      "simulation_seconds": 5400,
+      "examined": 0,
+      "rejected": 0,
+      "forecasted": 0,
+      "reasons": {},
+      "examples": {},
+      "chosen": [],
+      "deferred": [],
+      "wall_seconds": 0.00011079991236329079,
+      "admitted_items": 2,
+      "observed_items": 2,
+      "pending_items": []
+    },
+    {
+      "simulation_seconds": 6000,
+      "examined": 0,
+      "rejected": 0,
+      "forecasted": 0,
+      "reasons": {},
+      "examples": {},
+      "chosen": [],
+      "deferred": [],
+      "wall_seconds": 0.00010700011625885963,
+      "admitted_items": 2,
+      "observed_items": 2,
+      "pending_items": []
+    },
+    {
+      "simulation_seconds": 6600,
+      "examined": 0,
+      "rejected": 0,
+      "forecasted": 0,
+      "reasons": {},
+      "examples": {},
+      "chosen": [],
+      "deferred": [],
+      "wall_seconds": 9.300000965595245e-05,
+      "admitted_items": 2,
+      "observed_items": 2,
+      "pending_items": []
+    },
+    {
+      "simulation_seconds": 7200,
+      "examined": 0,
+      "rejected": 0,
+      "forecasted": 0,
+      "reasons": {},
+      "examples": {},
+      "chosen": [],
+      "deferred": [],
+      "wall_seconds": 8.409982547163963e-05,
+      "admitted_items": 2,
+      "observed_items": 2,
+      "pending_items": []
+    },
+    {
+      "simulation_seconds": 7800,
+      "examined": 0,
+      "rejected": 0,
+      "forecasted": 0,
+      "reasons": {},
+      "examples": {},
+      "chosen": [],
+      "deferred": [],
+      "wall_seconds": 0.00010700011625885963,
+      "admitted_items": 2,
+      "observed_items": 2,
+      "pending_items": []
+    }
+  ]
+}

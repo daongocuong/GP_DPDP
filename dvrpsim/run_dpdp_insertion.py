@@ -29,18 +29,23 @@ from dpdp_feasibility import Plan, Visit
 from dpdp_insertion import InsertionPolicy, Snapshot, FEATURE_UNITS
 from verify_dpdp_score import verify
 from dpdp_dataset import resolve_inputs
+from dpdp_contract import (LEGACY_CONTRACT, EXECUTION_CONTRACT, CONTRACT_VERSIONS,
+                           ExecutionCommitment, contract_metadata, plans_from_raw)
 
 
+# Ghi chú: Tính SHA-256 của nội dung file để ghi nhận chính xác phiên bản source hoặc dữ liệu.
 def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+# Ghi chú: Ghi JSON vào file mới; chế độ x ngăn ghi đè artifact đã tồn tại.
 def dump(path, value):
     with Path(path).open('x', encoding='utf-8') as handle:
         json.dump(value, handle, indent=2, default=str)
 
 
 class RunLog(DefaultLoggingCallback):
+    # Ghi chú: Tạo logger riêng cho rollout và lưu simulation.log để scorer có thể kiểm tra lại.
     def _configure_logger(self):
         self.logger = logging.Logger(f'dpdp-run-{self.model.run_dir}', logging.DEBUG)
         self.logger.propagate = False
@@ -51,42 +56,48 @@ class RunLog(DefaultLoggingCallback):
     # Default logger suppresses zero-distance same-factory transitions. Preserve
     # all logical visits in NEW logs so the independent verifier can locate
     # every actual arrival, including a separate visit at the same factory.
+    # Ghi chú: Ghi mọi lần rời nhà máy, kể cả chặng cùng nhà máy, để giữ đầy đủ visit trong log.
     def on_departure(self, vehicle):
         self.logger.info(f'{self._prefix} {vehicle} | departed from {vehicle.previous_location} to {vehicle.next_location}')
 
+    # Ghi chú: Ghi thời điểm xe đến nhà máy làm căn cứ đối chiếu hành trình và thời điểm giao hàng.
     def on_arrival(self, vehicle):
         self.logger.info(f'{self._prefix} {vehicle} | arrived at {vehicle.current_location}')
 
 
+# Ghi chú: Đổi decision thành kế hoạch, kiểm tra khả thi rồi ghi cam kết V3 và trace trước khi simulator thực thi.
 def guard_raw_decision(model, raw):
     snapshot = Snapshot.observe(model)
-    plans = {}
-    for vehicle, plan in snapshot.plans.items():
-        decision = raw['vehicles'].get(vehicle)
-        if decision is None or decision.get('next_visits') is None:
-            plans[vehicle] = plan
-            continue
-        route = tuple(Visit(node['location'], tuple(node.get('delivery_list', [])),
-                            tuple(node.get('pickup_list', []))) for node in decision['next_visits'])
-        locked = snapshot.fleet[vehicle].destination
-        if locked and route and route[0].factory == locked.factory:
-            route = (replace(route[0], arrival=locked.arrival),) + route[1:]
-        if decision.get('current_visit') is not None:
-            raise ValueError('runner policies must preserve current work')
-        plans[vehicle] = Plan(plan.current, route)
+    plans = plans_from_raw(snapshot, raw)
     admitted = snapshot.admitted(plans)
     newly_accepted = {i for i, value in raw['orders'].items() if value['status'] == 'accepted'}
     if not newly_accepted <= admitted:
         raise ValueError('accepted item missing from route')
     snapshot.check(plans, admitted)
+    contract = getattr(model, 'commitment_contract', None)
+    if contract is not None:
+        contract.record(snapshot, raw, plans)
+    writer = getattr(model, 'audit_trace_writer', None)
+    if writer is not None:
+        writer.decision(snapshot, raw, plans)
     return plans
 
 
 class RunModel(dpdp_main.DPDPModel):
-    def __init__(self, mode, run_dir, tree_path=None, vnsme_config=None):
+    # Ghi chú: Chọn policy GP/VNSME/demo và contract; GP dùng cây xếp hạng, VNSME dùng adapter gọi Java.
+    def __init__(self, mode, run_dir, tree_path=None, vnsme_config=None, contract_version=LEGACY_CONTRACT):
         if mode not in ('gp', 'vnsme', 'demo'):
             raise ValueError(f'unsupported policy: {mode}')
         self.mode, self.run_dir = mode, run_dir
+        contract_metadata(contract_version)
+        if contract_version == EXECUTION_CONTRACT and mode not in ('gp', 'vnsme'):
+            raise ValueError('execution commitment contract requires gp or vnsme')
+        self.contract_version = contract_version
+        self.commitment_contract = ExecutionCommitment() if contract_version == EXECUTION_CONTRACT else None
+        self.audit_trace_writer = None
+        if contract_version == EXECUTION_CONTRACT:
+            from dpdp_v3_trace import TraceWriter
+            self.audit_trace_writer = TraceWriter(run_dir/'decision_trace.jsonl')
         self.ranker = None
         if mode == 'gp':
             from dpdp_gp import TreeRanker, load_tree
@@ -95,17 +106,20 @@ class RunModel(dpdp_main.DPDPModel):
         self.policy = InsertionPolicy(self.ranker) if mode == 'gp' else None
         if mode == 'vnsme':
             from baselines.vnsme import VNSMEPolicy
-            self.policy = VNSMEPolicy(run_dir/'vnsme', **vnsme_config)
+            self.policy = VNSMEPolicy(run_dir/'vnsme', contract=self.commitment_contract, **vnsme_config)
         self.wall_deadline = None
         self.decision_times = []
         super().__init__()
 
+    # Ghi chú: Gắn logger của rollout thay cho logger mặc định của model.
     def _init_logger(self):
         self.log = RunLog(self)
 
+    # Ghi chú: Tạo thư mục trao đổi dữ liệu bên trong output riêng của rollout.
     def init(self):
         (self.run_dir / 'interaction').mkdir()
 
+    # Ghi chú: Tại mỗi kỳ định tuyến: gọi policy, kiểm decision qua guard và đo thời gian tính toán thực.
     def routing_callback(self):
         start = perf_counter()
         if self.mode == 'vnsme':
@@ -127,11 +141,14 @@ class RunModel(dpdp_main.DPDPModel):
         return raw
 
 
-def manifest(mode, orders, vehicles, max_seconds, factories=None, routes=None):
+# Ghi chú: Chụp cấu hình, môi trường, hash source/dữ liệu và contract để truy nguồn kết quả rollout.
+def manifest(mode, orders, vehicles, max_seconds, factories=None, routes=None, contract_version=LEGACY_CONTRACT):
+    # Ghi chú: Đọc thông tin Git phục vụ manifest; không thay đổi working tree hoặc index.
     def git(*args):
         return subprocess.check_output(['git', '-C', str(ROOT), *args], text=True).strip()
     files = [p for p in ROOT.rglob('*.py') if not any(x in p.parts for x in (
         '.git', '.venv', '__pycache__', 'vnsme_runs', 'third_party'))]
+    # Ghi chú: Ưu tiên đường dẫn tương đối với project, giữ đường dẫn tuyệt đối nếu file ở bên ngoài.
     def label(path):
         try:
             return str(path.resolve().relative_to(ROOT))
@@ -151,14 +168,18 @@ def manifest(mode, orders, vehicles, max_seconds, factories=None, routes=None):
                 primary_evaluation_baseline='vnsme', gp_fitness_reference='vnsme',
                 feature_units=FEATURE_UNITS, visit_merging=False,
                 logging='all logical arrivals/departures, including zero-distance same-factory visits',
-                execution_time_in_simulation='instantaneous, local simulator default')
+                execution_time_in_simulation='instantaneous, local simulator default',
+                **contract_metadata(contract_version))
 
 
+# Ghi chú: Điều phối một rollout: kiểm CLI, dựng model, chạy sự kiện đến hoàn tất rồi kiểm điểm và lưu kết quả.
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--policy', choices=('demo', 'gp', 'vnsme'), required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--tree', type=Path)
+    parser.add_argument('--contract-version', choices=CONTRACT_VERSIONS, default=LEGACY_CONTRACT,
+                        help='v3 is an opt-in semantic revision; legacy references are not certified for it')
     inputs = parser.add_mutually_exclusive_group()
     inputs.add_argument('--instance', type=int, choices=(1, 17), default=None)
     inputs.add_argument('--instance-directory', type=Path)
@@ -178,13 +199,17 @@ def main():
         parser.error('--tree is required for gp')
     if args.tree is not None and args.policy != 'gp':
         parser.error('--tree is only applicable to gp')
+    if args.contract_version == EXECUTION_CONTRACT and args.policy not in ('gp', 'vnsme'):
+        parser.error('v3 contract is supported only for gp and vnsme')
+    contract_metadata(args.contract_version)
     if Path(sys.executable).resolve() != (ROOT/'.venv/Scripts/python.exe').resolve():
         parser.error('Use the repository .venv/Scripts/python.exe')
     directory = args.output.resolve()
     directory.mkdir(parents=True, exist_ok=False)
     paths = resolve_inputs(args.instance, args.instance_directory, args.data_directory)
     orders, vehicles, factories, routes = (paths[k] for k in ('orders', 'vehicles', 'factories', 'routes'))
-    metadata = manifest(args.policy, orders, vehicles, args.max_simulation_seconds, factories, routes)
+    metadata = manifest(args.policy, orders, vehicles, args.max_simulation_seconds, factories, routes,
+                        contract_version=args.contract_version)
     metadata.update(instance=paths['instance'], wall_limit_seconds=args.wall_seconds,
                     instance_directory=str(paths['directory']),
                     input_paths={k: str(paths[k]) for k in ('orders', 'vehicles', 'factories', 'routes')})
@@ -201,7 +226,7 @@ def main():
     # Reuse the actual builder, provider, updater, vehicles and benchmark settings.
     try:
         model = RunModel(args.policy, directory, args.tree, dict(factories=factories, routes=routes,
-            vehicles=vehicles, timeout=args.vnsme_epoch_seconds, java=args.java))
+            vehicles=vehicles, timeout=args.vnsme_epoch_seconds, java=args.java), contract_version=args.contract_version)
     except Exception as exc:
         error = f'{type(exc).__name__}: {exc}'
         dump(directory/'failure.json', dict(error=error, stage='initialization', traceback=traceback.format_exc()))
@@ -218,6 +243,7 @@ def main():
     try:
         model.init()
         model.on_simulation_start()
+        # Ghi chú: Tiến từng sự kiện SimPy; wall-time và thời gian mô phỏng là hai giới hạn khác nhau.
         while model.env.peek() != float('inf'):
             if perf_counter()-start > args.wall_seconds:
                 raise TimeoutError('run wall-time limit reached; run invalid')
@@ -229,9 +255,12 @@ def main():
         model.on_simulation_finish()
         if len(list(model.delivered_orders)) != len(probdata['orders']):
             raise ValueError('not all requested items delivered')
+        if model.commitment_contract is not None:
+            model.commitment_contract.finish(Snapshot.observe(model), set(probdata['orders']))
         simulation_wall_seconds = perf_counter()-start
         for handler in model.log.logger.handlers:
             handler.flush()
+        # Ghi chú: Chỉ chấm điểm sau khi đã giao đủ item và qua cổng hoàn tất contract.
         score = verify(directory/'simulation.log', orders, vehicles, routes)
         if perf_counter()-start > args.wall_seconds:
             raise TimeoutError('run wall-time limit reached during final scoring; run invalid')
@@ -243,6 +272,8 @@ def main():
     elapsed = perf_counter()-start
     policy_decisions = model.policy.decisions if model.policy else []
     dump(directory/'decisions.json', dict(timings=model.decision_times, insertion=policy_decisions))
+    if model.commitment_contract is not None:
+        dump(directory/'commitments.json', model.commitment_contract.export())
     summary = dict(valid=valid, error=error, total_wall_seconds=elapsed,
                    simulation_wall_seconds=locals().get('simulation_wall_seconds'),
                    simulation_finish_seconds=model.env.now, vehicles=len(list(model.vehicles)),
@@ -257,7 +288,8 @@ def main():
                    decision_wall_seconds_total=sum(d['wall_seconds'] for d in model.decision_times),
                    decision_wall_seconds_max=max((d['wall_seconds'] for d in model.decision_times), default=0),
                    gp_evaluation=model.ranker.stats if model.ranker else None,
-                   score=score)
+                   score=score, contract_version=args.contract_version,
+                   contract_complete=model.commitment_contract.completed if model.commitment_contract is not None else None)
     dump(directory/'result.json', summary)
     for handler in model.log.logger.handlers:
         handler.close()

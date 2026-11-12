@@ -1,0 +1,38 @@
+ M dvrpsim/dpdp_dataset.py
+ M dvrpsim/dpdp_vnsme_reference.py
+ M dvrpsim/examples/case_studies/dpdp/dpdp_problemdata.py
+ M dvrpsim/prepare_dpdp_data.py
+ M dvrpsim/run_dpdp_insertion.py
+ M dvrpsim/src/baselines/vnsme.py
+ M dvrpsim/test_dpdp_dataset.py
+ M dvrpsim/test_dpdp_gp.py
+ M dvrpsim/verify_dpdp_score.py
+?? TIEN_DO_GP_DPDP.md
+?? dvrpsim/.gitattributes
+?? dvrpsim/dpdp_contract.py
+?? dvrpsim/dpdp_gp_fitness_v3.py
+?? dvrpsim/dpdp_sealed.py
+?? dvrpsim/dpdp_v3_independent_audit.py
+?? dvrpsim/dpdp_v3_supervisor.py
+?? dvrpsim/dpdp_v3_trace.py
+?? dvrpsim/dpdp_vnsme_reference_v3.py
+?? dvrpsim/protocols/dpdp_execution_commitment_v3.json
+?? dvrpsim/protocols/dpdp_execution_commitment_v3.json.sha256
+?? dvrpsim/protocols/dpdp_gp_vnsme_v3_draft.json
+?? dvrpsim/protocols/dpdp_gp_vnsme_v3_draft.json.sha256
+?? dvrpsim/protocols/dpdp_official_experiment_v1.json
+?? dvrpsim/protocols/dpdp_official_experiment_v1.json.sha256
+?? dvrpsim/test_dpdp_execution_contract.py
+?? dvrpsim/test_dpdp_policy_audit.py
+?? dvrpsim/test_dpdp_sealed.py
+?? dvrpsim/test_dpdp_v3_independent_audit.py
+?? dvrpsim/test_dpdp_v3_reference.py
+?? dvrpsim/test_dpdp_v3_supervisor.py
+?? dvrpsim/test_dpdp_vnsme_scale100.py
+?? dvrpsim/test_dpdp_vnsme_timeout.py
+?? dvrpsim/vnsme_evidence/scale100_blockers_20261109_r2/
+?? dvrpsim/vnsme_evidence/scale100_contract_resolution/
+?? dvrpsim/vnsme_evidence/v3_independent_audit_20261109_r1/
+?? dvrpsim/vnsme_evidence/v3_reference_supervision_20261109_r1/
+?? dvrpsim/vnsme_evidence/v3_references_3_6_20261109_r1/
+?? dvrpsim/vnsme_evidence/v3_references_3_6_20261109_recovery_r1/

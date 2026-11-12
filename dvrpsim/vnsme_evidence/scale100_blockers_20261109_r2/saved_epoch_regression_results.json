@@ -1,0 +1,82 @@
+{
+  "command": ".venv\\Scripts\\python.exe -B -m unittest test_dpdp_vnsme_scale100 -v",
+  "test_count": 7,
+  "passed": true,
+  "java_search_launched": false,
+  "simulator_rollout_launched": false,
+  "fixture_pin_count": 433,
+  "cases": [
+    {
+      "instance": 9,
+      "epoch": 61,
+      "simulation_seconds": 36600.0,
+      "observed_items": 59,
+      "accepted_items": 58,
+      "completed_items": 39,
+      "current_physical_loads": {
+        "V_1": [],
+        "V_2": [
+          "0654310031-1",
+          "0654310031-2"
+        ],
+        "V_3": [],
+        "V_4": [],
+        "V_5": []
+      },
+      "published_accepted_items_missing": [
+        "0949430034-1",
+        "0949430034-2"
+      ],
+      "first_accepted_at_simulation_seconds": {
+        "0949430034-1": 35400.0,
+        "0949430034-2": 35400.0
+      },
+      "restored_huawei_input_equals_archive": true,
+      "prior_published_remaining_plan_feasible": true,
+      "archived_publication_rejected": true,
+      "archived_result_valid": false,
+      "archived_result_score": null
+    },
+    {
+      "instance": 13,
+      "epoch": 22,
+      "simulation_seconds": 13200.0,
+      "observed_items": 16,
+      "accepted_items": 15,
+      "completed_items": 2,
+      "current_physical_loads": {
+        "V_1": [],
+        "V_2": [],
+        "V_3": [],
+        "V_4": [],
+        "V_5": [
+          "0034500003-1",
+          "0033490002-1"
+        ]
+      },
+      "published_accepted_items_missing": [
+        "0316410009-1",
+        "0325060010-1",
+        "0325060010-2",
+        "0325060010-3",
+        "0325060010-4",
+        "0325060010-5",
+        "0325060010-6"
+      ],
+      "first_accepted_at_simulation_seconds": {
+        "0316410009-1": 12000.0,
+        "0325060010-1": 12600.0,
+        "0325060010-2": 12600.0,
+        "0325060010-3": 12600.0,
+        "0325060010-4": 12600.0,
+        "0325060010-5": 12600.0,
+        "0325060010-6": 12600.0
+      },
+      "restored_huawei_input_equals_archive": true,
+      "prior_published_remaining_plan_feasible": true,
+      "archived_publication_rejected": true,
+      "archived_result_valid": false,
+      "archived_result_score": null
+    }
+  ]
+}

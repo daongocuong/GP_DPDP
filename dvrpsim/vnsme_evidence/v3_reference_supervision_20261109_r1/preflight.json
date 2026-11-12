@@ -1,0 +1,300 @@
+{
+  "instances": [
+    {
+      "instance": 2,
+      "role": "train",
+      "split_protocol_sha256": "21c7f62c06a4402214dd0051728bec4fb8051cb8ab420866cd565c669a49f859",
+      "source_manifest_sha256": "cf72390459bdb50facd666ae4dbbaa9b6712f2161d61ba6756309a0c100968bc",
+      "data_sha256": {
+        "orders": "821e18a3388d0e93b79f6b2c8a6158a84a9ae443c289546cda58120a93b889e1",
+        "vehicles": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+        "factories": "ed0f987404c09c0bf562212478784f29e29ce41f52cebbb277e1e219dd9a81e4",
+        "routes": "26e6cc70cf96c2a73e0ce3fdd9d002715a0719c92802544aa810b669772a3550"
+      },
+      "input_paths": {
+        "orders": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\instance_2\\50_2.csv",
+        "vehicles": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\instance_2\\vehicle_info_5.csv",
+        "factories": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\factory_info.csv",
+        "routes": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\route_info.csv"
+      },
+      "items": 110,
+      "orders": 50,
+      "seed": 0,
+      "simulation": {
+        "dispatch_step_seconds": 600,
+        "docking_seconds": 1800,
+        "loading_seconds_per_quantity": 240,
+        "unloading_seconds_per_quantity": 240,
+        "lambda_": 10000,
+        "initial_location_seed": 0,
+        "safety_horizon_simulation_seconds": 604800,
+        "visit_merging": false,
+        "execution_time_in_simulation": "instantaneous, local simulator default"
+      },
+      "java_build_sha256": "49f85c57affe25a86e32522d82e16bde833c9211b7e34b56e08f79fd1f751046",
+      "contract_version": "dpdp-execution-commitment-v3",
+      "contract_protocol": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\protocols\\dpdp_execution_commitment_v3.json",
+      "contract_protocol_sha256": "c751559337adbe2138a455819465764d726cf4bba26e5544715df4b90e44b6ed"
+    },
+    {
+      "instance": 3,
+      "role": "train",
+      "split_protocol_sha256": "21c7f62c06a4402214dd0051728bec4fb8051cb8ab420866cd565c669a49f859",
+      "source_manifest_sha256": "cf72390459bdb50facd666ae4dbbaa9b6712f2161d61ba6756309a0c100968bc",
+      "data_sha256": {
+        "orders": "4cf3b10bf5c198cbdfb1a4169948e56d51f4d502299a26584e26b4aee17ce03d",
+        "vehicles": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+        "factories": "ed0f987404c09c0bf562212478784f29e29ce41f52cebbb277e1e219dd9a81e4",
+        "routes": "26e6cc70cf96c2a73e0ce3fdd9d002715a0719c92802544aa810b669772a3550"
+      },
+      "input_paths": {
+        "orders": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\instance_3\\50_3.csv",
+        "vehicles": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\instance_3\\vehicle_info_5.csv",
+        "factories": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\factory_info.csv",
+        "routes": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\route_info.csv"
+      },
+      "items": 78,
+      "orders": 50,
+      "seed": 0,
+      "simulation": {
+        "dispatch_step_seconds": 600,
+        "docking_seconds": 1800,
+        "loading_seconds_per_quantity": 240,
+        "unloading_seconds_per_quantity": 240,
+        "lambda_": 10000,
+        "initial_location_seed": 0,
+        "safety_horizon_simulation_seconds": 604800,
+        "visit_merging": false,
+        "execution_time_in_simulation": "instantaneous, local simulator default"
+      },
+      "java_build_sha256": "49f85c57affe25a86e32522d82e16bde833c9211b7e34b56e08f79fd1f751046",
+      "contract_version": "dpdp-execution-commitment-v3",
+      "contract_protocol": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\protocols\\dpdp_execution_commitment_v3.json",
+      "contract_protocol_sha256": "c751559337adbe2138a455819465764d726cf4bba26e5544715df4b90e44b6ed"
+    },
+    {
+      "instance": 4,
+      "role": "train",
+      "split_protocol_sha256": "21c7f62c06a4402214dd0051728bec4fb8051cb8ab420866cd565c669a49f859",
+      "source_manifest_sha256": "cf72390459bdb50facd666ae4dbbaa9b6712f2161d61ba6756309a0c100968bc",
+      "data_sha256": {
+        "orders": "7aa498dc8d9ccfc203fe4f15a07868efb7eaba9e402b88fa7ae5fea39fa7beda",
+        "vehicles": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+        "factories": "ed0f987404c09c0bf562212478784f29e29ce41f52cebbb277e1e219dd9a81e4",
+        "routes": "26e6cc70cf96c2a73e0ce3fdd9d002715a0719c92802544aa810b669772a3550"
+      },
+      "input_paths": {
+        "orders": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\instance_4\\50_4.csv",
+        "vehicles": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\instance_4\\vehicle_info_5.csv",
+        "factories": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\factory_info.csv",
+        "routes": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\route_info.csv"
+      },
+      "items": 88,
+      "orders": 50,
+      "seed": 0,
+      "simulation": {
+        "dispatch_step_seconds": 600,
+        "docking_seconds": 1800,
+        "loading_seconds_per_quantity": 240,
+        "unloading_seconds_per_quantity": 240,
+        "lambda_": 10000,
+        "initial_location_seed": 0,
+        "safety_horizon_simulation_seconds": 604800,
+        "visit_merging": false,
+        "execution_time_in_simulation": "instantaneous, local simulator default"
+      },
+      "java_build_sha256": "49f85c57affe25a86e32522d82e16bde833c9211b7e34b56e08f79fd1f751046",
+      "contract_version": "dpdp-execution-commitment-v3",
+      "contract_protocol": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\protocols\\dpdp_execution_commitment_v3.json",
+      "contract_protocol_sha256": "c751559337adbe2138a455819465764d726cf4bba26e5544715df4b90e44b6ed"
+    },
+    {
+      "instance": 5,
+      "role": "train",
+      "split_protocol_sha256": "21c7f62c06a4402214dd0051728bec4fb8051cb8ab420866cd565c669a49f859",
+      "source_manifest_sha256": "cf72390459bdb50facd666ae4dbbaa9b6712f2161d61ba6756309a0c100968bc",
+      "data_sha256": {
+        "orders": "8dea81615c650af39ea9e0eb179448b3ede9e935c854847584c85844221eb172",
+        "vehicles": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+        "factories": "ed0f987404c09c0bf562212478784f29e29ce41f52cebbb277e1e219dd9a81e4",
+        "routes": "26e6cc70cf96c2a73e0ce3fdd9d002715a0719c92802544aa810b669772a3550"
+      },
+      "input_paths": {
+        "orders": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\instance_5\\50_5.csv",
+        "vehicles": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\instance_5\\vehicle_info_5.csv",
+        "factories": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\factory_info.csv",
+        "routes": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\route_info.csv"
+      },
+      "items": 107,
+      "orders": 50,
+      "seed": 0,
+      "simulation": {
+        "dispatch_step_seconds": 600,
+        "docking_seconds": 1800,
+        "loading_seconds_per_quantity": 240,
+        "unloading_seconds_per_quantity": 240,
+        "lambda_": 10000,
+        "initial_location_seed": 0,
+        "safety_horizon_simulation_seconds": 604800,
+        "visit_merging": false,
+        "execution_time_in_simulation": "instantaneous, local simulator default"
+      },
+      "java_build_sha256": "49f85c57affe25a86e32522d82e16bde833c9211b7e34b56e08f79fd1f751046",
+      "contract_version": "dpdp-execution-commitment-v3",
+      "contract_protocol": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\protocols\\dpdp_execution_commitment_v3.json",
+      "contract_protocol_sha256": "c751559337adbe2138a455819465764d726cf4bba26e5544715df4b90e44b6ed"
+    },
+    {
+      "instance": 6,
+      "role": "validation",
+      "split_protocol_sha256": "21c7f62c06a4402214dd0051728bec4fb8051cb8ab420866cd565c669a49f859",
+      "source_manifest_sha256": "cf72390459bdb50facd666ae4dbbaa9b6712f2161d61ba6756309a0c100968bc",
+      "data_sha256": {
+        "orders": "d2460f831de4f10242d7e7c93ac89f8a307d1643ed3299633723172ef28192a3",
+        "vehicles": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+        "factories": "ed0f987404c09c0bf562212478784f29e29ce41f52cebbb277e1e219dd9a81e4",
+        "routes": "26e6cc70cf96c2a73e0ce3fdd9d002715a0719c92802544aa810b669772a3550"
+      },
+      "input_paths": {
+        "orders": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\instance_6\\50_6.csv",
+        "vehicles": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\instance_6\\vehicle_info_5.csv",
+        "factories": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\factory_info.csv",
+        "routes": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\route_info.csv"
+      },
+      "items": 86,
+      "orders": 50,
+      "seed": 0,
+      "simulation": {
+        "dispatch_step_seconds": 600,
+        "docking_seconds": 1800,
+        "loading_seconds_per_quantity": 240,
+        "unloading_seconds_per_quantity": 240,
+        "lambda_": 10000,
+        "initial_location_seed": 0,
+        "safety_horizon_simulation_seconds": 604800,
+        "visit_merging": false,
+        "execution_time_in_simulation": "instantaneous, local simulator default"
+      },
+      "java_build_sha256": "49f85c57affe25a86e32522d82e16bde833c9211b7e34b56e08f79fd1f751046",
+      "contract_version": "dpdp-execution-commitment-v3",
+      "contract_protocol": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\protocols\\dpdp_execution_commitment_v3.json",
+      "contract_protocol_sha256": "c751559337adbe2138a455819465764d726cf4bba26e5544715df4b90e44b6ed"
+    },
+    {
+      "instance": 9,
+      "role": "train",
+      "split_protocol_sha256": "21c7f62c06a4402214dd0051728bec4fb8051cb8ab420866cd565c669a49f859",
+      "source_manifest_sha256": "cf72390459bdb50facd666ae4dbbaa9b6712f2161d61ba6756309a0c100968bc",
+      "data_sha256": {
+        "orders": "6e7225d59b26f955166591beebf575a8fd97e10fd719a0762a851a393cda1962",
+        "vehicles": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+        "factories": "ed0f987404c09c0bf562212478784f29e29ce41f52cebbb277e1e219dd9a81e4",
+        "routes": "26e6cc70cf96c2a73e0ce3fdd9d002715a0719c92802544aa810b669772a3550"
+      },
+      "input_paths": {
+        "orders": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\instance_9\\100_1.csv",
+        "vehicles": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\instance_9\\vehicle_info_5.csv",
+        "factories": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\factory_info.csv",
+        "routes": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\route_info.csv"
+      },
+      "items": 175,
+      "orders": 100,
+      "seed": 0,
+      "simulation": {
+        "dispatch_step_seconds": 600,
+        "docking_seconds": 1800,
+        "loading_seconds_per_quantity": 240,
+        "unloading_seconds_per_quantity": 240,
+        "lambda_": 10000,
+        "initial_location_seed": 0,
+        "safety_horizon_simulation_seconds": 604800,
+        "visit_merging": false,
+        "execution_time_in_simulation": "instantaneous, local simulator default"
+      },
+      "java_build_sha256": "49f85c57affe25a86e32522d82e16bde833c9211b7e34b56e08f79fd1f751046",
+      "contract_version": "dpdp-execution-commitment-v3",
+      "contract_protocol": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\protocols\\dpdp_execution_commitment_v3.json",
+      "contract_protocol_sha256": "c751559337adbe2138a455819465764d726cf4bba26e5544715df4b90e44b6ed"
+    },
+    {
+      "instance": 10,
+      "role": "train",
+      "split_protocol_sha256": "21c7f62c06a4402214dd0051728bec4fb8051cb8ab420866cd565c669a49f859",
+      "source_manifest_sha256": "cf72390459bdb50facd666ae4dbbaa9b6712f2161d61ba6756309a0c100968bc",
+      "data_sha256": {
+        "orders": "afe4fb32865d95056a90ef8b9aad4c137cf7bc1aa76f701a78274091704e025c",
+        "vehicles": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+        "factories": "ed0f987404c09c0bf562212478784f29e29ce41f52cebbb277e1e219dd9a81e4",
+        "routes": "26e6cc70cf96c2a73e0ce3fdd9d002715a0719c92802544aa810b669772a3550"
+      },
+      "input_paths": {
+        "orders": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\instance_10\\100_2.csv",
+        "vehicles": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\instance_10\\vehicle_info_5.csv",
+        "factories": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\factory_info.csv",
+        "routes": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\route_info.csv"
+      },
+      "items": 295,
+      "orders": 100,
+      "seed": 0,
+      "simulation": {
+        "dispatch_step_seconds": 600,
+        "docking_seconds": 1800,
+        "loading_seconds_per_quantity": 240,
+        "unloading_seconds_per_quantity": 240,
+        "lambda_": 10000,
+        "initial_location_seed": 0,
+        "safety_horizon_simulation_seconds": 604800,
+        "visit_merging": false,
+        "execution_time_in_simulation": "instantaneous, local simulator default"
+      },
+      "java_build_sha256": "49f85c57affe25a86e32522d82e16bde833c9211b7e34b56e08f79fd1f751046",
+      "contract_version": "dpdp-execution-commitment-v3",
+      "contract_protocol": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\protocols\\dpdp_execution_commitment_v3.json",
+      "contract_protocol_sha256": "c751559337adbe2138a455819465764d726cf4bba26e5544715df4b90e44b6ed"
+    },
+    {
+      "instance": 13,
+      "role": "validation",
+      "split_protocol_sha256": "21c7f62c06a4402214dd0051728bec4fb8051cb8ab420866cd565c669a49f859",
+      "source_manifest_sha256": "cf72390459bdb50facd666ae4dbbaa9b6712f2161d61ba6756309a0c100968bc",
+      "data_sha256": {
+        "orders": "efe90a6c4b6079f9c2c633fd4c153d526abd16f3d2b06968b9ff5c10a02cd697",
+        "vehicles": "48b5d211ec606d25f37280f8c115c21ec2de1a7680c905bdc6fcf02ee9c15430",
+        "factories": "ed0f987404c09c0bf562212478784f29e29ce41f52cebbb277e1e219dd9a81e4",
+        "routes": "26e6cc70cf96c2a73e0ce3fdd9d002715a0719c92802544aa810b669772a3550"
+      },
+      "input_paths": {
+        "orders": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\instance_13\\100_5.csv",
+        "vehicles": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\instance_13\\vehicle_info_5.csv",
+        "factories": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\factory_info.csv",
+        "routes": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\datasets\\xingtian\\e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04\\benchmark\\route_info.csv"
+      },
+      "items": 157,
+      "orders": 100,
+      "seed": 0,
+      "simulation": {
+        "dispatch_step_seconds": 600,
+        "docking_seconds": 1800,
+        "loading_seconds_per_quantity": 240,
+        "unloading_seconds_per_quantity": 240,
+        "lambda_": 10000,
+        "initial_location_seed": 0,
+        "safety_horizon_simulation_seconds": 604800,
+        "visit_merging": false,
+        "execution_time_in_simulation": "instantaneous, local simulator default"
+      },
+      "java_build_sha256": "49f85c57affe25a86e32522d82e16bde833c9211b7e34b56e08f79fd1f751046",
+      "contract_version": "dpdp-execution-commitment-v3",
+      "contract_protocol": "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\protocols\\dpdp_execution_commitment_v3.json",
+      "contract_protocol_sha256": "c751559337adbe2138a455819465764d726cf4bba26e5544715df4b90e44b6ed"
+    }
+  ],
+  "java": {
+    "java_executable": "C:\\Users\\Cuongdz\\.jdks\\openjdk-26.0.1\\bin\\java.EXE",
+    "java_version": "openjdk version \"26.0.1\" 2026-04-21\nOpenJDK Runtime Environment (build 26.0.1+8-34)\nOpenJDK 64-Bit Server VM (build 26.0.1+8-34, mixed mode, sharing)\n"
+  },
+  "head": "0bd773291d5d9034f1e7b81688bc2dfaf87308c7",
+  "rollouts": 0,
+  "training": 0,
+  "final_test_instances_opened": false
+}

@@ -1,0 +1,64 @@
+{
+  "protocol": "dpdp-official-experiment-v1",
+  "client_date": "2026-11-09",
+  "timezone": "Asia/Bangkok",
+  "description": "Official multi-instance GP experiment protocol comparing GP against VNSME baseline on 50-order DPDP",
+  "split_protocol": "protocols/dpdp_gp_split_v1.json",
+  "split_protocol_sha256": "cf72390459bdb50facd666ae4dbbaa9b6712f2161d61ba6756309a0c100968bc",
+  "baseline_protocol": "protocols/dpdp_vnsme_fitness_v2.json",
+  "baseline_summary": "migration_runs/vnsme_reference_ready/summary.json",
+  "baseline_summary_sha256": "cf44e4a41cc7e1f29dbf98cd968a555d6dcefe0aade6a49d4e1575fbbf47f02d",
+  "primary_baseline": "vnsme",
+  "fitness_version": "gp-fitness-vnsme-v2",
+  "partitions": {
+    "train_instances": [2, 3, 4, 5],
+    "validation_instances": [6],
+    "final_test_sealed_instances": [7, 8]
+  },
+  "measured_runtime_budget": {
+    "measured_rollout_wall_seconds_per_instance": 2.5,
+    "target_evolution_wall_seconds": 350,
+    "rationale": "Empirical measurement in smoke_test_measure_20261109 yielded ~100s for 16 process rollouts. Pop=6, Gen=3 estimates ~80 rollouts taking ~300-360 seconds."
+  },
+  "training_hyperparameters": {
+    "population_size": 6,
+    "generations": 3,
+    "seed": 20261109,
+    "tournament_size": 3,
+    "crossover_rate": 0.8,
+    "mutation_rate": 0.3,
+    "elitism": 1,
+    "max_tree_depth": 4,
+    "max_nodes": 31,
+    "environment_seed": 0,
+    "rollout_timeout_seconds": 30.0
+  },
+  "fitness_function": {
+    "training": "mean(J_GP(i) / J_VNSME(i)) for i in [2, 3, 4, 5]",
+    "penalty": 1000000000.0,
+    "invalid_condition": "Any unhandled exception, feasibility violation, timeout, or nonfinite score"
+  },
+  "model_selection": {
+    "criterion": "Lowest J_GP(6) / J_VNSME(6) among trees with valid train and validation rollouts",
+    "tie_breaks": [
+      "Lower mean training fitness ratio",
+      "Lower tree node count (parsimony)",
+      "Lexicographical canonical tree string"
+    ],
+    "final_test_isolation": "Final test instances 7 and 8 are strictly sealed; NEVER consulted during training or selection"
+  },
+  "final_evaluation_protocol": {
+    "instances": [7, 8],
+    "execution_runs": 1,
+    "policies": ["gp", "vnsme"],
+    "metrics": [
+      "total_distance_km",
+      "total_tardiness_seconds",
+      "total_score_J",
+      "ratio_J_GP_over_J_VNSME",
+      "completed_orders",
+      "completed_items",
+      "dispatch_wall_seconds"
+    ]
+  }
+}

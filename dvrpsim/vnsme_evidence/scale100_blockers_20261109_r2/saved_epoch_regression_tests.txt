@@ -1,0 +1,12 @@
+test_references_2_through_6_load_rescore_and_keep_pinned_artifacts_unchanged (test_dpdp_vnsme_scale100.ImmutableReferenceTests.test_references_2_through_6_load_rescore_and_keep_pinned_artifacts_unchanged) ... ok
+test_capacity_lifo_and_precedence_remain_enforced_on_each_restored_epoch (test_dpdp_vnsme_scale100.SavedScale100EpochTests.test_capacity_lifo_and_precedence_remain_enforced_on_each_restored_epoch) ... ok
+test_complete_remaining_plan_validator_also_rejects_both_publications (test_dpdp_vnsme_scale100.SavedScale100EpochTests.test_complete_remaining_plan_validator_also_rejects_both_publications) ... ok
+test_restored_local_state_exactly_matches_saved_huawei_inputs (test_dpdp_vnsme_scale100.SavedScale100EpochTests.test_restored_local_state_exactly_matches_saved_huawei_inputs) ... ok
+test_saved_failures_reject_accepted_loss_without_mutation_or_score (test_dpdp_vnsme_scale100.SavedScale100EpochTests.test_saved_failures_reject_accepted_loss_without_mutation_or_score) ... ok
+test_saved_inputs_and_outputs_match_frozen_hashes (test_dpdp_vnsme_scale100.SavedScale100EpochTests.test_saved_inputs_and_outputs_match_frozen_hashes) ... ok
+test_unloaded_accepted_blocks_can_move_when_the_complete_plan_is_preserved (test_dpdp_vnsme_scale100.SavedScale100EpochTests.test_unloaded_accepted_blocks_can_move_when_the_complete_plan_is_preserved) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.747s
+
+OK

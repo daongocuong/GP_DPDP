@@ -1,0 +1,269 @@
+"""Run GP, VNSME or the upstream demo with isolated artifacts and manifest.
+
+Uses the repository venv. Output directory must not exist. No old file writes.
+The independent score verifier is called only on completed, guarded runs.
+"""
+import argparse
+from dataclasses import replace
+from datetime import datetime, timezone, timedelta
+import hashlib
+import importlib.metadata
+import json
+import logging
+from pathlib import Path
+import subprocess
+import sys
+from time import perf_counter
+import traceback
+from unittest.mock import patch
+
+ROOT = Path(__file__).resolve().parent
+CASE = ROOT / 'examples/case_studies/dpdp'
+sys.path.insert(0, str(ROOT/'src'))
+sys.path.insert(0, str(CASE))
+import dpdp_main
+from dpdp_problemdata import read_dpdp_problem
+from dpdp_routing import dpdp_module_routing, get_dpdp_state
+from dvrpsim.utils.logging import DefaultLoggingCallback
+from dpdp_feasibility import Plan, Visit
+from dpdp_insertion import InsertionPolicy, Snapshot, FEATURE_UNITS
+from verify_dpdp_score import verify
+from dpdp_dataset import resolve_inputs
+
+
+def digest(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def dump(path, value):
+    with Path(path).open('x', encoding='utf-8') as handle:
+        json.dump(value, handle, indent=2, default=str)
+
+
+class RunLog(DefaultLoggingCallback):
+    def _configure_logger(self):
+        self.logger = logging.Logger(f'dpdp-run-{self.model.run_dir}', logging.DEBUG)
+        self.logger.propagate = False
+        handler = logging.FileHandler(self.model.run_dir / 'simulation.log', mode='x', encoding='utf-8')
+        handler.setFormatter(logging.Formatter('%(levelname)-8s: %(message)s'))
+        self.logger.addHandler(handler)
+
+    # Default logger suppresses zero-distance same-factory transitions. Preserve
+    # all logical visits in NEW logs so the independent verifier can locate
+    # every actual arrival, including a separate visit at the same factory.
+    def on_departure(self, vehicle):
+        self.logger.info(f'{self._prefix} {vehicle} | departed from {vehicle.previous_location} to {vehicle.next_location}')
+
+    def on_arrival(self, vehicle):
+        self.logger.info(f'{self._prefix} {vehicle} | arrived at {vehicle.current_location}')
+
+
+def guard_raw_decision(model, raw):
+    snapshot = Snapshot.observe(model)
+    plans = {}
+    for vehicle, plan in snapshot.plans.items():
+        decision = raw['vehicles'].get(vehicle)
+        if decision is None or decision.get('next_visits') is None:
+            plans[vehicle] = plan
+            continue
+        route = tuple(Visit(node['location'], tuple(node.get('delivery_list', [])),
+                            tuple(node.get('pickup_list', []))) for node in decision['next_visits'])
+        locked = snapshot.fleet[vehicle].destination
+        if locked and route and route[0].factory == locked.factory:
+            route = (replace(route[0], arrival=locked.arrival),) + route[1:]
+        if decision.get('current_visit') is not None:
+            raise ValueError('runner policies must preserve current work')
+        plans[vehicle] = Plan(plan.current, route)
+    admitted = snapshot.admitted(plans)
+    newly_accepted = {i for i, value in raw['orders'].items() if value['status'] == 'accepted'}
+    if not newly_accepted <= admitted:
+        raise ValueError('accepted item missing from route')
+    snapshot.check(plans, admitted)
+    return plans
+
+
+class RunModel(dpdp_main.DPDPModel):
+    def __init__(self, mode, run_dir, tree_path=None, vnsme_config=None):
+        if mode not in ('gp', 'vnsme', 'demo'):
+            raise ValueError(f'unsupported policy: {mode}')
+        self.mode, self.run_dir = mode, run_dir
+        self.ranker = None
+        if mode == 'gp':
+            from dpdp_gp import TreeRanker, load_tree
+            tree, _ = load_tree(tree_path)
+            self.ranker = TreeRanker(tree)
+        self.policy = InsertionPolicy(self.ranker) if mode == 'gp' else None
+        if mode == 'vnsme':
+            from baselines.vnsme import VNSMEPolicy
+            self.policy = VNSMEPolicy(run_dir/'vnsme', **vnsme_config)
+        self.wall_deadline = None
+        self.decision_times = []
+        super().__init__()
+
+    def _init_logger(self):
+        self.log = RunLog(self)
+
+    def init(self):
+        (self.run_dir / 'interaction').mkdir()
+
+    def routing_callback(self):
+        start = perf_counter()
+        if self.mode == 'vnsme':
+            raw = self.policy.decide(self, remaining=self.wall_deadline-perf_counter())
+        elif self.mode == 'gp':
+            raw = self.policy.decide(self)
+        else:
+            directory = self.run_dir / 'interaction'
+            vehicle, ongoing, unallocated, destination, route = [str(directory / name) for name in (
+                'vehicle_info.json', 'ongoing_order_items.json', 'unallocated_order_items.json',
+                'output_destination.json', 'output_route.json')]
+            # Same function/module/argument order as the local DPDP demo callback.
+            raw = dpdp_module_routing(self, get_dpdp_state(self), vehicle, unallocated, ongoing,
+                                     destination, route, 'routing.demo_algorithm', 'routing',
+                                     vehicle, ongoing, unallocated, destination, route)
+        guard_raw_decision(self, raw)
+        self.decision_times.append(dict(simulation_seconds=self.env.now,
+                                        wall_seconds=perf_counter()-start, guard_passed=True))
+        return raw
+
+
+def manifest(mode, orders, vehicles, max_seconds, factories=None, routes=None):
+    def git(*args):
+        return subprocess.check_output(['git', '-C', str(ROOT), *args], text=True).strip()
+    files = [p for p in ROOT.rglob('*.py') if not any(x in p.parts for x in (
+        '.git', '.venv', '__pycache__', 'vnsme_runs', 'third_party'))]
+    def label(path):
+        try:
+            return str(path.resolve().relative_to(ROOT))
+        except ValueError:
+            return str(path.resolve())
+    return dict(started_at=datetime.now(timezone(timedelta(hours=7))).isoformat(),
+                policy=mode, commit=git('rev-parse', 'HEAD'), branch=git('branch', '--show-current'),
+                git_status=git('status', '--short', '--untracked-files=all'),
+                tracked_diff=git('diff', '--'), python_executable=sys.executable, python_version=sys.version,
+                packages={name: importlib.metadata.version(name) for name in ('dvrpsim', 'simpy')},
+                source_sha256={str(p.relative_to(ROOT)): digest(p) for p in files},
+                data_sha256={label(p): digest(p) for p in (
+                    factories or CASE/'data/factory_info.csv', routes or CASE/'data/route_info.csv', orders, vehicles)},
+                initial_location_seed=0, algorithm_seed=None, dispatch_step_seconds=600,
+                docking_seconds=1800, loading_seconds_per_quantity=240, unloading_seconds_per_quantity=240,
+                lambda_=10000, safety_horizon_simulation_seconds=max_seconds,
+                primary_evaluation_baseline='vnsme', gp_fitness_reference='vnsme',
+                feature_units=FEATURE_UNITS, visit_merging=False,
+                logging='all logical arrivals/departures, including zero-distance same-factory visits',
+                execution_time_in_simulation='instantaneous, local simulator default')
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--policy', choices=('demo', 'gp', 'vnsme'), required=True)
+    parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--tree', type=Path)
+    inputs = parser.add_mutually_exclusive_group()
+    inputs.add_argument('--instance', type=int, choices=(1, 17), default=None)
+    inputs.add_argument('--instance-directory', type=Path)
+    parser.add_argument('--data-directory', type=Path)
+    parser.add_argument('--seed', type=int, choices=(0,), default=0)
+    parser.add_argument('--wall-seconds', type=float, default=120)
+    parser.add_argument('--vnsme-epoch-seconds', type=float, default=600)
+    parser.add_argument('--java', default='java')
+    parser.add_argument('--max-simulation-seconds', type=float, default=7*86400)
+    args = parser.parse_args()
+    import math
+    if not math.isfinite(args.wall_seconds) or args.wall_seconds <= 0:
+        parser.error('--wall-seconds must be positive and finite')
+    if not math.isfinite(args.vnsme_epoch_seconds) or args.vnsme_epoch_seconds <= 0:
+        parser.error('--vnsme-epoch-seconds must be positive and finite')
+    if args.policy == 'gp' and args.tree is None:
+        parser.error('--tree is required for gp')
+    if args.tree is not None and args.policy != 'gp':
+        parser.error('--tree is only applicable to gp')
+    if Path(sys.executable).resolve() != (ROOT/'.venv/Scripts/python.exe').resolve():
+        parser.error('Use the repository .venv/Scripts/python.exe')
+    directory = args.output.resolve()
+    directory.mkdir(parents=True, exist_ok=False)
+    paths = resolve_inputs(args.instance, args.instance_directory, args.data_directory)
+    orders, vehicles, factories, routes = (paths[k] for k in ('orders', 'vehicles', 'factories', 'routes'))
+    metadata = manifest(args.policy, orders, vehicles, args.max_simulation_seconds, factories, routes)
+    metadata.update(instance=paths['instance'], wall_limit_seconds=args.wall_seconds,
+                    instance_directory=str(paths['directory']),
+                    input_paths={k: str(paths[k]) for k in ('orders', 'vehicles', 'factories', 'routes')})
+    if args.policy == 'vnsme':
+        metadata.update(vnsme_epoch_limit_seconds=args.vnsme_epoch_seconds,
+                        primary_evaluation_baseline='vnsme', gp_fitness_reference='vnsme')
+    if args.tree is not None:
+        from dpdp_gp import load_tree
+        _, payload = load_tree(args.tree)
+        metadata.update(gp_tree=payload, tree_file_sha256=digest(args.tree))
+    probdata = read_dpdp_problem(str(factories), str(routes), str(vehicles), str(orders))
+    metadata['initial_locations'] = {v: d['initial_location'] for v, d in probdata['vehicles'].items()}
+    dump(directory/'manifest.json', metadata)
+    # Reuse the actual builder, provider, updater, vehicles and benchmark settings.
+    try:
+        model = RunModel(args.policy, directory, args.tree, dict(factories=factories, routes=routes,
+            vehicles=vehicles, timeout=args.vnsme_epoch_seconds, java=args.java))
+    except Exception as exc:
+        error = f'{type(exc).__name__}: {exc}'
+        dump(directory/'failure.json', dict(error=error, stage='initialization', traceback=traceback.format_exc()))
+        dump(directory/'result.json', dict(valid=False, error=error, stage='initialization', score=None))
+        print(error)
+        return 1
+    with patch.object(dpdp_main, 'DPDPModel', return_value=model):
+        dpdp_main.build_dpdp_model(probdata)
+    start = perf_counter()
+    model.wall_deadline = start + args.wall_seconds
+    error = None
+    valid = False
+    score = None
+    try:
+        model.init()
+        model.on_simulation_start()
+        while model.env.peek() != float('inf'):
+            if perf_counter()-start > args.wall_seconds:
+                raise TimeoutError('run wall-time limit reached; run invalid')
+            if model.env.peek() > args.max_simulation_seconds:
+                raise ValueError('safety horizon reached with pending events; incomplete run')
+            model.env.step()
+        if perf_counter()-start > args.wall_seconds:
+            raise TimeoutError('run wall-time limit reached; run invalid')
+        model.on_simulation_finish()
+        if len(list(model.delivered_orders)) != len(probdata['orders']):
+            raise ValueError('not all requested items delivered')
+        simulation_wall_seconds = perf_counter()-start
+        for handler in model.log.logger.handlers:
+            handler.flush()
+        score = verify(directory/'simulation.log', orders, vehicles, routes)
+        if perf_counter()-start > args.wall_seconds:
+            raise TimeoutError('run wall-time limit reached during final scoring; run invalid')
+        valid = True
+    except Exception as exc:
+        score = None
+        error = f'{type(exc).__name__}: {exc}'
+        dump(directory/'failure.json', dict(error=error, traceback=traceback.format_exc()))
+    elapsed = perf_counter()-start
+    policy_decisions = model.policy.decisions if model.policy else []
+    dump(directory/'decisions.json', dict(timings=model.decision_times, insertion=policy_decisions))
+    summary = dict(valid=valid, error=error, total_wall_seconds=elapsed,
+                   simulation_wall_seconds=locals().get('simulation_wall_seconds'),
+                   simulation_finish_seconds=model.env.now, vehicles=len(list(model.vehicles)),
+                   original_orders=len({o.original_id for o in model.orders}),
+                   observed_items=len(list(model.orders)), completed_items=len(list(model.delivered_orders)),
+                   completed_original_orders=sum(all(o.is_delivered for o in model.orders if o.original_id == original)
+                       for original in {o.original_id for o in model.orders}),
+                   decision_count=len(model.decision_times),
+                   candidates_examined=sum(d['examined'] for d in policy_decisions),
+                   candidates_rejected=sum(d['rejected'] for d in policy_decisions),
+                   deferred_groups=sum(len(d['deferred']) for d in policy_decisions),
+                   decision_wall_seconds_total=sum(d['wall_seconds'] for d in model.decision_times),
+                   decision_wall_seconds_max=max((d['wall_seconds'] for d in model.decision_times), default=0),
+                   gp_evaluation=model.ranker.stats if model.ranker else None,
+                   score=score)
+    dump(directory/'result.json', summary)
+    for handler in model.log.logger.handlers:
+        handler.close()
+    print(json.dumps(summary, indent=2, default=str))
+    return 0 if valid else 1
+
+
+if __name__ == '__main__':
+    sys.exit(main())

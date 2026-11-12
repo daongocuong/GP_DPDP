@@ -1,0 +1,66 @@
+{
+  "protocol": "dpdp-gp-vnsme-v3-dev-smoke-v1",
+  "status": "DEVELOPMENT_SMOKE_ONLY",
+  "official_training_enabled": false,
+  "contract_version": "dpdp-execution-commitment-v3",
+  "fitness_version": "gp-fitness-vnsme-v3",
+  "reference_summary": "vnsme_runs/v3_reference_canonical_2_6_20261110_r1/combined_reference/summary.json",
+  "reference_summary_sha256": "ebffa9d2f85d34d4a87f74303b43df90dd6695b66c3bd4540fd9fd423e324847",
+  "split_protocol": "protocols/dpdp_gp_split_v1.json",
+  "split_protocol_sha256": "21c7f62c06a4402214dd0051728bec4fb8051cb8ab420866cd565c669a49f859",
+  "source_manifest": "datasets/xingtian/e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04/source_manifest.json",
+  "source_manifest_sha256": "cf72390459bdb50facd666ae4dbbaa9b6712f2161d61ba6756309a0c100968bc",
+  "dataset_commit": "e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04",
+  "locked_roles": {
+    "train": [2, 3, 4, 5],
+    "validation": [6],
+    "sealed": [7, 8, 15, 16]
+  },
+  "smoke": {
+    "train_instances_subset": [2, 3],
+    "validation_instances": [],
+    "population": 2,
+    "generations": 1,
+    "gp_rng_seed": 20261110,
+    "simulator_seed": 0,
+    "max_new_rollout_processes": 8,
+    "max_total_wall_seconds": 270,
+    "max_runner_wall_seconds": 20,
+    "max_supervisor_wall_seconds": 24,
+    "cleanup_reserve_seconds": 7
+  },
+  "training_fitness": {
+    "formula": "arithmetic mean of J_GP_v3(i) / J_VNSME_v3(i) over exactly the configured training instances",
+    "optimization": "minimize",
+    "smoke_scope": "subset diagnostic only; not official train fitness",
+    "invalid_fitness_penalty": 1000000000000000,
+    "invalid_result_rule": "invalid, timed out, unaudited or evidence-incomplete rollout has benchmark_J=null and cannot contribute a ratio; penalty ranks it only as invalid"
+  },
+  "selection": {
+    "validation_policy": "validation ratio first; then train fitness, node count and canonical tree",
+    "validation_used_for_evolution": false,
+    "smoke_validation_enabled": false,
+    "tie_break_order": ["validation_ratio_ascending", "train_fitness_ascending", "node_count_ascending", "canonical_tree_ascending"]
+  },
+  "evolution": {
+    "tournament": 3,
+    "crossover_rate": 0.8,
+    "mutation_rate": 0.3,
+    "elitism": 1,
+    "tree_limits": {"max_depth": 4, "max_nodes": 31}
+  },
+  "cache": {
+    "namespace": "gp-fitness-vnsme-v3",
+    "policy": "context-addressed; valid entries are re-audited before reuse; invalid or incomplete outcomes are never valid cache hits",
+    "required_context": ["tree", "feature_and_primitive_semantics", "contract", "simulator_and_scorer_sources", "data_hashes", "reference_hash", "split_hash", "source_manifest_hash", "gp_rng_seed", "simulator_seed", "rollout_budgets", "settings", "python", "packages"]
+  },
+  "resume": "unsupported; trainer must reject resume requests and create a new output directory",
+  "sealed_access": "forbidden; trainer accepts only instances 2, 3, 4, 5, 6 and smoke rollouts use only 2 and 3",
+  "requirements": [
+    "The combined VNSME v3 reference must pass its loader for exact IDs 2, 3, 4, 5, 6 before any rollout.",
+    "The draft official split remains train 2, 3, 4, 5 and validation 6; this smoke evaluates only train subset 2, 3.",
+    "No validation result is used by this smoke for fitness, breeding, tuning or selection.",
+    "The runner must receive the explicit v3 contract flag and must not start VNSME or Java.",
+    "Official training remains disabled by this protocol."
+  ]
+}

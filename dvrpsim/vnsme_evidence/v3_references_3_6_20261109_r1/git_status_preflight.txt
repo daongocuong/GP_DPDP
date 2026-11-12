@@ -1,0 +1,37 @@
+﻿ M dpdp_dataset.py
+ M dpdp_vnsme_reference.py
+ M examples/case_studies/dpdp/dpdp_problemdata.py
+ M prepare_dpdp_data.py
+ M run_dpdp_insertion.py
+ M src/baselines/vnsme.py
+ M test_dpdp_dataset.py
+ M test_dpdp_gp.py
+ M verify_dpdp_score.py
+?? ../TIEN_DO_GP_DPDP.md
+?? .gitattributes
+?? dpdp_contract.py
+?? dpdp_gp_fitness_v3.py
+?? dpdp_sealed.py
+?? dpdp_v3_independent_audit.py
+?? dpdp_v3_supervisor.py
+?? dpdp_v3_trace.py
+?? dpdp_vnsme_reference_v3.py
+?? protocols/dpdp_execution_commitment_v3.json
+?? protocols/dpdp_execution_commitment_v3.json.sha256
+?? protocols/dpdp_gp_vnsme_v3_draft.json
+?? protocols/dpdp_gp_vnsme_v3_draft.json.sha256
+?? protocols/dpdp_official_experiment_v1.json
+?? protocols/dpdp_official_experiment_v1.json.sha256
+?? test_dpdp_execution_contract.py
+?? test_dpdp_policy_audit.py
+?? test_dpdp_sealed.py
+?? test_dpdp_v3_independent_audit.py
+?? test_dpdp_v3_reference.py
+?? test_dpdp_v3_supervisor.py
+?? test_dpdp_vnsme_scale100.py
+?? test_dpdp_vnsme_timeout.py
+?? vnsme_evidence/scale100_blockers_20261109_r2/
+?? vnsme_evidence/scale100_contract_resolution/
+?? vnsme_evidence/v3_independent_audit_20261109_r1/
+?? vnsme_evidence/v3_reference_supervision_20261109_r1/
+?? vnsme_evidence/v3_references_3_6_20261109_r1/

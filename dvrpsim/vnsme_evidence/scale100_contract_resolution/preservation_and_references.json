@@ -1,0 +1,23 @@
+{
+  "changed_existing_files": [
+    "dpdp_vnsme_reference.py",
+    "run_dpdp_insertion.py",
+    "src/baselines/vnsme.py"
+  ],
+  "unchanged_existing_files": 25044,
+  "historical_artifacts_unchanged": true,
+  "user_preexisting_timeout_fix_preserved_AST": true,
+  "Java_sources_libraries_classes_unchanged": true,
+  "GP_insertion_ranker_scorer_and_fitness_sources_unchanged": true,
+  "legacy_reference_2_6_loader_pass": true,
+  "legacy_reference_scores": {
+    "2": "95.74",
+    "3": "97.44",
+    "4": "100.76",
+    "5": "3303.926666666666666666666667",
+    "6": "105.04"
+  },
+  "legacy_reference_not_certified_for_v3": true,
+  "legacy_reference_sha256": "cf44e4a41cc7e1f29dbf98cd968a555d6dcefe0aade6a49d4e1575fbbf47f02d",
+  "new_contract_protocol_sha256": "c751559337adbe2138a455819465764d726cf4bba26e5544715df4b90e44b6ed"
+}

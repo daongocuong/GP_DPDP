@@ -1,0 +1,525 @@
+﻿diff --git a/dvrpsim/dpdp_dataset.py b/dvrpsim/dpdp_dataset.py
+index b720470..6e92d99 100644
+--- a/dvrpsim/dpdp_dataset.py
++++ b/dvrpsim/dpdp_dataset.py
+@@ -6,6 +6,7 @@ from pathlib import Path
+ import random
+ import re
+ import sys
++from dpdp_sealed import require_development_path
+ 
+ ROOT = Path(__file__).resolve().parent
+ CASE = ROOT/'examples/case_studies/dpdp'
+@@ -28,6 +29,7 @@ def require(condition, message):
+ 
+ 
+ def rows(path, kind):
++    require_development_path(path)
+     with Path(path).open(encoding='utf-8-sig', newline='') as handle:
+         reader = csv.DictReader(handle)
+         require(reader.fieldnames == SCHEMAS[kind], f'{path}: incorrect positional {kind} schema')
+@@ -60,6 +62,7 @@ def resolve_inputs(instance=None, instance_directory=None, data_directory=None):
+     else:
+         selected = 1 if instance is None else instance
+         folder = (CASE/f'data/instance_{selected}').resolve()
++    require_development_path(folder)
+     require(folder.is_dir(), f'instance directory not found: {folder}')
+     orders = sorted(p for p in folder.glob('*.csv') if not p.name.startswith('vehicle_info_'))
+     vehicles = sorted(folder.glob('vehicle_info_*.csv'))
+diff --git a/dvrpsim/dpdp_vnsme_reference.py b/dvrpsim/dpdp_vnsme_reference.py
+index d96078b..dad5015 100644
+--- a/dvrpsim/dpdp_vnsme_reference.py
++++ b/dvrpsim/dpdp_vnsme_reference.py
+@@ -11,6 +11,7 @@ import sys
+ from dpdp_dataset import resolve_inputs
+ from dpdp_gp_fitness import digest
+ from verify_dpdp_score import verify
++from dpdp_contract import LEGACY_CONTRACT
+ 
+ ROOT = Path(__file__).resolve().parent
+ DEFAULT_SUMMARY = ROOT/'migration_runs/vnsme_reference_ready/summary.json'
+@@ -28,6 +29,9 @@ def independent_score(run, dataset, instance):
+     result = json.loads((run/'result.json').read_text(encoding='utf-8'))
+     if manifest['policy'] != 'vnsme' or manifest['instance'] != instance:
+         raise ValueError('reference rollout must be VNSME for the requested instance')
++    if (manifest.get('contract_version', LEGACY_CONTRACT) != LEGACY_CONTRACT or
++            result.get('contract_version', LEGACY_CONTRACT) != LEGACY_CONTRACT):
++        raise ValueError('legacy VNSME v2 reference loader cannot certify a different commitment contract; fresh versioned references are required')
+     if not result['valid'] or not result.get('score'):
+         raise ValueError('reference rollout invalid or incomplete')
+     if any(manifest[k] != value for k, value in SIMULATION.items()):
+diff --git a/dvrpsim/examples/case_studies/dpdp/dpdp_problemdata.py b/dvrpsim/examples/case_studies/dpdp/dpdp_problemdata.py
+index 60abf5d..1aa701e 100644
+--- a/dvrpsim/examples/case_studies/dpdp/dpdp_problemdata.py
++++ b/dvrpsim/examples/case_studies/dpdp/dpdp_problemdata.py
+@@ -5,6 +5,9 @@ import random
+ from typing import Dict
+ 
+ def read_dpdp_problem( location_file: str, route_file: str, vehice_file: str, order_file: str ) -> dict:
++    from dpdp_sealed import require_development_path
++    for _path in (location_file, route_file, vehice_file, order_file):
++        require_development_path(_path)
+     logging.info( 'read problem data...' )
+ 
+     probdata = {
+diff --git a/dvrpsim/prepare_dpdp_data.py b/dvrpsim/prepare_dpdp_data.py
+index 809afe8..69b15ec 100644
+--- a/dvrpsim/prepare_dpdp_data.py
++++ b/dvrpsim/prepare_dpdp_data.py
+@@ -11,6 +11,7 @@ import sys
+ import urllib.request
+ 
+ from dpdp_dataset import ROOT, CASE, validate_instance
++from dpdp_sealed import sealed_instance, require_development_path
+ 
+ COMMIT = 'e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04'
+ PREFIX = 'simulator/dpdp_competition/benchmark/'
+@@ -69,6 +70,7 @@ def acquire(output):
+         # Common CSVs first; compare BEFORE downloading or writing instances.
+         first = sorted(selected, key=lambda pair: (pair[0] not in ('factory_info.csv', 'route_info.csv'), pair[0]))
+         for relative, entry in first:
++            require_development_path(output/'benchmark'/relative)
+             raw = fetch(RAW+entry['path'])
+             if git_blob_sha(raw) != entry['sha']:
+                 raise ValueError(f'upstream Git blob checksum mismatch: {relative}')
+@@ -120,15 +122,20 @@ def verify_existing(output):
+     if manifest['commit'] != COMMIT or not manifest['all_verified']:
+         raise ValueError('wrong source commit or unverified manifest')
+     for record in manifest['files']:
++        if sealed_instance(output/'benchmark'/record['file']) is not None:
++            continue  # trusted manifest metadata only; do not open sealed CSVs
++        require_development_path(output/'benchmark'/record['file'])
+         content = (output/'benchmark'/record['file']).read_bytes()
+         if sha256(content) != record['sha256'] or git_blob_sha(content) != record['git_blob_sha1']:
+             raise ValueError(f'data checksum mismatch: {record["file"]}')
+     compare_common({n:(output/'benchmark'/n).read_bytes() for n in ('factory_info.csv','route_info.csv')}, CASE/'data')
+     for i, info in manifest['instances'].items():
++        if int(i) in (7, 8, 15, 16):
++            continue  # prior manifest metadata, not a fresh verification
+         actual = validate_instance(output/'benchmark'/f'instance_{i}')
+         if any(actual[k] != info[k] for k in actual):
+             raise ValueError(f'validation no longer matches manifest: instance_{i}')
+-    print('offline source/hash/schema/loader verification PASS')
++    print('offline development source/hash/schema/loader verification PASS; sealed CSVs not opened')
+     return manifest
+ 
+ 
+diff --git a/dvrpsim/run_dpdp_insertion.py b/dvrpsim/run_dpdp_insertion.py
+index 8ee6ba8..c3bc0c9 100644
+--- a/dvrpsim/run_dpdp_insertion.py
++++ b/dvrpsim/run_dpdp_insertion.py
+@@ -29,6 +29,8 @@ from dpdp_feasibility import Plan, Visit
+ from dpdp_insertion import InsertionPolicy, Snapshot, FEATURE_UNITS
+ from verify_dpdp_score import verify
+ from dpdp_dataset import resolve_inputs
++from dpdp_contract import (LEGACY_CONTRACT, EXECUTION_CONTRACT, CONTRACT_VERSIONS,
++                           ExecutionCommitment, contract_metadata, plans_from_raw)
+ 
+ 
+ def digest(path):
+@@ -60,33 +62,35 @@ class RunLog(DefaultLoggingCallback):
+ 
+ def guard_raw_decision(model, raw):
+     snapshot = Snapshot.observe(model)
+-    plans = {}
+-    for vehicle, plan in snapshot.plans.items():
+-        decision = raw['vehicles'].get(vehicle)
+-        if decision is None or decision.get('next_visits') is None:
+-            plans[vehicle] = plan
+-            continue
+-        route = tuple(Visit(node['location'], tuple(node.get('delivery_list', [])),
+-                            tuple(node.get('pickup_list', []))) for node in decision['next_visits'])
+-        locked = snapshot.fleet[vehicle].destination
+-        if locked and route and route[0].factory == locked.factory:
+-            route = (replace(route[0], arrival=locked.arrival),) + route[1:]
+-        if decision.get('current_visit') is not None:
+-            raise ValueError('runner policies must preserve current work')
+-        plans[vehicle] = Plan(plan.current, route)
++    plans = plans_from_raw(snapshot, raw)
+     admitted = snapshot.admitted(plans)
+     newly_accepted = {i for i, value in raw['orders'].items() if value['status'] == 'accepted'}
+     if not newly_accepted <= admitted:
+         raise ValueError('accepted item missing from route')
+     snapshot.check(plans, admitted)
++    contract = getattr(model, 'commitment_contract', None)
++    if contract is not None:
++        contract.record(snapshot, raw, plans)
++    writer = getattr(model, 'audit_trace_writer', None)
++    if writer is not None:
++        writer.decision(snapshot, raw, plans)
+     return plans
+ 
+ 
+ class RunModel(dpdp_main.DPDPModel):
+-    def __init__(self, mode, run_dir, tree_path=None, vnsme_config=None):
++    def __init__(self, mode, run_dir, tree_path=None, vnsme_config=None, contract_version=LEGACY_CONTRACT):
+         if mode not in ('gp', 'vnsme', 'demo'):
+             raise ValueError(f'unsupported policy: {mode}')
+         self.mode, self.run_dir = mode, run_dir
++        contract_metadata(contract_version)
++        if contract_version == EXECUTION_CONTRACT and mode not in ('gp', 'vnsme'):
++            raise ValueError('execution commitment contract requires gp or vnsme')
++        self.contract_version = contract_version
++        self.commitment_contract = ExecutionCommitment() if contract_version == EXECUTION_CONTRACT else None
++        self.audit_trace_writer = None
++        if contract_version == EXECUTION_CONTRACT:
++            from dpdp_v3_trace import TraceWriter
++            self.audit_trace_writer = TraceWriter(run_dir/'decision_trace.jsonl')
+         self.ranker = None
+         if mode == 'gp':
+             from dpdp_gp import TreeRanker, load_tree
+@@ -95,7 +99,7 @@ class RunModel(dpdp_main.DPDPModel):
+         self.policy = InsertionPolicy(self.ranker) if mode == 'gp' else None
+         if mode == 'vnsme':
+             from baselines.vnsme import VNSMEPolicy
+-            self.policy = VNSMEPolicy(run_dir/'vnsme', **vnsme_config)
++            self.policy = VNSMEPolicy(run_dir/'vnsme', contract=self.commitment_contract, **vnsme_config)
+         self.wall_deadline = None
+         self.decision_times = []
+         super().__init__()
+@@ -127,7 +131,7 @@ class RunModel(dpdp_main.DPDPModel):
+         return raw
+ 
+ 
+-def manifest(mode, orders, vehicles, max_seconds, factories=None, routes=None):
++def manifest(mode, orders, vehicles, max_seconds, factories=None, routes=None, contract_version=LEGACY_CONTRACT):
+     def git(*args):
+         return subprocess.check_output(['git', '-C', str(ROOT), *args], text=True).strip()
+     files = [p for p in ROOT.rglob('*.py') if not any(x in p.parts for x in (
+@@ -151,7 +155,8 @@ def manifest(mode, orders, vehicles, max_seconds, factories=None, routes=None):
+                 primary_evaluation_baseline='vnsme', gp_fitness_reference='vnsme',
+                 feature_units=FEATURE_UNITS, visit_merging=False,
+                 logging='all logical arrivals/departures, including zero-distance same-factory visits',
+-                execution_time_in_simulation='instantaneous, local simulator default')
++                execution_time_in_simulation='instantaneous, local simulator default',
++                **contract_metadata(contract_version))
+ 
+ 
+ def main():
+@@ -159,6 +164,8 @@ def main():
+     parser.add_argument('--policy', choices=('demo', 'gp', 'vnsme'), required=True)
+     parser.add_argument('--output', type=Path, required=True)
+     parser.add_argument('--tree', type=Path)
++    parser.add_argument('--contract-version', choices=CONTRACT_VERSIONS, default=LEGACY_CONTRACT,
++                        help='v3 is an opt-in semantic revision; legacy references are not certified for it')
+     inputs = parser.add_mutually_exclusive_group()
+     inputs.add_argument('--instance', type=int, choices=(1, 17), default=None)
+     inputs.add_argument('--instance-directory', type=Path)
+@@ -178,13 +185,17 @@ def main():
+         parser.error('--tree is required for gp')
+     if args.tree is not None and args.policy != 'gp':
+         parser.error('--tree is only applicable to gp')
++    if args.contract_version == EXECUTION_CONTRACT and args.policy not in ('gp', 'vnsme'):
++        parser.error('v3 contract is supported only for gp and vnsme')
++    contract_metadata(args.contract_version)
+     if Path(sys.executable).resolve() != (ROOT/'.venv/Scripts/python.exe').resolve():
+         parser.error('Use the repository .venv/Scripts/python.exe')
+     directory = args.output.resolve()
+     directory.mkdir(parents=True, exist_ok=False)
+     paths = resolve_inputs(args.instance, args.instance_directory, args.data_directory)
+     orders, vehicles, factories, routes = (paths[k] for k in ('orders', 'vehicles', 'factories', 'routes'))
+-    metadata = manifest(args.policy, orders, vehicles, args.max_simulation_seconds, factories, routes)
++    metadata = manifest(args.policy, orders, vehicles, args.max_simulation_seconds, factories, routes,
++                        contract_version=args.contract_version)
+     metadata.update(instance=paths['instance'], wall_limit_seconds=args.wall_seconds,
+                     instance_directory=str(paths['directory']),
+                     input_paths={k: str(paths[k]) for k in ('orders', 'vehicles', 'factories', 'routes')})
+@@ -201,7 +212,7 @@ def main():
+     # Reuse the actual builder, provider, updater, vehicles and benchmark settings.
+     try:
+         model = RunModel(args.policy, directory, args.tree, dict(factories=factories, routes=routes,
+-            vehicles=vehicles, timeout=args.vnsme_epoch_seconds, java=args.java))
++            vehicles=vehicles, timeout=args.vnsme_epoch_seconds, java=args.java), contract_version=args.contract_version)
+     except Exception as exc:
+         error = f'{type(exc).__name__}: {exc}'
+         dump(directory/'failure.json', dict(error=error, stage='initialization', traceback=traceback.format_exc()))
+@@ -229,6 +240,8 @@ def main():
+         model.on_simulation_finish()
+         if len(list(model.delivered_orders)) != len(probdata['orders']):
+             raise ValueError('not all requested items delivered')
++        if model.commitment_contract is not None:
++            model.commitment_contract.finish(Snapshot.observe(model), set(probdata['orders']))
+         simulation_wall_seconds = perf_counter()-start
+         for handler in model.log.logger.handlers:
+             handler.flush()
+@@ -243,6 +256,8 @@ def main():
+     elapsed = perf_counter()-start
+     policy_decisions = model.policy.decisions if model.policy else []
+     dump(directory/'decisions.json', dict(timings=model.decision_times, insertion=policy_decisions))
++    if model.commitment_contract is not None:
++        dump(directory/'commitments.json', model.commitment_contract.export())
+     summary = dict(valid=valid, error=error, total_wall_seconds=elapsed,
+                    simulation_wall_seconds=locals().get('simulation_wall_seconds'),
+                    simulation_finish_seconds=model.env.now, vehicles=len(list(model.vehicles)),
+@@ -257,7 +272,8 @@ def main():
+                    decision_wall_seconds_total=sum(d['wall_seconds'] for d in model.decision_times),
+                    decision_wall_seconds_max=max((d['wall_seconds'] for d in model.decision_times), default=0),
+                    gp_evaluation=model.ranker.stats if model.ranker else None,
+-                   score=score)
++                   score=score, contract_version=args.contract_version,
++                   contract_complete=model.commitment_contract.completed if model.commitment_contract is not None else None)
+     dump(directory/'result.json', summary)
+     for handler in model.log.logger.handlers:
+         handler.close()
+diff --git a/dvrpsim/src/baselines/vnsme.py b/dvrpsim/src/baselines/vnsme.py
+index b8c0e21..87d2002 100644
+--- a/dvrpsim/src/baselines/vnsme.py
++++ b/dvrpsim/src/baselines/vnsme.py
+@@ -5,7 +5,7 @@ to its completed state, with its actual departure availability. Java owns its
+ private solution.json across dispatches; only its published prefix is executed.
+ """
+ import csv
+-from datetime import datetime
++from datetime import datetime, timezone
+ import json
+ import math
+ import os
+@@ -22,13 +22,22 @@ def write_json(path, value):
+     path.write_text(json.dumps(value, indent=2, allow_nan=False), encoding='utf-8')
+ 
+ 
++def capture_bytes(value):
++    """TimeoutExpired output can be bytes or str, including in text mode."""
++    if value is None:
++        return b''
++    if isinstance(value, str):
++        return value.encode('utf-8', errors='replace')
++    return bytes(value)
++
++
+ class VNSMEError(RuntimeError):
+     pass
+ 
+ 
+ class JavaSession:
+     """One private CWD per rollout, immutable exchange archive per dispatch."""
+-    def __init__(self, directory, factories, routes, timeout=600, java='java'):
++    def __init__(self, directory, factories, routes, timeout=600, java='java', trace_process=False):
+         self.directory = Path(directory).resolve()
+         self.directory.mkdir(parents=True, exist_ok=False)
+         self.exchange = self.directory/'algorithm/data_interaction'
+@@ -39,6 +48,7 @@ class JavaSession:
+         for name, source in [('factory_info.csv', factories), ('route_info.csv', routes)]:
+             shutil.copyfile(source, self.directory/'benchmark'/name)
+         self.timeout = timeout
++        self.trace_process = trace_process
+         if not math.isfinite(timeout) or timeout <= 0:
+             raise ValueError('VNSME timeout must be positive and finite')
+         executable = shutil.which(java)
+@@ -62,9 +72,20 @@ class JavaSession:
+         index = len(self.records)
+         epoch = self.directory/'epochs'/f'{index:05d}'
+         epoch.mkdir()
+-        record = dict(epoch=index, command=self.command, cwd=str(self.directory), valid=False)
++        record = dict(epoch=index, command=self.command, cwd=str(self.directory), valid=False,
++                      configured_timeout_seconds=self.timeout)
+         self.records.append(record)
+         start = perf_counter()
++        primary_error = None
++
++        def logging_failure(stage, error):
++            message = f'{stage}: {type(error).__name__}: {error}'
++            record.setdefault('diagnostic_errors', []).append(message)
++            # Also keep the failed diagnostic in the original traceback when
++            # invocation.json itself cannot be written (Python 3.11+).
++            if primary_error is not None and hasattr(primary_error, 'add_note'):
++                primary_error.add_note(f'VNSME diagnostic write failed: {message}')
++
+         try:
+             for key, name in [('vehicle_info', 'vehicle_info.json'), ('ongoing_orders', 'ongoing_order_items.json'),
+                               ('unallocated_orders', 'unallocated_order_items.json')]:
+@@ -80,10 +101,14 @@ class JavaSession:
+             previous = (json.loads((self.exchange/'solution.json').read_text())
+                         if (self.exchange/'solution.json').exists() else None)
+             timeout = self.timeout if remaining is None else min(self.timeout, remaining)
++            record['effective_timeout_seconds'] = timeout
+             if timeout <= 0:
+                 raise TimeoutError('rollout wall-time exhausted before VNSME dispatch')
+-            result = subprocess.run(self.command, cwd=self.directory, capture_output=True,
+-                                    timeout=timeout, text=True, encoding='utf-8', errors='replace')
++            if self.trace_process:
++                result = self._invoke_traced(epoch, timeout)
++            else:
++                result = subprocess.run(self.command, cwd=self.directory, capture_output=True,
++                                        timeout=timeout, text=True, encoding='utf-8', errors='replace')
+             (epoch/'stdout.txt').write_text(result.stdout, encoding='utf-8')
+             (epoch/'stderr.txt').write_text(result.stderr, encoding='utf-8')
+             record.update(returncode=result.returncode, effective_timeout_seconds=timeout)
+@@ -120,14 +145,82 @@ class JavaSession:
+             record['valid'] = True
+             return dict(destinations=destinations, routes=routes)
+         except Exception as exc:
++            primary_error = exc
+             record['error'] = f'{type(exc).__name__}: {exc}'
+             if isinstance(exc, subprocess.TimeoutExpired):
++                record['timeout_seconds'] = exc.timeout
++                record['timeout_command'] = exc.cmd
+                 for label, data in [('stdout', exc.stdout), ('stderr', exc.stderr)]:
+-                    (epoch/f'{label}.txt').write_bytes(data or b'')
++                    try:
++                        (epoch/f'{label}.txt').write_bytes(capture_bytes(data))
++                    except Exception as diagnostic_error:
++                        logging_failure(f'{label}.txt', diagnostic_error)
+             raise VNSMEError(f'VNSME epoch {index}: {record["error"]}; artifacts: {epoch}') from exc
+         finally:
+             record['wall_seconds'] = perf_counter()-start
+-            write_json(epoch/'invocation.json', record)
++            try:
++                write_json(epoch/'invocation.json', record)
++            except Exception as diagnostic_error:
++                logging_failure('invocation.json', diagnostic_error)
++                if primary_error is None:
++                    # A successful subprocess without its invocation record
++                    # must not become a valid, untraceable decision.
++                    record['valid'] = False
++                    record['error'] = f'{type(diagnostic_error).__name__}: {diagnostic_error}'
++                    raise VNSMEError(f'Cannot record VNSME epoch {index}: {diagnostic_error}') from diagnostic_error
++
++    def _invoke_traced(self, epoch, timeout):
++        """Record exact Java identity and times; the external job owns cleanup."""
++        from dpdp_v3_supervisor import process_identity
++        from time import time
++        stdout_path, stderr_path = epoch/'java_stdout_live.txt', epoch/'java_stderr_live.txt'
++        with stdout_path.open('xb') as stdout_file, stderr_path.open('xb') as stderr_file:
++            proc = subprocess.Popen(self.command, cwd=self.directory, stdout=stdout_file, stderr=stderr_file)
++            start = perf_counter()
++            timed_out = False
++            try:
++                wall_deadline = time()+timeout
++                info = dict(pid=proc.pid, identity=process_identity(proc.pid), started_utc=datetime.now(timezone.utc).isoformat(),
++                            started_monotonic=start, deadline_monotonic=start+timeout,
++                            deadline_wall_epoch=wall_deadline,
++                            deadline_utc=datetime.fromtimestamp(wall_deadline, timezone.utc).isoformat(),
++                            timeout_seconds=timeout, command=self.command)
++                write_json(epoch/'invocation_start.json', info)
++                try:
++                    proc.wait(timeout=max(0, start+timeout-perf_counter()))
++                except subprocess.TimeoutExpired:
++                    timed_out = True
++                    proc.kill(); proc.wait()
++                    captured = []
++                    errors = []
++                    for path in (stdout_path, stderr_path):
++                        try:
++                            captured.append(path.read_bytes())
++                        except OSError as error:
++                            captured.append(None); errors.append(str(error))
++                    failure = subprocess.TimeoutExpired(self.command, timeout, output=captured[0], stderr=captured[1])
++                    for error in errors:
++                        if hasattr(failure, 'add_note'): failure.add_note(f'cannot read Java diagnostic: {error}')
++                    raise failure
++            finally:
++                if proc.poll() is None:
++                    proc.kill()
++                    proc.wait()
++                ended = perf_counter()
++                import sys
++                primary_error = sys.exc_info()[1]
++                try:
++                    write_json(epoch/'invocation_process_end.json', dict(pid=proc.pid, ended_utc=datetime.now(timezone.utc).isoformat(),
++                        ended_monotonic=ended, elapsed_seconds=ended-start, returncode=proc.returncode,
++                        timed_out=timed_out, timeout_detection_lag_seconds=max(0, ended-start-timeout) if timed_out else None))
++                except Exception as error:
++                    if primary_error is None:
++                        raise
++                    if hasattr(primary_error, 'add_note'):
++                        primary_error.add_note(f'cannot record Java process end: {error}')
++            stdout = stdout_path.read_text(encoding='utf-8', errors='replace')
++            stderr = stderr_path.read_text(encoding='utf-8', errors='replace')
++            return subprocess.CompletedProcess(self.command, proc.returncode, stdout, stderr)
+ 
+ 
+ def integer(value, label):
+@@ -161,13 +254,17 @@ def huawei_state(model, epoch_origin, vehicle_metadata):
+ 
+ 
+ class VNSMEPolicy:
+-    def __init__(self, directory, factories, routes, vehicles, timeout=600, java='java'):
+-        self.session = JavaSession(directory, factories, routes, timeout, java)
++    def __init__(self, directory, factories, routes, vehicles, timeout=600, java='java', contract=None):
++        if contract is None:
++            self.session = JavaSession(directory, factories, routes, timeout, java)
++        else:
++            self.session = JavaSession(directory, factories, routes, timeout, java, trace_process=True)
+         with Path(vehicles).open(newline='', encoding='utf-8-sig') as handle:
+             self.vehicle_metadata = {r['car_num']: r for r in csv.DictReader(handle)}
+         # Original Java compares GPS timestamps with the host's current midnight.
+         self.epoch_origin = int(datetime.now().replace(hour=0, minute=0, second=0, microsecond=0).timestamp())
+         self.decisions = []
++        self.commitment_contract = contract
+ 
+     def decide(self, model, remaining=None):
+         from dpdp_routing import transform_dpdp_decision
+@@ -200,11 +297,18 @@ class VNSMEPolicy:
+         planned = {i for p in raw['vehicles'].values() for n in p['next_visits']
+                    for i in n['pickup_list'] + n['delivery_list']}
+         raw['orders'] = {o.id: {'status': 'accepted'} for o in model.open_orders if o.id in planned}
+-        # No accepted/ongoing commitment may disappear from the published plan.
+-        for i, o in snapshot.objects.items():
+-            if o.is_accepted and not o.is_delivered and i not in planned:
+-                if not any(p.current and i in p.current.pickups+p.current.deliveries for p in snapshot.plans.values()):
+-                    raise VNSMEError(f'Java dropped previously accepted item {i}')
++        contract = getattr(self, 'commitment_contract', None)
++        if contract is None:
++            # Legacy accepted-route-v2 stays unchanged for historical runs.
++            for i, o in snapshot.objects.items():
++                if o.is_accepted and not o.is_delivered and i not in planned:
++                    if not any(p.current and i in p.current.pickups+p.current.deliveries for p in snapshot.plans.values()):
++                        raise VNSMEError(f'Java dropped previously accepted item {i}')
++        else:
++            # Acceptance remains a service promise; do not repeat acceptance
++            # events or reverse it when Java temporarily withholds a suffix.
++            raw['orders'] = {i: d for i, d in raw['orders'].items() if not snapshot.objects[i].is_accepted}
++            contract.check(snapshot, raw)
+         self.decisions.append(dict(simulation_seconds=model.env.now, examined=0, rejected=0,
+                                    deferred=[o.id for o in model.open_orders if o.id not in planned]))
+         return raw
+diff --git a/dvrpsim/test_dpdp_dataset.py b/dvrpsim/test_dpdp_dataset.py
+index 7812fb3..f48097f 100644
+--- a/dvrpsim/test_dpdp_dataset.py
++++ b/dvrpsim/test_dpdp_dataset.py
+@@ -26,7 +26,7 @@ class DatasetTests(unittest.TestCase):
+             self.assertEqual(p['routes'], CASE/'data/route_info.csv')
+ 
+     def test_explicit_directory_discovers_real_filenames(self):
+-        for i, name in ((2,'50_2.csv'), (9,'100_1.csv'), (16,'100_8.csv')):
++        for i, name in ((2,'50_2.csv'), (9,'100_1.csv'), (13,'100_5.csv')):
+             p = resolve_inputs(instance_directory=BENCHMARK/f'instance_{i}')
+             self.assertEqual(p['orders'].name, name)
+             self.assertEqual(p['instance'], i)
+diff --git a/dvrpsim/test_dpdp_gp.py b/dvrpsim/test_dpdp_gp.py
+index 28efdd3..3ca5ea3 100644
+--- a/dvrpsim/test_dpdp_gp.py
++++ b/dvrpsim/test_dpdp_gp.py
+@@ -137,8 +137,17 @@ class IntegrationTests(unittest.TestCase):
+         self.assertEqual(b, a)
+         initial = json.loads((ROOT/'gp_evidence/initial_state.json').read_text(encoding='utf-8'))
+         from dpdp_gp_fitness import digest
+-        for p in ('dpdp_feasibility.py', 'dpdp_schedule.py', 'verify_dpdp_score.py'):
++        for p in ('dpdp_feasibility.py', 'dpdp_schedule.py'):
+             self.assertEqual(digest(ROOT/p), initial['sha256'][p])
++        # The scorer has only the new sealed-input admission check; its scoring
++        # implementation must remain byte-identical after removing that check.
++        scorer=(ROOT/'verify_dpdp_score.py').read_bytes()
++        guard=(b'    from dpdp_sealed import require_development_path\n'
++               b'    require_development_path(path)\n')
++        self.assertEqual(scorer.count(guard),1)
++        import hashlib
++        self.assertEqual(hashlib.sha256(scorer.replace(guard,b'',1)).hexdigest(),
++                         initial['sha256']['verify_dpdp_score.py'])
+ 
+     def test_saved_tree_runner_uses_independent_final_score(self):
+         import run_dpdp_insertion
+diff --git a/dvrpsim/verify_dpdp_score.py b/dvrpsim/verify_dpdp_score.py
+index 6173744..08e27f1 100644
+--- a/dvrpsim/verify_dpdp_score.py
++++ b/dvrpsim/verify_dpdp_score.py
+@@ -49,6 +49,8 @@ def clock_seconds(value):
+ 
+ 
+ def csv_rows(path):
++    from dpdp_sealed import require_development_path
++    require_development_path(path)
+     with Path(path).open(encoding='utf-8-sig', newline='') as handle:
+         return list(csv.DictReader(handle))
+ 

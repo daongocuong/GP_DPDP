@@ -1,0 +1,24 @@
+[
+  {
+    "id": "V_1",
+    "capacity": 15,
+    "update_time": 1794158400,
+    "cur_factory_id": "R",
+    "arrive_time_at_current_factory": 1794157200,
+    "leave_time_at_current_factory": 1794159240,
+    "carrying_items": [
+      "b-1"
+    ],
+    "destination": {
+      "factory_id": "S",
+      "delivery_item_list": [
+        "b-1"
+      ],
+      "pickup_item_list": [],
+      "arrive_time": 1794159260,
+      "leave_time": 0
+    },
+    "gps_id": "G_1",
+    "operation_time": 24
+  }
+]

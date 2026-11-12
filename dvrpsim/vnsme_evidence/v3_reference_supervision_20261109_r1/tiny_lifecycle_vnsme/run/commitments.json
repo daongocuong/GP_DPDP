@@ -1,0 +1,310 @@
+{
+  "contract_version": "dpdp-execution-commitment-v3",
+  "complete": true,
+  "requests": {
+    "a-1": [
+      "a",
+      "1.0",
+      "P",
+      "Q",
+      0,
+      14400
+    ],
+    "b-1": [
+      "b",
+      "1.0",
+      "R",
+      "S",
+      0,
+      14400
+    ]
+  },
+  "promised_items": [
+    "a-1",
+    "b-1"
+  ],
+  "picked": {
+    "a-1": [
+      "V_1",
+      2060.0
+    ],
+    "b-1": [
+      "V_1",
+      6180.0
+    ]
+  },
+  "delivered_items": [
+    "a-1",
+    "b-1"
+  ],
+  "history": [
+    {
+      "simulation_seconds": 0,
+      "observed_items": 2,
+      "states": {
+        "delivered": [],
+        "committed": [],
+        "tentative": [
+          "a-1",
+          "b-1"
+        ],
+        "pending": []
+      },
+      "promised_items": [
+        "a-1",
+        "b-1"
+      ]
+    },
+    {
+      "simulation_seconds": 600,
+      "observed_items": 2,
+      "states": {
+        "delivered": [],
+        "committed": [
+          "a-1"
+        ],
+        "tentative": [],
+        "pending": [
+          "b-1"
+        ]
+      },
+      "promised_items": [
+        "a-1",
+        "b-1"
+      ]
+    },
+    {
+      "simulation_seconds": 1200,
+      "observed_items": 2,
+      "states": {
+        "delivered": [],
+        "committed": [
+          "a-1"
+        ],
+        "tentative": [
+          "b-1"
+        ],
+        "pending": []
+      },
+      "promised_items": [
+        "a-1",
+        "b-1"
+      ]
+    },
+    {
+      "simulation_seconds": 1800,
+      "observed_items": 2,
+      "states": {
+        "delivered": [],
+        "committed": [
+          "a-1"
+        ],
+        "tentative": [
+          "b-1"
+        ],
+        "pending": []
+      },
+      "promised_items": [
+        "a-1",
+        "b-1"
+      ]
+    },
+    {
+      "simulation_seconds": 2400,
+      "observed_items": 2,
+      "states": {
+        "delivered": [],
+        "committed": [
+          "a-1"
+        ],
+        "tentative": [
+          "b-1"
+        ],
+        "pending": []
+      },
+      "promised_items": [
+        "a-1",
+        "b-1"
+      ]
+    },
+    {
+      "simulation_seconds": 3000,
+      "observed_items": 2,
+      "states": {
+        "delivered": [],
+        "committed": [
+          "a-1"
+        ],
+        "tentative": [
+          "b-1"
+        ],
+        "pending": []
+      },
+      "promised_items": [
+        "a-1",
+        "b-1"
+      ]
+    },
+    {
+      "simulation_seconds": 3600,
+      "observed_items": 2,
+      "states": {
+        "delivered": [],
+        "committed": [
+          "a-1"
+        ],
+        "tentative": [
+          "b-1"
+        ],
+        "pending": []
+      },
+      "promised_items": [
+        "a-1",
+        "b-1"
+      ]
+    },
+    {
+      "simulation_seconds": 4200,
+      "observed_items": 2,
+      "states": {
+        "delivered": [
+          "a-1"
+        ],
+        "committed": [
+          "b-1"
+        ],
+        "tentative": [],
+        "pending": []
+      },
+      "promised_items": [
+        "a-1",
+        "b-1"
+      ]
+    },
+    {
+      "simulation_seconds": 4800,
+      "observed_items": 2,
+      "states": {
+        "delivered": [
+          "a-1"
+        ],
+        "committed": [
+          "b-1"
+        ],
+        "tentative": [],
+        "pending": []
+      },
+      "promised_items": [
+        "a-1",
+        "b-1"
+      ]
+    },
+    {
+      "simulation_seconds": 5400,
+      "observed_items": 2,
+      "states": {
+        "delivered": [
+          "a-1"
+        ],
+        "committed": [
+          "b-1"
+        ],
+        "tentative": [],
+        "pending": []
+      },
+      "promised_items": [
+        "a-1",
+        "b-1"
+      ]
+    },
+    {
+      "simulation_seconds": 6000,
+      "observed_items": 2,
+      "states": {
+        "delivered": [
+          "a-1"
+        ],
+        "committed": [
+          "b-1"
+        ],
+        "tentative": [],
+        "pending": []
+      },
+      "promised_items": [
+        "a-1",
+        "b-1"
+      ]
+    },
+    {
+      "simulation_seconds": 6600,
+      "observed_items": 2,
+      "states": {
+        "delivered": [
+          "a-1"
+        ],
+        "committed": [
+          "b-1"
+        ],
+        "tentative": [],
+        "pending": []
+      },
+      "promised_items": [
+        "a-1",
+        "b-1"
+      ]
+    },
+    {
+      "simulation_seconds": 7200,
+      "observed_items": 2,
+      "states": {
+        "delivered": [
+          "a-1"
+        ],
+        "committed": [
+          "b-1"
+        ],
+        "tentative": [],
+        "pending": []
+      },
+      "promised_items": [
+        "a-1",
+        "b-1"
+      ]
+    },
+    {
+      "simulation_seconds": 7800,
+      "observed_items": 2,
+      "states": {
+        "delivered": [
+          "a-1"
+        ],
+        "committed": [
+          "b-1"
+        ],
+        "tentative": [],
+        "pending": []
+      },
+      "promised_items": [
+        "a-1",
+        "b-1"
+      ]
+    }
+  ],
+  "terminal_state": {
+    "simulation_seconds": 8400,
+    "observed_items": 2,
+    "states": {
+      "delivered": [
+        "a-1",
+        "b-1"
+      ],
+      "committed": [],
+      "tentative": [],
+      "pending": []
+    },
+    "promised_items": [
+      "a-1",
+      "b-1"
+    ]
+  }
+}

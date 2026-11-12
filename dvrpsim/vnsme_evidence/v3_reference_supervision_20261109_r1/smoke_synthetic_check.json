@@ -1,0 +1,38 @@
+{
+  "valid": true,
+  "independent_rescore_matches": true,
+  "synthetic_orders": 2,
+  "synthetic_items": 2,
+  "java_invocations": 14,
+  "score": {
+    "vehicle_num": 1,
+    "original_orders": 2,
+    "items": 2,
+    "total_distance_km": "3",
+    "average_distance_km": "3",
+    "total_tardiness_seconds": "0",
+    "late_original_orders": 0,
+    "tardiness_penalty": "0",
+    "total_score": "3",
+    "distance_by_vehicle_km": {
+      "V_1": "3"
+    },
+    "tardiness_by_original_order_seconds": {
+      "a": "0",
+      "b": "0"
+    },
+    "valid": true,
+    "finish_seconds": "8400.0",
+    "verified_legs": 4,
+    "completion_definition": "arrival at delivery factory, before queue/docking/unloading",
+    "assumptions_and_limits": [
+      "Scores the recorded local trajectory; does not prove identical dynamics to Xingtian.",
+      "Initial vehicle positions are inferred from first departures, not a run manifest.",
+      "No full capacity, LIFO, conditional splitting or locked-route feasibility audit.",
+      "Historical source/configuration identity is not cryptographically bound to this log.",
+      "Only the numeric elapsed-seconds column is used; wall-clock run date is unknown."
+    ]
+  },
+  "reference": false,
+  "full_benchmark": false
+}

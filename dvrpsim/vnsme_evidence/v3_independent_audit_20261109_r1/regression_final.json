@@ -1,0 +1,10 @@
+{
+  "tests": 204,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "wall_seconds": 67.95883130002767,
+  "sealed_csv_open_attempts": 0,
+  "violations": [],
+  "passed": true
+}

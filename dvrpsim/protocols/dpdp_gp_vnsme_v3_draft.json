@@ -1,0 +1,21 @@
+{
+  "protocol": "dpdp-gp-vnsme-v3-draft",
+  "status": "DRAFT_NOT_ENABLED_FOR_TRAINING",
+  "contract_version": "dpdp-execution-commitment-v3",
+  "fitness_version": "gp-fitness-vnsme-v3",
+  "primary_baseline": "vnsme",
+  "train_instances_50_orders": [2, 3, 4, 5],
+  "validation_instances_50_orders": [6],
+  "train_instances_100_orders_proposed": [9, 10, 11, 12],
+  "validation_instances_100_orders_proposed": [13, 14],
+  "training_fitness": "arithmetic mean of J_GP_v3(i) / J_VNSME_v3(i) over exactly the selected train set",
+  "model_selection": "validation ratio first; then train fitness, node count and canonical tree, as in the existing protocol",
+  "requirements": [
+    "Each reference is a completed, independently rescored v3 VNSME rollout with a finite positive J.",
+    "GP and VNSME have identical input hashes, simulator, scorer, v3 contract, initial locations and simulation settings.",
+    "Validation instances are not used to evolve trees.",
+    "The existing v2 trainer is not a v3 trainer and must not be run with this draft.",
+    "100-order partitions remain proposed under the locked split protocol."
+  ],
+  "enabled": false
+}

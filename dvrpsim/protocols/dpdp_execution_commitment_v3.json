@@ -1,0 +1,19 @@
+{
+  "protocol": "dpdp-execution-commitment-v3",
+  "contract_version": "dpdp-execution-commitment-v3",
+  "opt_in": true,
+  "legacy_default": "dpdp-accepted-route-v2",
+  "applies_equally_to": ["gp", "vnsme"],
+  "source_semantics": "Huawei GENERATED items remain unallocated until physical pickup; published unpicked assignments are tentative; destination and current work remain locked",
+  "service_promise": "Every released request remains required until delivered; accepted status is irreversible and does not freeze an unpicked vehicle assignment",
+  "request_states": ["pending", "tentative", "committed", "delivered"],
+  "committed_work": ["physical carrying stack and pickup ownership", "current visit operations preserved by this DPDP bridge", "locked destination factory and arrival"],
+  "tentative_work": "Unpicked work outside current visit may be reassigned or omitted from the current publication; it remains in the observable request ledger and next unallocated input",
+  "per_dispatch_validation": "Every published/physical item has complete remaining service, capacity, LIFO, precedence, unique operations and locked work; all observed items occur in exactly one ledger category",
+  "completion_gate": "All input requests observed and all items delivered; existing independent scorer passes before valid J",
+  "forbidden": ["rejection or cancellation of required requests", "unaccepting a service promise", "forgotten requests", "fallback routes", "private-plan promotion into publication", "altering Java search/objective"],
+  "simulation_and_scorer": "Unchanged",
+  "historical_comparability": "Semantic revision, not a backwards-compatible bug fix. Legacy references and scores are not certified for this contract. New references and a versioned training protocol are required before GP training under v3.",
+  "fitness": "No new fitness or training split is enabled by this descriptor",
+  "scope": "Saved-epoch replay and bounded synthetic integration verification; no full reference or GP training in the resolution task"
+}

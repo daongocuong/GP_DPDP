@@ -6,6 +6,7 @@ from pathlib import Path
 import random
 import re
 import sys
+from dpdp_sealed import require_development_path
 
 ROOT = Path(__file__).resolve().parent
 CASE = ROOT/'examples/case_studies/dpdp'
@@ -28,6 +29,7 @@ def require(condition, message):
 
 
 def rows(path, kind):
+    require_development_path(path)
     with Path(path).open(encoding='utf-8-sig', newline='') as handle:
         reader = csv.DictReader(handle)
         require(reader.fieldnames == SCHEMAS[kind], f'{path}: incorrect positional {kind} schema')
@@ -60,6 +62,7 @@ def resolve_inputs(instance=None, instance_directory=None, data_directory=None):
     else:
         selected = 1 if instance is None else instance
         folder = (CASE/f'data/instance_{selected}').resolve()
+    require_development_path(folder)
     require(folder.is_dir(), f'instance directory not found: {folder}')
     orders = sorted(p for p in folder.glob('*.csv') if not p.name.startswith('vehicle_info_'))
     vehicles = sorted(folder.glob('vehicle_info_*.csv'))

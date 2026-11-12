@@ -45,11 +45,13 @@ class Plan:
 
 
 class Infeasible(ValueError):
+    # Ghi chú: Tạo lỗi có tên quy tắc, xe, item và bước tuyến để giải thích vì sao phương án bị loại.
     def __init__(self, rule, vehicle='-', item='-', step='-', detail=''):
         self.rule, self.vehicle, self.item, self.step = rule, vehicle, item, step
         super().__init__(f'{rule}: vehicle={vehicle}, item={item}, step={step}: {detail}')
 
 
+# Ghi chú: Kiểm toàn bộ kế hoạch còn lại: sức chứa, LIFO, quyền sở hữu hàng, thứ tự phục vụ và các phần việc bị khóa.
 def validate(items, fleet, plans, delivered=frozenset(), order_demands=None):
     """Return True or raise Infeasible with rule/vehicle/item/route step.
 
@@ -60,6 +62,7 @@ def validate(items, fleet, plans, delivered=frozenset(), order_demands=None):
     original-order demands while items contains the admitted subset. Missing
     service is still checked for every supplied item; no partial route is hidden.
     """
+    # Ghi chú: Dừng kiểm tra ngay khi vi phạm và gắn thông tin vị trí lỗi.
     def fail(rule, vehicle='-', item='-', step='-', detail=''):
         raise Infeasible(rule, vehicle, item, step, detail)
 
@@ -91,10 +94,12 @@ def validate(items, fleet, plans, delivered=frozenset(), order_demands=None):
             totals[order] = full
     owner, picked, done, batches = {}, set(), set(delivered), {}
 
+    # Ghi chú: Chỉ cho phép thao tác trên ID item nguyên khối đã đăng ký.
     def known(item, vehicle, step):
         if not isinstance(item, str) or item not in items:
             fail('UNKNOWN_ITEM', vehicle, repr(item), step, 'use whole registered item IDs')
 
+    # Ghi chú: Theo dõi các lô pickup; đơn gốc vừa một xe không được chia thành nhiều lô.
     def batch(order, token, vehicle, item, step):
         tokens = batches.setdefault(order, set())
         tokens.add(token)
@@ -127,6 +132,7 @@ def validate(items, fleet, plans, delivered=frozenset(), order_demands=None):
             if not plan.future or (plan.future[0].factory, plan.future[0].arrival) != (
                     state.destination.factory, state.destination.arrival):
                 fail('DESTINATION_LOCK', vehicle, step='future[0]', detail='factory and committed arrival fixed')
+        # Ghi chú: Mô phỏng tải trên bản sao stack: phần tử cuối là hàng được dỡ trước theo LIFO.
         stack = list(state.carrying)
         visits = ([('current', plan.current)] if plan.current is not None else [])
         visits += [(f'future[{i}]', v) for i, v in enumerate(plan.future)]
@@ -170,6 +176,7 @@ def validate(items, fleet, plans, delivered=frozenset(), order_demands=None):
                         fail('CAPACITY', vehicle, item, pos, f'load={load}, capacity={capacity}')
         if stack:
             fail('UNDELIVERED_LOAD', vehicle, stack[-1], 'end')
+    # Ghi chú: Kế hoạch chỉ hợp lệ khi mọi item trong phạm vi kiểm đều được giao; không được giấu hàng chưa phục vụ.
     if done != set(items):
         fail('MISSING_SERVICE', item=next(iter(set(items) - done)), step='end')
     return True

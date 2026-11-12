@@ -1,0 +1,41 @@
+{
+    "status":  "INTERRUPTED",
+    "instance":  4,
+    "reason":  "User interrupted the active wait; the remaining session was stopped to prevent orphan Java execution.",
+    "rollout_command":  [
+                            ".\\.venv\\Scripts\\python.exe",
+                            "-B",
+                            "dpdp_vnsme_reference_v3.py",
+                            "run",
+                            "--contract-version",
+                            "dpdp-execution-commitment-v3",
+                            "--instance",
+                            "4",
+                            "--output",
+                            "vnsme_runs\\v3_references_3_6_20261109_r1\\instance_4"
+                        ],
+    "rollout_wall_limit_seconds":  10800,
+    "per_epoch_hard_limit_seconds":  600,
+    "completed_epochs":  106,
+    "last_epoch":  "00105",
+    "last_epoch_started_utc":  "2026-11-09T15:01:20.163666+00:00",
+    "last_observed_utc":  "2026-11-09T15:06:25.088145+00:00",
+    "last_observed_rollout_elapsed_seconds":  863.6488518002443,
+    "last_observed_java_cpu_seconds":  300.234375,
+    "last_epoch_has_process_end_marker":  false,
+    "record_written":  false,
+    "supervisor_final_json_written":  false,
+    "java_processes_remaining":  0,
+    "next_instances_started":  [
+                                   [
+                                       false
+                                   ],
+                                   [
+                                       false
+                                   ]
+                               ],
+    "evidence_hashes":  {
+                            "heartbeat":  "80d71329e757b87be5668a4267f44585a047824a97ced85748819c2ff4c09647",
+                            "epoch105_stderr":  "421b55c3ad9ff8b20b688d9b7ea90c09b031daa746ba957b9f1df97c539a96a1"
+                        }
+}

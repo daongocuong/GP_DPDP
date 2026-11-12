@@ -33,6 +33,7 @@ class Group:
     release: float
 
 
+# Ghi chú: Nhóm item theo đơn gốc, ưu tiên hạn giao sớm và chia lô vừa sức chứa; không chia nhỏ một item.
 def split_observed_orders(orders, capacity):
     """EDD/release/order ID; decreasing quantity then item ID; next-fit groups.
 
@@ -78,6 +79,7 @@ class Snapshot:
     view: object
     origin: dict
 
+    # Ghi chú: Chụp các đơn đã release, tải xe và tuyến hiện tại; giữ destination/ETA đã công bố để thử phương án an toàn.
     @classmethod
     def observe(cls, model):
         # model.orders contains only requests actually released by order_provider.
@@ -92,6 +94,7 @@ class Snapshot:
         fleet, plans, proxies, origins = {}, {}, [], {}
         locations = {loc.id: loc for loc in model.locations}
 
+        # Ghi chú: Đổi visit của simulator sang Visit dùng trong bộ kiểm tra khả thi.
         def convert(v, arrival=None):
             return Visit(v.location.id, tuple(o.id for o in v.delivery_list),
                          tuple(o.id for o in v.pickup_list), arrival)
@@ -125,6 +128,7 @@ class Snapshot:
         view.location_by_id = locations
         return cls(model.env.now, objects, items, dict(demands), delivered, fleet, plans, view, origins)
 
+    # Ghi chú: Thu thập item đã giao, đang trên xe hoặc xuất hiện trong kế hoạch để xác định phạm vi phải phục vụ.
     def admitted(self, plans):
         ids = set(self.delivered)
         for state in self.fleet.values():
@@ -135,10 +139,12 @@ class Snapshot:
                 ids.update(visit.deliveries)
         return ids
 
+    # Ghi chú: Kiểm tra toàn đội xe đối với tập item admitted; dùng tổng nhu cầu đơn gốc để kiểm quy tắc chia lô.
     def check(self, plans, admitted):
         validate({i: self.items[i] for i in admitted}, self.fleet, plans,
                  self.delivered & admitted, order_demands=self.demands)
 
+    # Ghi chú: Tạo các xe đại diện với tuyến thử và dự báo lịch; không thực thi tuyến thử trên xe thật.
     def forecast(self, plans):
         proxies = []
         for base in self.view.vehicles:
@@ -152,6 +158,7 @@ class Snapshot:
             proxies.append(SimpleNamespace(**{**vars(base), 'next_visits': visits, 'has_next_visit': bool(visits)}))
         return predict_fixed_routes(SimpleNamespace(**{**vars(self.view), 'vehicles': proxies}))
 
+    # Ghi chú: Tính quãng đường còn lại, thời gian chờ và giao trễ của kế hoạch; giao trễ đơn gốc lấy item đến muộn nhất.
     def metrics(self, plans, admitted):
         rows = self.forecast(plans)
         completion = {i: self.objects[i].delivery_time for i in self.delivered & admitted}
@@ -179,9 +186,11 @@ class Snapshot:
                     latest=latest, completion=completion, rows=rows)
 
 
+# Ghi chú: Duyệt dỡ/nạp trên tuyến để tìm sức chứa còn trống nhỏ nhất của xe.
 def min_residual(snapshot, vehicle, plan):
     state = snapshot.fleet[vehicle]
     stack = list(state.carrying)
+    # Ghi chú: Tính sức chứa trống tại trạng thái tải đang xét.
     def residual():
         return state.capacity - sum(snapshot.items[i].quantity for i in stack)
     result = residual()
@@ -208,11 +217,13 @@ class Candidate:
     features: dict
     metrics: dict
 
+    # Ghi chú: Phá hòa điểm bằng ID xe và vị trí chèn để việc chọn candidate có thứ tự ổn định.
     @property
     def tie_key(self):
         return self.vehicle, self.pickup_index, self.delivery_index
 
 
+# Ghi chú: Tạo năm đầu vào cho cây GP: chênh lệch distance/tardiness/waiting, slack đơn mới và tải trống nhỏ nhất.
 def extract_features(snapshot, before, after, group, vehicle, plan):
     return dict(delta_distance_km=after['distance']-before['distance'],
                 delta_tardiness_seconds=after['tardiness']-before['tardiness'],
@@ -221,6 +232,7 @@ def extract_features(snapshot, before, after, group, vehicle, plan):
                 min_residual_capacity=min_residual(snapshot, vehicle, plan))
 
 
+# Ghi chú: Liệt kê cặp vị trí pickup rồi delivery trong phần tuyến được sửa; chỉ dự báo và tạo feature sau khi qua kiểm tra khả thi.
 def candidates(snapshot, plans, group, admitted, before, stats):
     """Enumerate every pair of separate pickup/delivery visits in mutable suffix.
 
@@ -229,9 +241,11 @@ def candidates(snapshot, plans, group, admitted, before, stats):
     """
     new_ids = admitted | set(group.items)
     pickup = Visit(group.pickup, pickups=group.items)
+    # Ghi chú: Đảo thứ tự dỡ so với nạp để nhóm hàng mới tuân thủ LIFO.
     delivery = Visit(group.delivery, deliveries=group.items[::-1])
     for vehicle in sorted(plans):
         old = plans[vehicle].future
+        # Ghi chú: Giữ visit đầu đã công bố làm destination; chỉ chèn phía sau vị trí bị khóa.
         start = 1 if snapshot.fleet[vehicle].destination is not None else 0
         for p in range(start, len(old)+1):
             with_pickup = old[:p] + (pickup,) + old[p:]
@@ -258,12 +272,14 @@ def candidates(snapshot, plans, group, admitted, before, stats):
 
 
 class InsertionPolicy:
+    # Ghi chú: Nhận hàm xếp hạng candidate từ bên ngoài và chuẩn bị lịch sử quyết định.
     def __init__(self, score_function):
         if not callable(score_function):
             raise TypeError('GP insertion requires an explicit candidate ranker')
         self.decisions = []
         self.score_function = score_function
 
+    # Ghi chú: Lần lượt chèn nhóm hàng vào tuyến, chọn điểm GP nhỏ nhất; nhóm chưa có cách chèn hợp lệ được để lại cho kỳ sau.
     def decide(self, model):
         start_time = perf_counter()
         snap = Snapshot.observe(model)
@@ -282,12 +298,14 @@ class InsertionPolicy:
                 raise ValueError(f'partially assigned canonical group: {group}')
             best = None
             for candidate in candidates(snap, plans, group, admitted, before, stats):
+                # Ghi chú: Cây GP chỉ nhìn feature của candidate; điểm này dùng xếp hạng, chưa phải J cuối rollout.
                 ranking = self.score_function(candidate.features, len(snap.fleet))
                 if not math.isfinite(ranking):
                     raise ValueError('nonfinite candidate ranking; run invalid')
                 key = (ranking, *candidate.tie_key)
                 if best is None or key < best[0]:
                     best = key, candidate
+            # Ghi chú: Không có phương án khả thi thì trì hoãn nhóm, giữ yêu cầu để xử lý ở kỳ định tuyến sau.
             if best is None:
                 reason = dict(order=group.order, group=group.index, items=group.items,
                               message='no feasible insertion; retain request open for next periodic routing',
@@ -296,6 +314,7 @@ class InsertionPolicy:
                 model.log.info(f'GP_DEFER {reason}')
                 continue
             key, selected = best
+            # Ghi chú: Cập nhật tuyến và mốc metrics sau mỗi nhóm; nhóm kế tiếp được thử trên kế hoạch đã cập nhật.
             plans, before = selected.plans, selected.metrics
             admitted |= set(group.items)
             stats['chosen'].append(dict(order=group.order, group=group.index,

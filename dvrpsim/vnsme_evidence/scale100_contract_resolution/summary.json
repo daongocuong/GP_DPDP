@@ -1,0 +1,101 @@
+{
+  "status": "CONTRACT_V3_IMPLEMENTED_AND_REPLAY_VERIFIED_FULL_REFERENCE_PENDING",
+  "head": "0bd773291d5d9034f1e7b81688bc2dfaf87308c7",
+  "contract_version": "dpdp-execution-commitment-v3",
+  "legacy_default": "dpdp-accepted-route-v2",
+  "recommended_design": "Option B, implemented with an accounting-only stateful layer; no route generation",
+  "service_acceptance_is_irreversible": true,
+  "tentative_unpicked_publication_can_be_withdrawn": true,
+  "every_observed_request_remains_required_until_delivered": true,
+  "same_guard_for_GP_and_VNSME": true,
+  "Java_search_and_publication_unchanged": true,
+  "GP_ranker_generator_and_fitness_formula_unchanged": true,
+  "scorer_and_physical_parameters_unchanged": true,
+  "timeout_fix_from_prior_task_preserved": true,
+  "saved_epoch_replays": [
+    {
+      "instance": 9,
+      "saved_epochs": [
+        60,
+        61
+      ],
+      "shared_guard_pass": true,
+      "native_enforcement_pass": true,
+      "affected_items": [
+        "0949430034-1",
+        "0949430034-2"
+      ],
+      "acceptance_preserved": true,
+      "affected_reoffered_once_as_unallocated": true,
+      "returned_publication_unchanged": true,
+      "observed_items": 59
+    },
+    {
+      "instance": 13,
+      "saved_epochs": [
+        21,
+        22
+      ],
+      "shared_guard_pass": true,
+      "native_enforcement_pass": true,
+      "affected_items": [
+        "0316410009-1",
+        "0325060010-1",
+        "0325060010-2",
+        "0325060010-3",
+        "0325060010-4",
+        "0325060010-5",
+        "0325060010-6"
+      ],
+      "acceptance_preserved": true,
+      "affected_reoffered_once_as_unallocated": true,
+      "returned_publication_unchanged": true,
+      "observed_items": 16
+    }
+  ],
+  "tests": {
+    "tests": 179,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": true,
+    "wall_seconds": 48.89473199984059,
+    "failure_details": []
+  },
+  "legacy_reference_2_6_loader_pass": true,
+  "legacy_reference_not_certified_for_v3": true,
+  "new_verified_scale100_references": 0,
+  "new_full_scale100_rollouts": 0,
+  "new_Java_searches": 0,
+  "GP_training_runs": 0,
+  "final_test_rollouts": 0,
+  "rerun_9_13_contract_gate": "PASS at saved-epoch and bounded synthetic level; opt-in v3 full rerun/verification still required",
+  "official_GP_readiness": false,
+  "remaining_blockers": [
+    "No full-run v3 references9/10/13",
+    "Versioned v3 reference collection and training/normalization protocol not migrated",
+    "Instance10 runtime/monitoring issues unchanged"
+  ],
+  "changed_existing_files": [
+    "dpdp_vnsme_reference.py",
+    "run_dpdp_insertion.py",
+    "src/baselines/vnsme.py"
+  ],
+  "unchanged_existing_files": 25044,
+  "new_product_files": [
+    "dpdp_contract.py",
+    ".gitattributes",
+    "protocols/dpdp_execution_commitment_v3.json",
+    "protocols/dpdp_execution_commitment_v3.json.sha256"
+  ],
+  "new_test_file": "test_dpdp_execution_contract.py",
+  "report_utf8": true,
+  "report_sha256": "105316257572f1fb323c165a96ba07852ef0042388f3048457d8a3f81c0610db",
+  "changed_source_sha256": {
+    "dpdp_vnsme_reference.py": "19f2b44c0faf13ff26a357af1e439d71de782033a91f44a06ed2e23b852f4cf1",
+    "run_dpdp_insertion.py": "b23654d74ba05a9eb872ccaad3138c721b9c46c6c99a10709fe1a60d13006240",
+    "src/baselines/vnsme.py": "912789f6d34b565bec7ed21a95113ebbe6d4db016d9b7a4235954548b0ea261c",
+    "dpdp_contract.py": "c583418ae2ae715b561aeb2e6f5c7373be4b9f2dc95df6ae0bf21d222e2ce10d",
+    "test_dpdp_execution_contract.py": "77f2a428a5c1b432f7818f8f567c4647de443725f9b5eafc62a4abc8c0ad24d1"
+  }
+}

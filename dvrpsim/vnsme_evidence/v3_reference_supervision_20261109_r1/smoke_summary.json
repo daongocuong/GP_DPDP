@@ -1,0 +1,220 @@
+{
+  "timeout_state": "TIMEOUT",
+  "java_observed": true,
+  "java_identities": [
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    },
+    {
+      "pid": 22984,
+      "parent_pid": 4080,
+      "name": "java.exe",
+      "creation_filetime_100ns": 134387022622740115,
+      "started_utc": "2026-11-09T12:51:02.274012+00:00",
+      "cpu_user_seconds": 0.03125,
+      "cpu_kernel_seconds": 0.0,
+      "cpu_seconds": 0.03125
+    }
+  ],
+  "killed_java_not_alive": true,
+  "timeout_job_empty": true,
+  "gap_state": "MONITORING_GAP",
+  "gap_job_empty": true,
+  "adapter_timeout_preserved": true,
+  "adapter_java_identity": {
+    "pid": 26536,
+    "creation_filetime_100ns": 134387022652832453,
+    "started_utc": "2026-11-09T12:51:05.283245+00:00",
+    "cpu_user_seconds": 0.0,
+    "cpu_kernel_seconds": 0.0,
+    "cpu_seconds": 0.0
+  },
+  "adapter_end": {
+    "pid": 26536,
+    "ended_utc": "2026-11-09T12:51:05.796667+00:00",
+    "ended_monotonic": 2205611.8159557,
+    "elapsed_seconds": 0.5067604999057949,
+    "returncode": 1,
+    "timed_out": true,
+    "timeout_detection_lag_seconds": 0.006760499905794859
+  },
+  "benchmark_rollouts": 0,
+  "vnsme_searches": 0
+}

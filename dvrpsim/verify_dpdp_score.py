@@ -29,17 +29,20 @@ class InvalidRun(ValueError):
     pass
 
 
+# Ghi chú: Đưa điều kiện kiểm chứng về cùng loại lỗi InvalidRun để CLI báo kết quả không hợp lệ.
 def require(condition, message):
     if not condition:
         raise InvalidRun(message)
 
 
+# Ghi chú: Đổi dữ liệu số sang Decimal và yêu cầu hữu hạn, không âm để tính điểm chính xác.
 def number(value):
     result = Decimal(str(value))
     require(result.is_finite() and result >= 0, f'Invalid nonnegative number: {value}')
     return result
 
 
+# Ghi chú: Đổi đồng hồ HH:MM:SS hợp lệ sang số giây từ đầu ngày.
 def clock_seconds(value):
     parts = value.split(':')
     require(len(parts) == 3, f'Invalid clock: {value}')
@@ -48,11 +51,15 @@ def clock_seconds(value):
     return Decimal(h * 3600 + m * 60 + s)
 
 
+# Ghi chú: Kiểm đường dẫn development rồi đọc CSV thành các dict, hỗ trợ BOM UTF-8.
 def csv_rows(path):
+    from dpdp_sealed import require_development_path
+    require_development_path(path)
     with Path(path).open(encoding='utf-8-sig', newline='') as handle:
         return list(csv.DictReader(handle))
 
 
+# Ghi chú: Phục dựng ánh xạ item → đơn gốc và hạn giao; xử lý hạn giao qua ngày kế tiếp.
 def read_orders(path):
     items, deadlines = {}, {}
     for row in csv_rows(path):
@@ -72,6 +79,7 @@ def read_orders(path):
     return items, deadlines
 
 
+# Ghi chú: Tính J = tổng km / số xe + (10000/3600) × tổng giây trễ; mỗi đơn gốc tính trễ theo item đến muộn nhất.
 def aggregate_score(item_to_order, deadlines, completions, distances):
     """Completions are (item_id, arrival_seconds); reject duplicates, never hide them."""
     require(bool(distances), 'No vehicles')
@@ -84,12 +92,14 @@ def aggregate_score(item_to_order, deadlines, completions, distances):
     latest = {}
     for item, time in completions:
         order = item_to_order[item]
+        # Ghi chú: Một đơn gốc hoàn tất khi item cuối cùng đến nơi giao; không cộng trễ riêng cho từng item.
         latest[order] = max(latest.get(order, Decimal(0)), number(time))
     tardiness = {order: max(Decimal(0), latest[order] - number(due))
                  for order, due in deadlines.items()}
     total_distance = sum((number(d) for d in distances.values()), Decimal(0))
     average = total_distance / len(distances)
     total_tardiness = sum(tardiness.values(), Decimal(0))
+    # Ghi chú: Đổi tổng trễ từ giây sang giờ rồi nhân hệ số phạt 10000.
     penalty = total_tardiness * 10000 / 3600
     return dict(vehicle_num=len(distances), original_orders=len(deadlines), items=len(item_to_order),
                 total_distance_km=total_distance, average_distance_km=average,
@@ -99,6 +109,7 @@ def aggregate_score(item_to_order, deadlines, completions, distances):
                 distance_by_vehicle_km=distances, tardiness_by_original_order_seconds=tardiness)
 
 
+# Ghi chú: Đọc log độc lập, đối chiếu sự kiện và hành trình với dữ liệu gốc rồi tính điểm khi tất cả item đã giao đủ.
 def verify(log_path, orders_path, vehicles_path, matrix_path):
     items, deadlines = read_orders(orders_path)
     vehicle_rows = csv_rows(vehicles_path)
@@ -188,10 +199,12 @@ def verify(log_path, orders_path, vehicles_path, matrix_path):
     return result
 
 
+# Ghi chú: Tính hash để kết quả CLI ghi nhận chính xác verifier và các file đã đọc.
 def sha256(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+# Ghi chú: Nhận đường dẫn log/dữ liệu, chạy kiểm chứng và in JSON; trả mã lỗi nếu dữ liệu hoặc trajectory không hợp lệ.
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     data = ROOT / 'examples/case_studies/dpdp/data'

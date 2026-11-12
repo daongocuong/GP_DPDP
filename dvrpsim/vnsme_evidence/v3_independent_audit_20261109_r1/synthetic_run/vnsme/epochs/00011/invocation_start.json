@@ -1,0 +1,23 @@
+{
+  "pid": 28984,
+  "identity": {
+    "pid": 28984,
+    "creation_filetime_100ns": 134387035569763537,
+    "started_utc": "2026-11-09T13:12:36.976353+00:00",
+    "cpu_user_seconds": 0.0,
+    "cpu_kernel_seconds": 0.0,
+    "cpu_seconds": 0.0
+  },
+  "started_utc": "2026-11-09T13:12:36.978957+00:00",
+  "started_monotonic": 2206902.9982071,
+  "deadline_monotonic": 2206907.9982071,
+  "deadline_wall_epoch": 1794229961.9789007,
+  "deadline_utc": "2026-11-09T13:12:41.978901+00:00",
+  "timeout_seconds": 5.0,
+  "command": [
+    "C:\\Users\\Cuongdz\\.jdks\\openjdk-26.0.1\\bin\\java.EXE",
+    "-cp",
+    "C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\build;C:\\Users\\Cuongdz\\Documents\\LA\\dvrpsim\\third_party\\vnsme\\lib",
+    "main_algorithm"
+  ]
+}

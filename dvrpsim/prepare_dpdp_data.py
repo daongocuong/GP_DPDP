@@ -11,6 +11,7 @@ import sys
 import urllib.request
 
 from dpdp_dataset import ROOT, CASE, validate_instance
+from dpdp_sealed import sealed_instance, require_development_path
 
 COMMIT = 'e4ef3a1c92d19d1d08c3ef0e2156b6fecefdbe04'
 PREFIX = 'simulator/dpdp_competition/benchmark/'
@@ -69,6 +70,7 @@ def acquire(output):
         # Common CSVs first; compare BEFORE downloading or writing instances.
         first = sorted(selected, key=lambda pair: (pair[0] not in ('factory_info.csv', 'route_info.csv'), pair[0]))
         for relative, entry in first:
+            require_development_path(output/'benchmark'/relative)
             raw = fetch(RAW+entry['path'])
             if git_blob_sha(raw) != entry['sha']:
                 raise ValueError(f'upstream Git blob checksum mismatch: {relative}')
@@ -120,15 +122,20 @@ def verify_existing(output):
     if manifest['commit'] != COMMIT or not manifest['all_verified']:
         raise ValueError('wrong source commit or unverified manifest')
     for record in manifest['files']:
+        if sealed_instance(output/'benchmark'/record['file']) is not None:
+            continue  # trusted manifest metadata only; do not open sealed CSVs
+        require_development_path(output/'benchmark'/record['file'])
         content = (output/'benchmark'/record['file']).read_bytes()
         if sha256(content) != record['sha256'] or git_blob_sha(content) != record['git_blob_sha1']:
             raise ValueError(f'data checksum mismatch: {record["file"]}')
     compare_common({n:(output/'benchmark'/n).read_bytes() for n in ('factory_info.csv','route_info.csv')}, CASE/'data')
     for i, info in manifest['instances'].items():
+        if int(i) in (7, 8, 15, 16):
+            continue  # prior manifest metadata, not a fresh verification
         actual = validate_instance(output/'benchmark'/f'instance_{i}')
         if any(actual[k] != info[k] for k in actual):
             raise ValueError(f'validation no longer matches manifest: instance_{i}')
-    print('offline source/hash/schema/loader verification PASS')
+    print('offline development source/hash/schema/loader verification PASS; sealed CSVs not opened')
     return manifest
 
 

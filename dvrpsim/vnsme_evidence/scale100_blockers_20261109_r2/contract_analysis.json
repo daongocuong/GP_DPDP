@@ -1,0 +1,132 @@
+{
+  "analysis_kind": "read_only_saved_artifact_contract_audit",
+  "source_run": "vnsme_runs/scale100_reference_20261109_r1",
+  "new_java_invocations": 0,
+  "new_simulations": 0,
+  "production_changes": false,
+  "bounded_validation": {
+    "method": "Decode route_after operation batches, merge adjacent equal-factory nodes, build a projected post-current-service fleet from saved vehicle_info carrying_items and locked destinations, then call the existing independent dpdp_feasibility.validate over saved unallocated plus ongoing items.",
+    "instance_9_epoch61_private_complete_plan": "PASS: capacity, LIFO, precedence, order splitting, destination lock, complete service",
+    "instance_9_epoch61_published_complete_plan": "REJECTED: MISSING_SERVICE",
+    "instance_13_epoch22_private_complete_plan": "PASS: capacity, LIFO, precedence, order splitting, destination lock, complete service",
+    "instance_13_epoch22_published_complete_plan": "REJECTED: MISSING_SERVICE",
+    "scope": "Read-only artifact validation, not a new simulator or Java run. The real-model adapter regressions are separate."
+  },
+  "conclusion": {
+    "classification": "incompatible_publication_and_acceptance_contracts",
+    "adapter_only_fix_preserving_original_dispatch_and_strict_commitments": false,
+    "java_lost_items_from_private_solution": false,
+    "java_omitted_prior_accepted_items_from_publication": true,
+    "guard_correctly_rejected_both_saved_outputs": true,
+    "allowed_reassignment": "Before pickup, reassignment is legal if the complete remaining plan preserves capacity, LIFO, precedence, current operations, and locked destination factory/arrival. The validator has no suffix assignment lock.",
+    "disallowed_omission": "A previously accepted, undelivered item must remain in the executable published remaining plan unless its operation is in the preserved current visit.",
+    "required_change": "Satisfying this stronger contract requires changing publication commitment semantics or constraining private search. Promoting a hidden private suffix changes isDelay dispatch; retaining the old vehicle plan changes the selected solution; forbidding reassignment changes search. None is an unchanged-baseline adapter correction.",
+    "recommendation": "Keep the accepted-order guard, retain invalid results and null scores, add regressions proving both saved outputs are rejected, and do not run expensive full references before an explicit integration/publication design revision."
+  },
+  "contract_ownership": {
+    "adapter": [
+      "src/baselines/vnsme.py:199-202 maps every currently published item to simulator ACCEPTED",
+      "src/baselines/vnsme.py:203-207 enforces previously accepted commitments, except preserved current work"
+    ],
+    "simulator": [
+      "src/dvrpsim/model.py:421-425 applies order.accept before installing vehicle plans",
+      "src/dvrpsim/model.py:455-465 replaces next_visits with each new route",
+      "src/dvrpsim/elements/order.py:109-111 defines ACCEPTED status",
+      "src/dvrpsim/elements/order.py:168-184 sets ACCEPTED and acceptance time",
+      "src/dvrpsim/utils/checker.py:33-34 has no native order commitment validation; stronger protection belongs to the adapter and independent validator"
+    ],
+    "independent_validator": [
+      "dpdp_feasibility.py:56-57 locks destination identity/arrival and service-started current operations; explicitly has no suffix lock",
+      "dpdp_feasibility.py:103-111 seeds physical ownership only from carrying items",
+      "dpdp_feasibility.py:155-170 enforces pickup/delivery ownership, LIFO, and capacity",
+      "dpdp_feasibility.py:171-174 enforces complete remaining service for supplied items"
+    ],
+    "native_huawei": [
+      "third_party/huawei-xingtian/simulator/dpdp_competition/src/common/order.py:41 defines only initialization/generated/ongoing/completed, no accepted state",
+      "third_party/huawei-xingtian/simulator/dpdp_competition/src/utils/tools.py:47-60 sends all GENERATED items back as unallocated regardless of prior suffix planning",
+      "third_party/huawei-xingtian/simulator/dpdp_competition/src/simulator/simulate_environment.py:174-195 changes item state only on physical ongoing/completion events",
+      "third_party/huawei-xingtian/simulator/dpdp_competition/src/simulator/simulate_environment.py:220 clears vehicle.planned_route during state updates",
+      "third_party/huawei-xingtian/simulator/dpdp_competition/src/utils/checker.py:96-114 locks prior destination factory and arrival; does not require retention of previously planned unpicked suffix items",
+      "third_party/huawei-xingtian/simulator/dpdp_competition/src/utils/checker.py:152-164 requires every physically carrying item to be delivered by the current route"
+    ]
+  },
+  "java_publication": {
+    "entrypoint": "third_party/vnsme/original/main_algorithm.java:120-125 saves full private solution before MergeNode and delayed publication",
+    "private_restore": "third_party/vnsme/original/main_algorithm.java:2486-2661 restores the previous route_after independently of published suffix retention",
+    "delay_enabled": "third_party/vnsme/original/main_algorithm.java:70",
+    "slack_threshold_seconds": 9000,
+    "slack_threshold_source": "third_party/vnsme/original/main_algorithm.java:71",
+    "emergency_initial_value": -1,
+    "emergency_initial_source": "third_party/vnsme/original/main_algorithm.java:5953-5954",
+    "urgency_sources": [
+      "third_party/vnsme/original/main_algorithm.java:6031-6036",
+      "third_party/vnsme/original/main_algorithm.java:6084-6089"
+    ],
+    "carrying_and_destination_closure": "third_party/vnsme/original/main_algorithm.java:6126-6180 extends publication for carrying items or an existing destination, not prior accepted suffix items",
+    "empty_publication_conditions": [
+      "third_party/vnsme/original/main_algorithm.java:6195 emits no route suffix for emergencyIndex<=0",
+      "third_party/vnsme/original/main_algorithm.java:6249 emits null destination for emergencyIndex=-1 and no existing destination"
+    ],
+    "native_intent": "Private solution retains deferred assignments; only the currently published prefix controls vehicle execution. Unloaded deferred items remain eligible for reallocation."
+  },
+  "cases": [
+    {
+      "instance": 9,
+      "item": "0949430034-1",
+      "release_simulation_seconds": 35383,
+      "release_evidence": "instance_9/simulation.log:405",
+      "first_publication_epoch": 59,
+      "first_acceptance_simulation_seconds": 35400,
+      "first_publication_vehicle": "V_4",
+      "first_publication_pickup_index": 1,
+      "first_publication_delivery_index": 2,
+      "retained_publication_epochs": [59, 60],
+      "failure_epoch": 61,
+      "failure_simulation_seconds": 36600,
+      "failure_input_item_status": "unallocated, delivery_state=1; never picked up",
+      "failure_private_vehicle": "V_3",
+      "failure_private_vehicle_has_carrying": false,
+      "failure_private_vehicle_has_destination": false,
+      "failure_private_route": "V_3:[p2_0949430034-1 d2_0949430034-2]",
+      "failure_published_destination": null,
+      "failure_published_route": [],
+      "all_previously_accepted_active_items_missing": ["0949430034-1", "0949430034-2"],
+      "private_v3_min_delivery_slack_seconds_without_dock_queue": 10999,
+      "evidence_epochs": ["instance_9/vnsme/epochs/00059", "instance_9/vnsme/epochs/00060", "instance_9/vnsme/epochs/00061"],
+      "failure_evidence": "instance_9/failure.json"
+    },
+    {
+      "instance": 13,
+      "item": "0316410009-1",
+      "release_simulation_seconds": 11801,
+      "release_evidence": "instance_13/simulation.log:64",
+      "first_publication_epoch": 20,
+      "first_acceptance_simulation_seconds": 12000,
+      "first_publication_vehicle": "V_5",
+      "first_publication_pickup_index": 4,
+      "first_publication_delivery_index": 5,
+      "retained_publication_epochs": [20, 21],
+      "publication_indices_epoch21": {"pickup": 3, "delivery": 4},
+      "failure_epoch": 22,
+      "failure_simulation_seconds": 13200,
+      "failure_input_item_status": "unallocated, delivery_state=1; never picked up",
+      "failure_private_vehicle": "V_3",
+      "failure_private_vehicle_has_carrying": false,
+      "failure_private_vehicle_has_destination": false,
+      "failure_private_route": "V_3:[p1_0316410009-1 p6_0325060010-1 d6_0325060010-6 d1_0316410009-1]",
+      "failure_published_destination": null,
+      "failure_published_route": [],
+      "all_previously_accepted_active_items_missing": ["0316410009-1", "0325060010-1", "0325060010-2", "0325060010-3", "0325060010-4", "0325060010-5", "0325060010-6"],
+      "private_v3_min_delivery_slack_seconds_with_full_merged_service_without_dock_queue": 10085,
+      "private_v3_min_delivery_slack_seconds_with_java_cached_node_service_without_dock_queue": 10805,
+      "merged_service_note": "MergeNode appends operations without recomputing Node.serviceTime (main_algorithm.java:3174-3203; Node.java:84-85). Both full-service and actual cached-service estimates are above 9000 seconds, so this separate accounting issue does not resolve the demonstrated commitment incompatibility.",
+      "evidence_epochs": ["instance_13/vnsme/epochs/00020", "instance_13/vnsme/epochs/00021", "instance_13/vnsme/epochs/00022"],
+      "failure_evidence": "instance_13/failure.json"
+    }
+  ],
+  "limits": [
+    "The full lifecycle ends at the archived guard failure; neither item was delivered before its run stopped.",
+    "Slack calculations are diagnostic reconstructions from saved private routes and benchmark travel times, not new Java measurements.",
+    "No algorithmic fix, reference completion, score, or readiness is claimed."
+  ]
+}

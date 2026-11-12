@@ -26,7 +26,7 @@ class DatasetTests(unittest.TestCase):
             self.assertEqual(p['routes'], CASE/'data/route_info.csv')
 
     def test_explicit_directory_discovers_real_filenames(self):
-        for i, name in ((2,'50_2.csv'), (9,'100_1.csv'), (16,'100_8.csv')):
+        for i, name in ((2,'50_2.csv'), (9,'100_1.csv'), (13,'100_5.csv')):
             p = resolve_inputs(instance_directory=BENCHMARK/f'instance_{i}')
             self.assertEqual(p['orders'].name, name)
             self.assertEqual(p['instance'], i)
