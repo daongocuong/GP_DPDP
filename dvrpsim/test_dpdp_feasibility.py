@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 from dpdp_feasibility import Item, Visit, VehicleState, Plan, Infeasible, validate
 
 
@@ -31,6 +32,41 @@ class FeasibilityAudit(unittest.TestCase):
         self.valid({'a': Item('o', 15, 'P', 'Q', due=-100)}, {'V': VehicleState(15)},
                    {'V': Plan(future=(pickup('a'), delivery('a')))})
 
+    def test_optional_profile_preserves_validity_and_reconciles_top_level_timers(self):
+        its = items()
+        fleet = {'V': VehicleState(15)}
+        plans = {'V': Plan(future=(pickup('a', 'b'), delivery('b', 'a')))}
+        plain = validate(its, fleet, plans)
+        profile = {}
+        measured = validate(its, fleet, plans, profile=profile)
+        self.assertEqual(plain, measured)
+        top_level = sum(profile[key] for key in (
+            'feasibility_initial_vehicle_scan_seconds',
+            'feasibility_vehicle_route_scan_seconds',
+            'feasibility_global_checks_seconds'))
+        self.assertAlmostEqual(profile['feasibility_validator_total_seconds'], top_level, delta=1e-5)
+        for key in ('feasibility_capacity_check_seconds', 'feasibility_lifo_check_seconds',
+                    'feasibility_pickup_delivery_seconds', 'feasibility_vehicle_route_scan_seconds'):
+            self.assertGreater(profile[key], 0)
+
+    def test_optional_profile_preserves_first_invalid_rule(self):
+        its = items(10, 10)
+        fleet = {'V': VehicleState(15)}
+        plans = {'V': Plan(future=(pickup('a'), pickup('b'), delivery('b'), delivery('a')))}
+        outcomes = []
+        measured_profile = {}
+        for profile in (None, measured_profile):
+            try:
+                validate(its, fleet, plans, profile=profile)
+            except Infeasible as exc:
+                outcomes.append((exc.rule, exc.vehicle, exc.item, exc.step))
+        self.assertEqual(outcomes, [('CAPACITY', 'V', 'b', 'future[1]/pickup[0]')]*2)
+        phases = sum(measured_profile[key] for key in (
+            'feasibility_initial_vehicle_scan_seconds',
+            'feasibility_vehicle_route_scan_seconds',
+            'feasibility_global_checks_seconds'))
+        self.assertAlmostEqual(measured_profile['feasibility_validator_total_seconds'], phases, delta=1e-5)
+
     def test_intermediate_overload_not_hidden_by_final_zero_load(self):
         self.invalid('CAPACITY', items(10, 10), {'V': VehicleState(15)},
                      {'V': Plan(future=(pickup('a'), pickup('b'), delivery('b'), delivery('a')))})
@@ -42,6 +78,27 @@ class FeasibilityAudit(unittest.TestCase):
     def test_initial_overload(self):
         self.invalid('CAPACITY', items(10, 10), {'V': VehicleState(15, carrying=('a', 'b'))},
                      {'V': Plan(future=(delivery('b', 'a'),))})
+
+    def test_delivery_skips_redundant_capacity_sum_but_pickup_still_checks(self):
+        its = {'a': Item('oa', 4, 'P', 'Q'), 'b': Item('ob', 6, 'P', 'Q')}
+        fleet = {'V': VehicleState(15, carrying=('a',))}
+        plans = {'V': Plan(future=(delivery('a'), pickup('b'), delivery('b')))}
+        with patch('dpdp_feasibility.sum', wraps=sum, create=True) as summed:
+            self.valid(its, fleet, plans)
+        # Initial load and the load-increasing pickup are the only required sums.
+        self.assertEqual(summed.call_count, 2)
+
+    def test_capacity_first_error_after_delivery_matches_previous_rule(self):
+        its = {'a': Item('oa', 1, 'P', 'Q'), 'b': Item('ob', 16, 'P', 'Q')}
+        fleet = {'V': VehicleState(15, carrying=('a',))}
+        plans = {'V': Plan(future=(delivery('a'), pickup('b'), delivery('b')))}
+        with self.assertRaises(Infeasible) as caught:
+            validate(its, fleet, plans)
+        self.assertEqual((caught.exception.rule, caught.exception.vehicle,
+                          caught.exception.item, caught.exception.step),
+                         ('CAPACITY', 'V', 'b', 'future[1]/pickup[0]'))
+        self.assertEqual(str(caught.exception),
+                         'CAPACITY: vehicle=V, item=b, step=future[1]/pickup[0]: load=16, capacity=15')
 
     def test_initial_duplicate_ownership(self):
         self.invalid('INITIAL_OWNERSHIP', items(),

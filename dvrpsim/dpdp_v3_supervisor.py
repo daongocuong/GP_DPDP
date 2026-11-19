@@ -9,6 +9,7 @@ import ctypes
 from ctypes import wintypes
 from datetime import datetime, timezone
 import json
+import math
 import msvcrt
 import os
 from pathlib import Path
@@ -54,6 +55,8 @@ def api(name, restype, args):
 
 CreateJob = api('CreateJobObjectW', HANDLE, [ctypes.c_void_p, wintypes.LPCWSTR])
 SetJob = api('SetInformationJobObject', BOOL, [HANDLE, ctypes.c_int, ctypes.c_void_p, DWORD])
+QueryJob = api('QueryInformationJobObject', BOOL, [HANDLE, ctypes.c_int, ctypes.c_void_p,
+                                                   DWORD, ctypes.POINTER(DWORD)])
 Assign = api('AssignProcessToJobObject', BOOL, [HANDLE, HANDLE])
 InJob = api('IsProcessInJob', BOOL, [HANDLE, HANDLE, ctypes.POINTER(BOOL)])
 KillJob = api('TerminateJobObject', BOOL, [HANDLE, wintypes.UINT])
@@ -74,6 +77,15 @@ CreateProcess = api('CreateProcessW', BOOL, [wintypes.LPCWSTR, wintypes.LPWSTR, 
 def check(ok, operation):
     if not ok:
         raise ctypes.WinError(ctypes.get_last_error(), operation)
+
+
+def peak_job_memory_bytes(job):
+    """Peak committed memory for all processes in the supervised Windows job."""
+    limits = EXTENDED_LIMIT()
+    returned = DWORD()
+    check(QueryJob(job, 9, ctypes.byref(limits), ctypes.sizeof(limits),
+                   ctypes.byref(returned)), 'QueryInformationJobObject')
+    return int(limits.peak_job)
 
 def ft(value):
     return (value.dwHighDateTime << 32) | value.dwLowDateTime
@@ -122,17 +134,146 @@ def processes(job):
         Close(snap)
     return result
 
-def supervise(command, output, timeout, interval=1.0, gap_limit=5.0, test_stall=0, epoch_root=None):
+
+class DecisionTraceMonitor:
+    """Validate append-only START/END decision events and enforce one live deadline."""
+    def __init__(self, path, timeout, partition=None, algorithm=None, timeout_overrides=None):
+        self.path=Path(path); self.timeout=float(timeout); self.offset=0
+        self.pending=None; self.completed=0; self.last_index=0
+        self.partition=partition; self.algorithm=algorithm
+        self.timeout_overrides={int(k):float(v) for k,v in (timeout_overrides or {}).items()}
+
+    def timeout_for(self, decision_index):
+        return self.timeout_overrides.get(decision_index,self.timeout)
+
+    def poll(self, now):
+        if not self.path.is_file():
+            raise ValueError('decision trace missing')
+        with self.path.open('rb') as f:
+            f.seek(self.offset); data=f.read()
+        complete=data.rfind(b'\n')+1
+        if complete:
+            self.offset+=complete
+        for raw in data[:complete].splitlines():
+            try: event=json.loads(raw.decode('utf-8'))
+            except json.JSONDecodeError as exc: raise ValueError('malformed decision trace') from exc
+            if event.get('schema')!='dpdp-smoke-decision-v1': raise ValueError('unknown decision trace schema')
+            if self.partition is not None and event.get('partition') != self.partition:
+                raise ValueError('decision trace partition mismatch')
+            if self.algorithm is not None and event.get('algorithm') != self.algorithm:
+                raise ValueError('decision trace algorithm mismatch')
+            kind=event.get('event'); idx=event.get('decision_index')
+            if kind=='START':
+                if type(idx) is not int or self.pending is not None or idx!=self.last_index+1:
+                    raise ValueError('duplicate/out-of-order START')
+                sim=event.get('simulation_seconds')
+                if sim is not None and (not isinstance(sim,(int,float)) or sim<0):
+                    raise ValueError('invalid simulated time in START')
+                self.pending=dict(index=idx,simulation_seconds=event.get('simulation_seconds'),received=now,
+                                  timeout_seconds=self.timeout_for(idx),
+                                  progress=dict(candidate_count=0,feasible_count=0,rejected_count=0,
+                                                groups_total=0,groups_processed=0))
+                self.last_index=idx
+            elif kind=='PROGRESS':
+                if self.pending is None or idx!=self.pending['index']:
+                    raise ValueError('orphan/out-of-order PROGRESS')
+                if event.get('simulation_seconds') != self.pending['simulation_seconds']:
+                    raise ValueError('simulation time changed within decision progress')
+                keys=('candidate_count','feasible_count','rejected_count','groups_total','groups_processed')
+                current={key:event.get(key) for key in keys}
+                if any(type(value) is not int or value<0 for value in current.values()):
+                    raise ValueError('invalid workload counters in PROGRESS')
+                if any(current[key]<self.pending['progress'][key] for key in keys):
+                    raise ValueError('nonmonotonic workload counters in PROGRESS')
+                elapsed=event.get('decision_elapsed_seconds')
+                if not isinstance(elapsed,(int,float)) or not math.isfinite(elapsed) or elapsed<0:
+                    raise ValueError('invalid elapsed time in PROGRESS')
+                self.pending['progress']=current
+            elif kind in ('END','ERROR'):
+                if self.pending is None or idx!=self.pending['index']: raise ValueError('orphan/duplicate END')
+                if kind=='END':
+                    elapsed=event.get('decision_elapsed_seconds')
+                    if not isinstance(elapsed,(int,float)) or elapsed<0 or event.get('status')!='completed':
+                        raise ValueError('invalid END marker')
+                    # If the END was written after the deadline (or only
+                    # observed after it), never accept a late result.
+                    limit=self.pending['timeout_seconds']
+                    if elapsed >= limit or now-self.pending['received'] >= limit:
+                        return dict(kind='DECISION_TIMEOUT',decision_index=self.pending['index'],
+                            simulation_seconds=self.pending['simulation_seconds'],
+                            decision_elapsed_seconds=max(elapsed,now-self.pending['received']),
+                            elapsed_wall_seconds=max(elapsed,now-self.pending['received']),
+                            completed_decisions=self.completed,timeout_type='decision_hard_timeout',
+                            configured_decision_timeout_seconds=limit,
+                            stop_reason='decision_hard_timeout',**self.pending['progress'])
+                    self.completed+=1
+                self.pending=None
+            else: raise ValueError('unknown decision trace event')
+        if self.pending is not None and now-self.pending['received']>=self.pending['timeout_seconds']:
+            return dict(kind='DECISION_TIMEOUT',decision_index=self.pending['index'],
+                        simulation_seconds=self.pending['simulation_seconds'],
+                        decision_elapsed_seconds=now-self.pending['received'],
+                        elapsed_wall_seconds=now-self.pending['received'],
+                        completed_decisions=self.completed,timeout_type='decision_hard_timeout',
+                        configured_decision_timeout_seconds=self.pending['timeout_seconds'],
+                        stop_reason='decision_hard_timeout',**self.pending['progress'])
+        return None
+
+    def finish(self):
+        """A worker may not exit with a partial JSON line or an open decision."""
+        with self.path.open('rb') as f:
+            f.seek(self.offset)
+            tail=f.read()
+        if tail:
+            raise ValueError('truncated final decision trace line')
+        if self.pending is not None:
+            raise ValueError('worker exited with a decision missing END/ERROR')
+
+
+def select_timeout_reason(stage_expired, decision_expired):
+    """Stage deadline has deterministic priority when both deadlines expire together."""
+    if stage_expired:
+        return 'stage_wall_timeout'
+    if decision_expired:
+        return 'decision_hard_timeout'
+    return None
+
+def supervise(command, output, timeout, interval=1.0, gap_limit=5.0, test_stall=0, epoch_root=None,
+              decision_trace=None, decision_timeout=None, partition=None, algorithm=None,
+              stage_started_monotonic=None, decision_timeout_overrides=None):
     if os.name != 'nt':
         raise RuntimeError('Windows Job Objects required')
     if timeout <= 0 or interval <= 0 or gap_limit <= interval:
         raise ValueError('invalid watchdog timing')
+    if (decision_trace is None) != (decision_timeout is None):
+        raise ValueError('decision trace and timeout must be configured together')
+    if decision_trace is not None:
+        trace_path=Path(decision_trace)
+        trace_path.parent.mkdir(parents=True,exist_ok=True)
+        if not trace_path.exists():
+            trace_path.open('x',encoding='utf-8').close()
+        elif trace_path.stat().st_size:
+            raise ValueError('decision trace must be empty for a fresh supervised stage')
+        overrides=decision_timeout_overrides or {}
+        if any(type(k) not in (int,str) or int(k)<1 or not isinstance(v,(int,float))
+               or not math.isfinite(v) or not 0<v for k,v in overrides.items()):
+            raise ValueError('invalid per-decision timeout override')
+        monitor=DecisionTraceMonitor(trace_path,decision_timeout,partition,algorithm,overrides)
+    else:
+        monitor=None
     output = Path(output).resolve(); output.mkdir(parents=True, exist_ok=False)
     job = CreateJob(None, None); check(job, 'CreateJobObject')
     pi = PROCESS_INFORMATION(); created = False
-    start = time.monotonic(); start_wall = time.time(); started_utc = now(); deadline = start + timeout
-    wall_deadline = start_wall + timeout
+    start = time.monotonic(); start_wall = time.time(); started_utc = now()
+    stage_origin = start if stage_started_monotonic is None else stage_started_monotonic
+    deadline = stage_origin + timeout
+    remaining_at_supervisor_start=max(0.0,deadline-start)
+    wall_deadline = start_wall + remaining_at_supervisor_start
     record = dict(command=command, started_utc=started_utc, timeout_seconds=timeout,
+                  decision_timeout_seconds=decision_timeout,
+                  decision_timeout_overrides={str(k):v for k,v in (decision_timeout_overrides or {}).items()},
+                  stage_elapsed_before_supervisor_seconds=max(0.0,start-stage_origin),
+                  remaining_seconds_at_supervisor_start=remaining_at_supervisor_start,
                   deadline_utc=datetime.fromtimestamp(time.time()+timeout, timezone.utc).isoformat(),
                   state='STARTING', valid_supervision=False, samples=[], gaps=[])
     try:
@@ -161,8 +302,39 @@ def supervise(command, output, timeout, interval=1.0, gap_limit=5.0, test_stall=
                     if gap > gap_limit or wall_gap > gap_limit or abs(wall_gap-gap) > gap_limit:
                         record['gaps'].append(dict(seconds=gap, wall_seconds=wall_gap, detected_utc=now()))
                         record['state'] = 'MONITORING_GAP'; break
-                    if tick >= deadline or wall >= wall_deadline:
-                        record.update(state='TIMEOUT', detection_lag_seconds=max(tick-deadline,wall-wall_deadline)); break
+                    marker_timeout=None
+                    if monitor:
+                        try:
+                            marker_timeout=monitor.poll(tick)
+                        except (OSError, ValueError) as exc:
+                            trace_error=dict(schema='dpdp-smoke-decision-v1',event='TRACE_ERROR',algorithm=algorithm,
+                                partition=partition,error=f'{type(exc).__name__}: {exc}',
+                                decision_index=monitor.pending['index'] if monitor.pending else monitor.last_index+1,
+                                simulation_seconds=monitor.pending['simulation_seconds'] if monitor.pending else None,
+                                elapsed_wall_seconds=tick-start,completed_decisions=monitor.completed,
+                                timeout_type=None,stop_reason='invalid_decision_trace')
+                            append_trace_event(decision_trace,trace_error)
+                            record.update(state='INVALID_TRACE',error=trace_error['error'],stop_event=trace_error); break
+                    stage_expired=tick >= deadline or wall >= wall_deadline
+                    decision_expired=marker_timeout is not None
+                    timeout_reason=select_timeout_reason(stage_expired,decision_expired)
+                    # Stage deadline wins ties with a decision deadline.
+                    if timeout_reason == 'stage_wall_timeout':
+                        latest_progress=(monitor.pending['progress'] if monitor and monitor.pending else
+                            dict(candidate_count=None,feasible_count=None,rejected_count=None,
+                                 groups_total=None,groups_processed=None))
+                        timeout_event=dict(kind='STAGE_TIMEOUT',decision_index=monitor.pending['index'] if monitor and monitor.pending else None,
+                            simulation_seconds=monitor.pending['simulation_seconds'] if monitor and monitor.pending else None,
+                            elapsed_wall_seconds=tick-start,
+                            decision_elapsed_seconds=tick-monitor.pending['received'] if monitor and monitor.pending else None,
+                            completed_decisions=monitor.completed if monitor else 0,
+                            timeout_type='stage_wall_timeout',stop_reason='stage_wall_timeout',**latest_progress)
+                        if decision_trace is not None:
+                            append_decision_timeout(decision_trace,timeout_event,partition,algorithm)
+                        record.update(state='TIMEOUT',stop_event=timeout_event,detection_lag_seconds=max(tick-deadline,wall-wall_deadline)); break
+                    if marker_timeout:
+                        append_decision_timeout(decision_trace,marker_timeout,partition,algorithm)
+                        record.update(state='DECISION_TIMEOUT',stop_event=marker_timeout); break
                     if epoch_root:
                         for marker in Path(epoch_root).glob('*/invocation_start.json'):
                             if (marker.parent/'invocation_process_end.json').exists():
@@ -179,12 +351,26 @@ def supervise(command, output, timeout, interval=1.0, gap_limit=5.0, test_stall=
                         if record['state'] == 'EPOCH_TIMEOUT': break
                     if Wait(pi.process, 0) == 0:
                         code = DWORD(); check(ExitCode(pi.process, ctypes.byref(code)), 'GetExitCodeProcess')
-                        record.update(state='EXITED', exit_code=code.value, valid_supervision=True); break
+                        try:
+                            if monitor: monitor.finish()
+                        except (OSError, ValueError) as exc:
+                            trace_error=dict(schema='dpdp-smoke-decision-v1',event='TRACE_ERROR',algorithm=algorithm,
+                                partition=partition,error=f'{type(exc).__name__}: {exc}',
+                                decision_index=monitor.pending['index'] if monitor.pending else monitor.last_index+1,
+                                simulation_seconds=monitor.pending['simulation_seconds'] if monitor.pending else None,
+                                elapsed_wall_seconds=tick-start,completed_decisions=monitor.completed,
+                                timeout_type=None,stop_reason='incomplete_decision_trace')
+                            append_trace_event(decision_trace,trace_error)
+                            record.update(state='INVALID_TRACE',error=trace_error['error'],stop_event=trace_error)
+                        else:
+                            record.update(state='EXITED', exit_code=code.value, valid_supervision=True)
+                        break
                     last = tick; last_wall = wall
                     if test_stall and not stalled:
                         stalled = True; time.sleep(test_stall)
                     else:
                         time.sleep(min(interval, max(0, deadline-time.monotonic())))
+            record['peak_job_memory_bytes'] = peak_job_memory_bytes(job)
             # Kill any surviving descendants on every exit, including a successful root.
             check(KillJob(job, 1), 'TerminateJobObject')
             Wait(pi.process, 5000)
@@ -210,6 +396,17 @@ def supervise(command, output, timeout, interval=1.0, gap_limit=5.0, test_stall=
             Close(pi.thread); Close(pi.process)
         Close(job)
     return record
+
+
+def append_trace_event(path,row):
+    with Path(path).open('a',encoding='utf-8') as out:
+        out.write(json.dumps(row,sort_keys=True)+'\n');out.flush();os.fsync(out.fileno())
+
+
+def append_decision_timeout(path,event,partition,algorithm):
+    row=dict(schema='dpdp-smoke-decision-v1',algorithm=algorithm,partition=partition,**event)
+    row['event']='TIMEOUT'
+    append_trace_event(path,row)
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description=__doc__)

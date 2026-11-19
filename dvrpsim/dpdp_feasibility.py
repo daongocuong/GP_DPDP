@@ -10,6 +10,7 @@ hard constraints. Homogeneous fleet only, as in this DPDP benchmark.
 from dataclasses import dataclass
 from decimal import Decimal
 import math
+from time import perf_counter
 
 
 @dataclass(frozen=True)
@@ -52,7 +53,24 @@ class Infeasible(ValueError):
 
 
 # Ghi chú: Kiểm toàn bộ kế hoạch còn lại: sức chứa, LIFO, quyền sở hữu hàng, thứ tự phục vụ và các phần việc bị khóa.
-def validate(items, fleet, plans, delivered=frozenset(), order_demands=None):
+def validate(items, fleet, plans, delivered=frozenset(), order_demands=None, profile=None):
+    """Validate a plan and optionally accumulate inclusive timing diagnostics."""
+    if profile is None:
+        return _validate(items, fleet, plans, delivered, order_demands, None)
+    started = perf_counter()
+    initial_before = profile.get('feasibility_initial_vehicle_scan_seconds', 0.0)
+    route_before = profile.get('feasibility_vehicle_route_scan_seconds', 0.0)
+    try:
+        return _validate(items, fleet, plans, delivered, order_demands, profile)
+    finally:
+        elapsed = perf_counter()-started
+        initial = profile.get('feasibility_initial_vehicle_scan_seconds', 0.0)-initial_before
+        route = profile.get('feasibility_vehicle_route_scan_seconds', 0.0)-route_before
+        profile['feasibility_validator_total_seconds'] = profile.get('feasibility_validator_total_seconds', 0.0) + elapsed
+        profile['feasibility_global_checks_seconds'] = profile.get('feasibility_global_checks_seconds', 0.0) + max(0.0, elapsed-initial-route)
+
+
+def _validate(items, fleet, plans, delivered=frozenset(), order_demands=None, profile=None):
     """Return True or raise Infeasible with rule/vehicle/item/route step.
 
     Destination identity and arrival are locked, not its operation lists.
@@ -63,7 +81,19 @@ def validate(items, fleet, plans, delivered=frozenset(), order_demands=None):
     service is still checked for every supplied item; no partial route is hidden.
     """
     # Ghi chú: Dừng kiểm tra ngay khi vi phạm và gắn thông tin vị trí lỗi.
+    active = {'initial': None, 'route': None, 'operation': None}
+
+    def finish_phase(name, key):
+        started = active[name]
+        if profile is not None and started is not None:
+            profile[key] = profile.get(key, 0.0) + perf_counter()-started
+        active[name] = None
+
     def fail(rule, vehicle='-', item='-', step='-', detail=''):
+        if profile is not None:
+            finish_phase('operation', 'feasibility_pickup_delivery_seconds')
+            finish_phase('route', 'feasibility_vehicle_route_scan_seconds')
+            finish_phase('initial', 'feasibility_initial_vehicle_scan_seconds')
         raise Infeasible(rule, vehicle, item, step, detail)
 
     if set(fleet) != set(plans) or not fleet:
@@ -106,6 +136,7 @@ def validate(items, fleet, plans, delivered=frozenset(), order_demands=None):
         if totals[order] <= capacity and len(tokens) > 1:
             fail('ORDER_SPLIT', vehicle, item, step, f'order {order} fits one vehicle; multiple pickup batches')
 
+    active['initial'] = perf_counter() if profile is not None else None
     for vehicle, state in fleet.items():
         for item in state.carrying:
             known(item, vehicle, 'initial')
@@ -115,9 +146,17 @@ def validate(items, fleet, plans, delivered=frozenset(), order_demands=None):
             picked.add(item)
             token = 'current' if state.service_started and state.current and item in state.current.pickups else 'initial'
             batch(items[item].order, (vehicle, token), vehicle, item, 'initial')
-        if sum((quantities[i] for i in state.carrying), Decimal(0)) > capacity:
-            fail('CAPACITY', vehicle, step='initial', detail='initial load exceeds capacity')
+        capacity_started = perf_counter() if profile is not None else None
+        try:
+            if sum((quantities[i] for i in state.carrying), Decimal(0)) > capacity:
+                fail('CAPACITY', vehicle, step='initial', detail='initial load exceeds capacity')
+        finally:
+            if profile is not None:
+                profile['feasibility_capacity_check_seconds'] = profile.get('feasibility_capacity_check_seconds', 0.0) + perf_counter()-capacity_started
+    if profile is not None:
+        finish_phase('initial', 'feasibility_initial_vehicle_scan_seconds')
 
+    active['route'] = perf_counter() if profile is not None else None
     for vehicle, state in fleet.items():
         plan = plans[vehicle]
         if state.service_started and plan.current != state.current:
@@ -141,6 +180,7 @@ def validate(items, fleet, plans, delivered=frozenset(), order_demands=None):
             for operation, sequence in [('delivery', visit.deliveries), ('pickup', visit.pickups)]:
                 local_seen = set()
                 for index, item in enumerate(sequence):
+                    active['operation'] = perf_counter() if profile is not None else None
                     pos = f'{step}/{operation}[{index}]'
                     known(item, vehicle, pos)
                     if item in local_seen:
@@ -149,9 +189,13 @@ def validate(items, fleet, plans, delivered=frozenset(), order_demands=None):
                     spec = items[item]
                     if step == 'current' and state.service_started:
                         if operation == 'delivery' and item in delivered:
+                            if profile is not None:
+                                finish_phase('operation', 'feasibility_pickup_delivery_seconds')
                             continue
                         if operation == 'pickup' and (item in state.carrying or item in delivered):
                             # Already loaded during this exact committed visit.
+                            if profile is not None:
+                                finish_phase('operation', 'feasibility_pickup_delivery_seconds')
                             continue
                     if visit.factory != (spec.delivery if operation == 'delivery' else spec.pickup):
                         fail('FACTORY', vehicle, item, pos)
@@ -160,8 +204,13 @@ def validate(items, fleet, plans, delivered=frozenset(), order_demands=None):
                             fail('DUPLICATE_DELIVERY', vehicle, item, pos)
                         if owner.get(item) != vehicle:
                             fail('PICKUP_BEFORE_DELIVERY_OR_WRONG_VEHICLE', vehicle, item, pos)
-                        if not stack or stack[-1] != item:
-                            fail('LIFO', vehicle, item, pos, f'top={stack[-1] if stack else None}')
+                        lifo_started = perf_counter() if profile is not None else None
+                        try:
+                            if not stack or stack[-1] != item:
+                                fail('LIFO', vehicle, item, pos, f'top={stack[-1] if stack else None}')
+                        finally:
+                            if profile is not None:
+                                profile['feasibility_lifo_check_seconds'] = profile.get('feasibility_lifo_check_seconds', 0.0) + perf_counter()-lifo_started
                         stack.pop()
                         done.add(item)
                     else:
@@ -171,11 +220,25 @@ def validate(items, fleet, plans, delivered=frozenset(), order_demands=None):
                         stack.append(item)
                         picked.add(item)
                         owner[item] = vehicle
-                    load = sum((quantities[i] for i in stack), Decimal(0))
-                    if load > capacity:
-                        fail('CAPACITY', vehicle, item, pos, f'load={load}, capacity={capacity}')
+                    # The initial load and every pickup are capacity-checked.
+                    # A delivery only pops a positive-quantity item, so it
+                    # cannot increase a load that was already within capacity.
+                    # Re-summing the full stack after deliveries was redundant.
+                    if operation == 'pickup':
+                        capacity_started = perf_counter() if profile is not None else None
+                        try:
+                            load = sum((quantities[i] for i in stack), Decimal(0))
+                            if load > capacity:
+                                fail('CAPACITY', vehicle, item, pos, f'load={load}, capacity={capacity}')
+                        finally:
+                            if profile is not None:
+                                profile['feasibility_capacity_check_seconds'] = profile.get('feasibility_capacity_check_seconds', 0.0) + perf_counter()-capacity_started
+                    if profile is not None:
+                        finish_phase('operation', 'feasibility_pickup_delivery_seconds')
         if stack:
             fail('UNDELIVERED_LOAD', vehicle, stack[-1], 'end')
+    if profile is not None:
+        finish_phase('route', 'feasibility_vehicle_route_scan_seconds')
     # Ghi chú: Kế hoạch chỉ hợp lệ khi mọi item trong phạm vi kiểm đều được giao; không được giấu hàng chưa phục vụ.
     if done != set(items):
         fail('MISSING_SERVICE', item=next(iter(set(items) - done)), step='end')

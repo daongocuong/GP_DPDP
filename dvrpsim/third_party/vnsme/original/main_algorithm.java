@@ -85,6 +85,11 @@ public class main_algorithm {
 
 	private static int[] emergencyIndex;
 	private static double usedTime;
+	private static double searchBudgetSeconds = 9 * 60;
+	private static boolean searchBudgetProbe;
+	private static boolean searchBudgetExplicit;
+	private static long searchBudgetStartNanos;
+	private static double searchBudgetElapsedSeconds;
 	private static String bestInsertVehicleId = null;
 	private static int bestInsertPosI = 0, bestInsertPosJ = 1;
 	private static double minCostDelta;
@@ -98,12 +103,23 @@ public class main_algorithm {
 	private static double beforeCost;
 
 	public static void main(String[] args) throws IOException {
+		parseRuntimeOptions(args);
+		begintime = System.nanoTime();
+		if (searchBudgetProbe) {
+			searchBudgetStartNanos = begintime;
+			long iterations = 0;
+			while (!searchBudgetExpired()) {
+				iterations++;
+			}
+			System.out.printf("SEARCH_BUDGET_PROBE budget_seconds=%.6f elapsed_seconds=%.6f iterations=%d%n",
+					searchBudgetSeconds, searchBudgetElapsedSeconds, iterations);
+			return;
+		}
 		if (isTest) {
 			input_directory = "./algorithm/memory";
 		} else {
 			input_directory = "./algorithm/data_interaction";
 		}
-		begintime = System.nanoTime();
 		readInputFile();
 		dealOldSolutionFile();
 		restoreSceneWithSingleNode();
@@ -116,6 +132,9 @@ public class main_algorithm {
 		} else {
 			dispatchNewOrders();
 		}
+		// Preserve the old 540-second end-to-end clock unless a separate search
+		// budget was explicitly requested; configured budgets begin at VNS search.
+		searchBudgetStartNanos = searchBudgetExplicit ? System.nanoTime() : begintime;
 		variableNeighbourhoodSearch();
 		updateSolutionJson();
 		MergeNode();
@@ -127,6 +146,31 @@ public class main_algorithm {
 		long endtime = System.nanoTime();
 		usedTime = (endtime - begintime) / (1e9);
 		System.out.println("SUCCESS");
+	}
+
+	private static void parseRuntimeOptions(String[] args) {
+		for (int i = 0; i < args.length; i++) {
+			if ("--search-budget-seconds".equals(args[i])) {
+				if (++i >= args.length) {
+					throw new IllegalArgumentException("--search-budget-seconds requires a value");
+				}
+				searchBudgetSeconds = Double.parseDouble(args[i]);
+				searchBudgetExplicit = true;
+				if (Double.isNaN(searchBudgetSeconds) || Double.isInfinite(searchBudgetSeconds)
+						|| searchBudgetSeconds <= 0) {
+					throw new IllegalArgumentException("search budget must be positive and finite");
+				}
+			} else if ("--self-test-search-budget".equals(args[i])) {
+				searchBudgetProbe = true;
+			} else {
+				throw new IllegalArgumentException("unknown argument: " + args[i]);
+			}
+		}
+	}
+
+	private static boolean searchBudgetExpired() {
+		searchBudgetElapsedSeconds = (System.nanoTime() - searchBudgetStartNanos) / 1e9;
+		return searchBudgetElapsedSeconds >= searchBudgetSeconds;
 	}
 
 	private static void redispatchProcess() {
@@ -226,6 +270,10 @@ public class main_algorithm {
 		usedTime = (endtime - begintime) / (1e9);
 
 		while (true) {
+			if (searchBudgetExplicit && searchBudgetExpired()) {
+				System.err.println("SearchBudgetReached!!");
+				break;
+			}
 
 			if (interCoupleExchange()) {
 				n1 = n1 + 1;
@@ -234,8 +282,8 @@ public class main_algorithm {
 
 			endtime = System.nanoTime();
 			usedTime = (endtime - begintime) / (1e9);
-			if (usedTime > 9 * 60) {
-				System.err.println("TimeOut!!");
+			if (searchBudgetExpired()) {
+				System.err.println(searchBudgetExplicit ? "SearchBudgetReached!!" : "TimeOut!!");
 				break;
 			}
 
@@ -246,8 +294,8 @@ public class main_algorithm {
 
 			endtime = System.nanoTime();
 			usedTime = (endtime - begintime) / (1e9);
-			if (usedTime > 9 * 60) {
-				System.err.println("TimeOut!!");
+			if (searchBudgetExpired()) {
+				System.err.println(searchBudgetExplicit ? "SearchBudgetReached!!" : "TimeOut!!");
 				break;
 			}
 
@@ -257,8 +305,8 @@ public class main_algorithm {
 			}
 			endtime = System.nanoTime();
 			usedTime = (endtime - begintime) / (1e9);
-			if (usedTime > 9 * 60) {
-				System.err.println("TimeOut!!");
+			if (searchBudgetExpired()) {
+				System.err.println(searchBudgetExplicit ? "SearchBudgetReached!!" : "TimeOut!!");
 				break;
 			}
 
@@ -275,8 +323,8 @@ public class main_algorithm {
 
 			endtime = System.nanoTime();
 			usedTime = (endtime - begintime) / (1e9);
-			if (usedTime > 9 * 60) {
-				System.err.println("TimeOut!!");
+			if (searchBudgetExpired()) {
+				System.err.println(searchBudgetExplicit ? "SearchBudgetReached!!" : "TimeOut!!");
 				break;
 			}
 		}
@@ -418,8 +466,8 @@ public class main_algorithm {
 			}
 			double endtime = System.nanoTime();
 			usedTime = (endtime - begintime) / (1e9);
-			if (usedTime > 9 * 60) {
-				System.err.println("TimeOut!!");
+			if (searchBudgetExpired()) {
+				System.err.println(searchBudgetExplicit ? "SearchBudgetReached!!" : "TimeOut!!");
 				return isImproved;
 			}
 		}
@@ -1849,7 +1897,7 @@ public class main_algorithm {
 		double currentCostDelta;
 		long endtime = System.nanoTime();
 		usedTime = (endtime - begintime) / (1e9);
-		while (!isSucc && n < Nmax && usedTime < 9 * 60 && lsNodePairNum > 0) {
+		while (!isSucc && n < Nmax && !searchBudgetExpired() && lsNodePairNum > 0) {
 			Random rand = new Random();
 			int select = rand.nextInt(lsNodePairNum);
 
@@ -1948,7 +1996,7 @@ public class main_algorithm {
 		String selectVehicleId = "";
 		int selectPosI = -1;
 		int selectPosJ = -1;
-		while (n < lsNodePairNum && usedTime < 9 * 60) {
+		while (n < lsNodePairNum && !searchBudgetExpired()) {
 
 			LinkedHashMap<String, Node> PAndDNode = unongoingSuperNode.get(n);
 			Node pickupNode, deliveryNode;

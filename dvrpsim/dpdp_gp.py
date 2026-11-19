@@ -50,10 +50,10 @@ class Node:
         return f'({self.args[0].text()} {self.op} {self.args[1].text()})'
 
 
-# Ghi chú: Kiểm terminal/phép toán, hằng hữu hạn và giới hạn kích thước: tối đa depth 4, 31 node.
+# Check terminal, primitive and finite constants against explicit run limits (hard cap 6/63).
 def validate_tree(tree, limits=Limits()):
-    if not (0 <= limits.max_depth <= 4 and 1 <= limits.max_nodes <= 31):
-        raise TreeError('limits exceed pilot hard caps')
+    if not (0 <= limits.max_depth <= 6 and 1 <= limits.max_nodes <= 63):
+        raise TreeError('limits exceed supported hard caps')
     stack, count, deepest = [(tree, 0)], 0, 0
     while stack:
         node, depth = stack.pop()
@@ -80,7 +80,7 @@ def validate_tree(tree, limits=Limits()):
 
 # Ghi chú: Dựng Node đệ quy từ JSON, từ chối schema sai hoặc cây quá sâu.
 def parse_node(data, depth=0):
-    if depth > 4 or not isinstance(data, dict):
+    if depth > 6 or not isinstance(data, dict):
         raise TreeError('invalid node/depth')
     if set(data) == {'feature'}:
         return Node('feature', data['feature'])
@@ -93,7 +93,7 @@ def parse_node(data, depth=0):
 
 # Ghi chú: Chuẩn hóa cây thành JSON có thứ tự ổn định để so sánh, phá hòa và tạo hash.
 def canonical(tree):
-    validate_tree(tree)
+    validate_tree(tree, Limits(6, 63))
     return json.dumps(tree.data(), sort_keys=True, separators=(',', ':'), allow_nan=False)
 
 
@@ -135,7 +135,7 @@ def load_tree(path):
 class TreeRanker:
     # Ghi chú: Kiểm cây và khởi tạo bộ đếm cho các lần chấm điểm candidate.
     def __init__(self, tree):
-        validate_tree(tree)
+        validate_tree(tree, Limits(6, 63))
         self.tree = tree
         self.stats = dict(evaluations=0, protected_divisions=0, saturations=0, numeric_errors=0)
 
@@ -251,7 +251,7 @@ def initial_population(rng, size=6):
 def breed(rng, evaluated, size, tournament=3, crossover_rate=.8, mutation_rate=.3, elitism=1, limits=Limits()):
     # Ghi chú: Xếp cây theo fitness rồi số node và biểu diễn chuẩn để phá hòa ổn định.
     def key(entry):
-        return entry[0], validate_tree(entry[1])[0], canonical(entry[1])
+        return entry[0], validate_tree(entry[1], limits)[0], canonical(entry[1])
     ranked = sorted(evaluated, key=key)
     # Ghi chú: Lấy mẫu tournament và chọn cây có khóa xếp hạng nhỏ nhất.
     def select():

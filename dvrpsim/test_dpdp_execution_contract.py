@@ -174,6 +174,40 @@ class RequestLedgerTests(unittest.TestCase):
                 p.decide(model)
             self.assertEqual(ledger.history,[])
 
+    def test_v3_sends_fcfs_locked_eta_to_java_when_vehicle_waits_for_dock(self):
+        model=make(2)
+        waiting,serving=model.vehicles
+        for vehicle in (waiting,serving):
+            vehicle.previous_visits.append(vehicle.current_visit)
+            vehicle.current_visit=visit(model,'P')
+            vehicle.current_visit.arrival_time=0
+        serving.current_visit.service_start_time=0
+        waiting.next_visits=[visit(model,'Q')]
+        snapshot=Snapshot.observe(model)
+        legacy=huawei_state(model,100000,{v.id:dict(gps_id=v.id,operation_time='24') for v in model.vehicles})
+        locked=snapshot.fleet[waiting.id].destination
+        self.assertNotEqual(legacy['vehicle_info'][0]['destination']['arrive_time'],locked.arrival+100000)
+
+        from baselines.vnsme import VNSMEPolicy
+        p=object.__new__(VNSMEPolicy)
+        p.epoch_origin=100000
+        p.vehicle_metadata={v.id:dict(gps_id=v.id,operation_time='24') for v in model.vehicles}
+        p.commitment_contract=ExecutionCommitment()
+        class InspectSession:
+            def invoke(self,state,remaining):
+                vehicle=state['vehicle_info'][0]
+                self.assertions(vehicle)
+                raise RuntimeError('state inspected')
+        session=InspectSession()
+        def check(vehicle):
+            self.assertEqual(vehicle['destination']['arrive_time'],locked.arrival+100000)
+            self.assertEqual(vehicle['leave_time_at_current_factory'],
+                             locked.arrival+100000-model.private_data['travel_times']['P','Q'])
+        session.assertions=check
+        p.session=session
+        with self.assertRaisesRegex(RuntimeError,'state inspected'):
+            p.decide(model)
+
     def test_carrying_cannot_be_deferred_or_transferred(self):
         model=make(2);o=order(model,'a',pickup='H1');o.accept()
         v=next(iter(model.vehicles));o.pickup(v);v.carrying_orders.append(o)

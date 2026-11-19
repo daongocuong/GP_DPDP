@@ -55,9 +55,10 @@ def visit(m, factory, pickups=(), deliveries=()):
     return v
 
 
-def ranked_policy():
+def ranked_policy(profile_feasibility=True):
     from dpdp_gp import Node, TreeRanker
-    return InsertionPolicy(TreeRanker(Node('feature', 'delta_distance_km')))
+    return InsertionPolicy(TreeRanker(Node('feature', 'delta_distance_km')),
+                           profile_feasibility=profile_feasibility)
 
 
 def enumerate_for(m, group):
@@ -152,15 +153,49 @@ class InsertionTests(unittest.TestCase):
         self.assertEqual(outputs[0][0]['vehicle'], 'V_1')
         self.assertEqual((outputs[0][0]['pickup_index'], outputs[0][0]['delivery_index']), (0, 1))
 
+    def test_capacity_delivery_elision_preserves_baseline_choice_and_routing(self):
+        # Golden output captured with the pre-optimization validator.
+        m = make(2)
+        order(m, 'a', quantity=3)
+        order(m, 'b', pickup='R', delivery='S', quantity=2)
+        policy = ranked_policy()
+        raw = policy.decide(m)
+        chosen = [(row['order'], row['vehicle'], row['pickup_index'], row['delivery_index'])
+                  for row in policy.decisions[0]['chosen']]
+        self.assertEqual(policy.decisions[0]['examined'], 9)
+        self.assertEqual((policy.decisions[0]['feasible'], policy.decisions[0]['rejected']), (7, 2))
+        self.assertEqual(chosen, [('a', 'V_1', 0, 1), ('b', 'V_1', 0, 1)])
+        self.assertEqual(raw['vehicles'], {
+            'V_1': {'current_visit': None, 'next_visits': [
+                {'location': 'R', 'pickup_list': ['b'], 'delivery_list': []},
+                {'location': 'S', 'pickup_list': [], 'delivery_list': ['b']},
+                {'location': 'P', 'pickup_list': ['a'], 'delivery_list': []},
+                {'location': 'Q', 'pickup_list': [], 'delivery_list': ['a']}]},
+            'V_2': {'current_visit': None, 'next_visits': []}})
+
+    def test_detailed_feasibility_profile_toggle_preserves_policy_output(self):
+        outputs = []
+        for enabled in (True, False):
+            m = make(2)
+            order(m, 'a', quantity=3)
+            order(m, 'b', pickup='R', delivery='S', quantity=2)
+            policy = ranked_policy(profile_feasibility=enabled)
+            raw = policy.decide(m)
+            stats = policy.decisions[0]
+            outputs.append((raw, stats['chosen'], stats['examined'], stats['feasible'], stats['rejected']))
+            self.assertIs(stats['feasibility_profile_enabled'], enabled)
+            self.assertEqual('feasibility_validator_total_seconds' in stats, enabled)
+        self.assertEqual(outputs[0], outputs[1])
+
     def test_no_candidate_retains_open_request_then_retries(self):
         m = make()
         order(m)
         policy = ranked_policy()
         real = Snapshot.check
-        def blocked(snapshot, plans, admitted):
+        def blocked(snapshot, plans, admitted, profile=None):
             if 'a' in admitted:
                 raise Infeasible('TEST_BLOCKED', 'V_1', 'a', 'test')
-            return real(snapshot, plans, admitted)
+            return real(snapshot, plans, admitted, profile=profile)
         with patch.object(Snapshot, 'check', blocked):
             raw = policy.decide(m)
         self.assertEqual(raw['orders'], {})

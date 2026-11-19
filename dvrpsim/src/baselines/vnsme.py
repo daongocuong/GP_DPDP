@@ -37,10 +37,20 @@ class VNSMEError(RuntimeError):
     pass
 
 
+def java_search_budget_args(search_budget_seconds):
+    """Return the Java option for a configured internal budget, or no option."""
+    if search_budget_seconds is None:
+        return []
+    if not math.isfinite(search_budget_seconds) or search_budget_seconds <= 0:
+        raise ValueError('VNSME search budget must be positive and finite')
+    return ['--search-budget-seconds', str(search_budget_seconds)]
+
+
 class JavaSession:
     """One private CWD per rollout, immutable exchange archive per dispatch."""
     # Ghi chú: Chuẩn bị phiên Java, dữ liệu tĩnh và thông tin build để gọi VNSME qua nhiều kỳ định tuyến.
-    def __init__(self, directory, factories, routes, timeout=600, java='java', trace_process=False):
+    def __init__(self, directory, factories, routes, timeout=600, java='java', trace_process=False,
+                 search_budget_seconds=None):
         self.directory = Path(directory).resolve()
         self.directory.mkdir(parents=True, exist_ok=False)
         self.exchange = self.directory/'algorithm/data_interaction'
@@ -51,6 +61,7 @@ class JavaSession:
         for name, source in [('factory_info.csv', factories), ('route_info.csv', routes)]:
             shutil.copyfile(source, self.directory/'benchmark'/name)
         self.timeout = timeout
+        self.search_budget_seconds = search_budget_seconds
         self.trace_process = trace_process
         if not math.isfinite(timeout) or timeout <= 0:
             raise ValueError('VNSME timeout must be positive and finite')
@@ -66,10 +77,14 @@ class JavaSession:
                 raise VNSMEError(f'VNSME {folder} differs from build manifest; rebuild with build_vnsme.py')
         self.command = [executable, '-cp', os.pathsep.join(map(str, [VENDOR/'build', VENDOR/'lib'])),
                         'main_algorithm']
+        self.command += java_search_budget_args(search_budget_seconds)
         self.records = []
         write_json(self.directory/'session.json', dict(command=self.command, cwd=str(self.directory),
             java=subprocess.check_output([executable, '-version'], text=True, stderr=subprocess.STDOUT),
-            timeout_seconds=timeout, build_manifest=build_manifest))
+            subprocess_hard_timeout_seconds=timeout,
+            internal_search_budget_seconds=search_budget_seconds,
+            internal_search_budget_scope='variable_neighbourhood_search' if search_budget_seconds is not None else None,
+            build_manifest=build_manifest))
 
     # Ghi chú: Xuất state của một kỳ, gọi Java trong thời hạn rồi kiểm/đọc destination và route; lưu bằng chứng của invocation.
     def invoke(self, state, remaining=None):
@@ -77,7 +92,10 @@ class JavaSession:
         epoch = self.directory/'epochs'/f'{index:05d}'
         epoch.mkdir()
         record = dict(epoch=index, command=self.command, cwd=str(self.directory), valid=False,
-                      configured_timeout_seconds=self.timeout)
+                      subprocess_hard_timeout_seconds=self.timeout,
+                      internal_search_budget_seconds=self.search_budget_seconds,
+                      internal_search_budget_scope=('variable_neighbourhood_search'
+                          if self.search_budget_seconds is not None else None))
         self.records.append(record)
         start = perf_counter()
         primary_error = None
@@ -263,11 +281,14 @@ def huawei_state(model, epoch_origin, vehicle_metadata):
 
 class VNSMEPolicy:
     # Ghi chú: Chuẩn bị metadata xe, phiên Java và contract dùng kiểm decision của baseline.
-    def __init__(self, directory, factories, routes, vehicles, timeout=600, java='java', contract=None):
+    def __init__(self, directory, factories, routes, vehicles, timeout=600, java='java', contract=None,
+                 search_budget_seconds=None):
         if contract is None:
-            self.session = JavaSession(directory, factories, routes, timeout, java)
+            self.session = JavaSession(directory, factories, routes, timeout, java,
+                                       search_budget_seconds=search_budget_seconds)
         else:
-            self.session = JavaSession(directory, factories, routes, timeout, java, trace_process=True)
+            self.session = JavaSession(directory, factories, routes, timeout, java, trace_process=True,
+                                       search_budget_seconds=search_budget_seconds)
         with Path(vehicles).open(newline='', encoding='utf-8-sig') as handle:
             self.vehicle_metadata = {r['car_num']: r for r in csv.DictReader(handle)}
         # Original Java compares GPS timestamps with the host's current midnight.
@@ -281,6 +302,24 @@ class VNSMEPolicy:
         from dpdp_insertion import Snapshot
         snapshot = Snapshot.observe(model)
         state = huawei_state(model, self.epoch_origin, self.vehicle_metadata)
+        if getattr(self, 'commitment_contract', None) is not None:
+            # The v3 lock uses the FCFS dock forecast in Snapshot. The legacy
+            # Huawei departure estimate can be earlier while a vehicle waits
+            # for a dock, so send Java the same locked ETA and departure.
+            for vehicle in state['vehicle_info']:
+                locked = snapshot.fleet[vehicle['id']].destination
+                if locked is None:
+                    continue
+                destination = vehicle['destination']
+                if destination is None or destination['factory_id'] != locked.factory:
+                    raise VNSMEError(f'inconsistent locked destination for {vehicle["id"]}')
+                arrival = integer(locked.arrival + self.epoch_origin, 'locked arrival')
+                destination['arrive_time'] = arrival
+                if vehicle['cur_factory_id']:
+                    origin = vehicle['cur_factory_id']
+                    travel = 0 if origin == locked.factory else model.private_data['travel_times'][origin, locked.factory]
+                    vehicle['leave_time_at_current_factory'] = integer(
+                        arrival - travel, 'locked departure')
         if [v['id'] for v in state['vehicle_info']] != [f'V_{i+1}' for i in range(len(state['vehicle_info']))]:
             raise VNSMEError('Original Java requires vehicle order V_1 through V_n')
         output = self.session.invoke(state, remaining)

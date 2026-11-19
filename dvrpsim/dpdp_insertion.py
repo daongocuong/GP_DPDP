@@ -140,9 +140,9 @@ class Snapshot:
         return ids
 
     # Ghi chú: Kiểm tra toàn đội xe đối với tập item admitted; dùng tổng nhu cầu đơn gốc để kiểm quy tắc chia lô.
-    def check(self, plans, admitted):
+    def check(self, plans, admitted, profile=None):
         validate({i: self.items[i] for i in admitted}, self.fleet, plans,
-                 self.delivered & admitted, order_demands=self.demands)
+                 self.delivered & admitted, order_demands=self.demands, profile=profile)
 
     # Ghi chú: Tạo các xe đại diện với tuyến thử và dự báo lịch; không thực thi tuyến thử trên xe thật.
     def forecast(self, plans):
@@ -159,8 +159,12 @@ class Snapshot:
         return predict_fixed_routes(SimpleNamespace(**{**vars(self.view), 'vehicles': proxies}))
 
     # Ghi chú: Tính quãng đường còn lại, thời gian chờ và giao trễ của kế hoạch; giao trễ đơn gốc lấy item đến muộn nhất.
-    def metrics(self, plans, admitted):
+    def metrics(self, plans, admitted, profile=None):
+        started = perf_counter()
         rows = self.forecast(plans)
+        if profile is not None:
+            profile['schedule_prediction_seconds'] = profile.get('schedule_prediction_seconds', 0.0) + perf_counter()-started
+        accounting_started = perf_counter()
         completion = {i: self.objects[i].delivery_time for i in self.delivered & admitted}
         waiting = 0
         for schedule in rows.values():
@@ -182,6 +186,8 @@ class Snapshot:
             for node in plan.future:
                 distance += 0 if origin == node.factory else self.view.private_data['distances'][origin, node.factory]
                 origin = node.factory
+        if profile is not None:
+            profile['metric_accounting_seconds'] = profile.get('metric_accounting_seconds', 0.0) + perf_counter()-accounting_started
         return dict(distance=distance, tardiness=tardiness, waiting=waiting,
                     latest=latest, completion=completion, rows=rows)
 
@@ -233,7 +239,8 @@ def extract_features(snapshot, before, after, group, vehicle, plan):
 
 
 # Ghi chú: Liệt kê cặp vị trí pickup rồi delivery trong phần tuyến được sửa; chỉ dự báo và tạo feature sau khi qua kiểm tra khả thi.
-def candidates(snapshot, plans, group, admitted, before, stats):
+def candidates(snapshot, plans, group, admitted, before, stats, profile_feasibility=True,
+              progress_callback=None):
     """Enumerate every pair of separate pickup/delivery visits in mutable suffix.
 
     Every enumerated candidate is checked BEFORE forecast/scoring or enforcement.
@@ -251,11 +258,16 @@ def candidates(snapshot, plans, group, admitted, before, stats):
             with_pickup = old[:p] + (pickup,) + old[p:]
             for d in range(p+1, len(old)+2):
                 stats['examined'] += 1
+                if progress_callback is not None and stats['examined'] % 5000 == 0:
+                    progress_callback(stats)
+                started = perf_counter()
                 new = replace(plans[vehicle], future=with_pickup[:d]+(delivery,)+with_pickup[d:])
                 trial = {**plans, vehicle: new}
+                stats['route_copy_seconds'] = stats.get('route_copy_seconds', 0.0) + perf_counter()-started
                 try:
                     started = perf_counter()
-                    snapshot.check(trial, new_ids)
+                    snapshot.check(trial, new_ids,
+                                   profile=stats if profile_feasibility else None)
                 except Infeasible as exc:
                     stats['rejected'] += 1
                     stats['reasons'][exc.rule] += 1
@@ -264,42 +276,82 @@ def candidates(snapshot, plans, group, admitted, before, stats):
                 finally:
                     stats['feasibility_wall_seconds'] = stats.get('feasibility_wall_seconds', 0) + perf_counter()-started
                 started = perf_counter()
-                after = snapshot.metrics(trial, new_ids)
+                after = snapshot.metrics(trial, new_ids, profile=stats)
                 stats['forecast_wall_seconds'] = stats.get('forecast_wall_seconds', 0) + perf_counter()-started
                 stats['forecasted'] += 1
+                stats['feasible'] = stats.get('feasible', 0) + 1
+                started = perf_counter()
+                features = extract_features(snapshot, before, after, group, vehicle, new)
+                stats['feature_extraction_seconds'] = stats.get('feature_extraction_seconds', 0.0) + perf_counter()-started
                 yield Candidate(vehicle, p, d, trial,
-                                extract_features(snapshot, before, after, group, vehicle, new), after)
+                                features, after)
 
 
 class InsertionPolicy:
     # Ghi chú: Nhận hàm xếp hạng candidate từ bên ngoài và chuẩn bị lịch sử quyết định.
-    def __init__(self, score_function):
+    def __init__(self, score_function, profile_feasibility=True, progress_callback=None):
         if not callable(score_function):
             raise TypeError('GP insertion requires an explicit candidate ranker')
         self.decisions = []
         self.score_function = score_function
+        self.profile_feasibility = bool(profile_feasibility)
+        self.progress_callback = progress_callback
 
     # Ghi chú: Lần lượt chèn nhóm hàng vào tuyến, chọn điểm GP nhỏ nhất; nhóm chưa có cách chèn hợp lệ được để lại cho kỳ sau.
     def decide(self, model):
         start_time = perf_counter()
+        snapshot_started = perf_counter()
         snap = Snapshot.observe(model)
         plans = snap.plans
         admitted = snap.admitted(plans)
         snap.check(plans, admitted)
         before = snap.metrics(plans, admitted)
+        snapshot_wall = perf_counter()-snapshot_started
         stats = dict(simulation_seconds=snap.now, examined=0, rejected=0, forecasted=0,
-                     reasons=Counter(), examples={}, chosen=[], deferred=[])
+                     feasible=0, scored=0, reasons=Counter(), examples={}, chosen=[], deferred=[],
+                     snapshot_wall_seconds=snapshot_wall,
+                     feasibility_profile_enabled=self.profile_feasibility)
+        grouping_started = perf_counter()
         groups = split_observed_orders(snap.objects.values(), next(iter(snap.fleet.values())).capacity)
+        stats['grouping_seconds'] = perf_counter()-grouping_started
+        stats['groups_total'] = len(groups)
+        stats['groups_processed'] = 0
+        stats['groups_already_admitted'] = 0
+        if self.progress_callback is not None:
+            self.progress_callback(stats)
         for group in groups:
             intersection = admitted & set(group.items)
             if intersection == set(group.items):
+                stats['groups_already_admitted'] += 1
                 continue
             if intersection:
                 raise ValueError(f'partially assigned canonical group: {group}')
+            stats['groups_processed'] += 1
+            if self.progress_callback is not None and stats['groups_processed'] % 10 == 0:
+                self.progress_callback(stats)
             best = None
-            for candidate in candidates(snap, plans, group, admitted, before, stats):
+            iterator = iter(candidates(snap, plans, group, admitted, before, stats,
+                                       profile_feasibility=self.profile_feasibility))
+            while True:
+                generation_started = perf_counter()
+                before_nested = {key: stats.get(key, 0.0) for key in (
+                    'feasibility_wall_seconds', 'forecast_wall_seconds', 'route_copy_seconds',
+                    'feature_extraction_seconds')}
+                try:
+                    candidate = next(iterator)
+                except StopIteration:
+                    elapsed = perf_counter()-generation_started
+                    nested = sum(stats.get(key, 0.0)-value for key, value in before_nested.items())
+                    stats['candidate_enumeration_seconds'] = stats.get('candidate_enumeration_seconds', 0.0) + max(0.0, elapsed-nested)
+                    break
+                elapsed = perf_counter()-generation_started
+                nested = sum(stats.get(key, 0.0)-value for key, value in before_nested.items())
+                stats['candidate_enumeration_seconds'] = stats.get('candidate_enumeration_seconds', 0.0) + max(0.0, elapsed-nested)
                 # Ghi chú: Cây GP chỉ nhìn feature của candidate; điểm này dùng xếp hạng, chưa phải J cuối rollout.
+                score_started = perf_counter()
                 ranking = self.score_function(candidate.features, len(snap.fleet))
+                stats['gp_scoring_seconds'] = stats.get('gp_scoring_seconds', 0.0) + perf_counter()-score_started
+                stats['scored'] += 1
                 if not math.isfinite(ranking):
                     raise ValueError('nonfinite candidate ranking; run invalid')
                 key = (ranking, *candidate.tie_key)
@@ -321,8 +373,10 @@ class InsertionPolicy:
                                         items=group.items, vehicle=selected.vehicle,
                                         pickup_index=selected.pickup_index, delivery_index=selected.delivery_index,
                                         ranking_score=key[0], features=selected.features))
+        if self.progress_callback is not None:
+            self.progress_callback(stats)
         # Final gate before handing any route to Model._enforce_decision.
-        snap.check(plans, admitted)
+        snap.check(plans, admitted, profile=stats if self.profile_feasibility else None)
         decision = {'vehicles': {}, 'orders': {}}
         for vehicle, plan in plans.items():
             decision['vehicles'][vehicle] = dict(current_visit=None, next_visits=[
@@ -333,5 +387,10 @@ class InsertionPolicy:
                 decision['orders'][i] = {'status': 'accepted'}
         stats.update(wall_seconds=perf_counter()-start_time, admitted_items=len(admitted),
                      observed_items=len(snap.objects), pending_items=sorted(set(snap.items)-admitted))
+        stats['route_update_seconds'] = max(0.0, stats['wall_seconds']-stats['snapshot_wall_seconds']
+            -stats['grouping_seconds']-stats.get('candidate_enumeration_seconds', 0.0)
+            -stats.get('feasibility_wall_seconds', 0.0)-stats.get('forecast_wall_seconds', 0.0)
+            -stats.get('route_copy_seconds', 0.0)-stats.get('feature_extraction_seconds', 0.0)
+            -stats.get('gp_scoring_seconds', 0.0))
         self.decisions.append(stats)
         return decision
